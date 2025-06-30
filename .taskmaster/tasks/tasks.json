@@ -1,0 +1,176 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Setup Unity Project and VR Environment",
+        "description": "Initialize Unity project with required settings for VR development and integrate Oculus Integration SDK.",
+        "details": "Create new Unity 2022.3 LTS project. Install Universal Render Pipeline (URP) and Oculus Integration SDK. Configure project for VR target (Oculus Quest 2/3, Rift S). Set up basic scene with VR camera rig.",
+        "testStrategy": "Verify Unity project opens and compiles. Confirm VR camera rig is present and functional in editor and on device.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "Implement Basic Player Controller and Movement",
+        "description": "Develop core player controller for VR, supporting movement and basic interaction.",
+        "details": "Use XR Interaction Toolkit to implement player controller. Support teleportation and smooth locomotion. Map controller inputs for movement and basic actions.",
+        "testStrategy": "Test movement and teleportation in VR. Ensure no motion sickness and controls are intuitive.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Integrate XR Interaction Toolkit",
+        "description": "Set up XR Interaction Toolkit for standard VR interactions.",
+        "details": "Install and configure XR Interaction Toolkit. Implement basic grab, release, and UI interaction. Map controller inputs for interaction.",
+        "testStrategy": "Test grab, release, and UI interaction in VR. Ensure all mapped actions work as intended.",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Develop Single Virtual Environment (Nature Theme)",
+        "description": "Create a basic virtual environment for initial user experience.",
+        "details": "Design and build a simple natural environment in Unity. Add basic 3D assets and terrain. Set up lighting and environment effects.",
+        "testStrategy": "Test environment loading and rendering. Check for performance and visual quality.",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Implement Object Interaction System",
+        "description": "Enable users to interact with objects using hand tracking and physics.",
+        "details": "Use XR Interaction Toolkit for object grabbing and physics. Implement basic feedback (visual, haptic). Support throwing and assembling objects.",
+        "testStrategy": "Test object grabbing, throwing, and assembly. Verify feedback is present and intuitive.",
+        "priority": "medium",
+        "dependencies": [
+          3,
+          4
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Build Core UI System for VR",
+        "description": "Develop intuitive VR UI for menus and information display.",
+        "details": "Design 3D UI elements in Unity. Implement menu navigation and information display. Ensure UI is accessible and does not break immersion.",
+        "testStrategy": "Test UI navigation and information display in VR. Check for accessibility and immersion.",
+        "priority": "medium",
+        "dependencies": [
+          1,
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Add Basic Physics Simulation",
+        "description": "Implement physics for objects and environment interactions.",
+        "details": "Configure Unity physics settings. Add colliders and rigidbodies to interactive objects. Test object collisions and gravity.",
+        "testStrategy": "Test object collisions and physics behavior. Ensure stability and performance.",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          5
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Implement Multiplayer Networking",
+        "description": "Enable multiple users to join and interact in the same virtual space.",
+        "details": "Integrate Photon PUN2 for multiplayer networking. Set up player synchronization and basic chat. Test with multiple clients.",
+        "testStrategy": "Test multiplayer connection and synchronization. Verify chat and basic interaction between users.",
+        "priority": "medium",
+        "dependencies": [
+          1,
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Develop Avatar Customization System",
+        "description": "Allow users to customize their avatars and personal spaces.",
+        "details": "Design avatar customization UI. Implement selection and modification of avatar features. Allow users to save preferences.",
+        "testStrategy": "Test avatar customization and preference saving. Ensure changes persist across sessions.",
+        "priority": "low",
+        "dependencies": [
+          6,
+          8
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Add Voice Chat and Social Features",
+        "description": "Implement voice chat and social interaction tools.",
+        "details": "Integrate voice chat using Photon Voice. Add gesture communication and basic social features. Test with multiple users.",
+        "testStrategy": "Test voice chat and gesture communication. Ensure social features work as intended.",
+        "priority": "low",
+        "dependencies": [
+          8,
+          9
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "Implement Achievement and Progress System",
+        "description": "Track user achievements and progress within the platform.",
+        "details": "Design achievement and progress UI. Implement badge system and progress tracking. Save user data to cloud storage.",
+        "testStrategy": "Test achievement unlocking and progress tracking. Verify data persistence and UI updates.",
+        "priority": "low",
+        "dependencies": [
+          6,
+          9
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "Optimize Performance and Debug",
+        "description": "Optimize VR performance and resolve bugs.",
+        "details": "Profile and optimize rendering and physics. Fix bugs and improve stability. Test on target hardware.",
+        "testStrategy": "Test performance and stability on target devices. Ensure smooth experience and minimal bugs.",
+        "priority": "medium",
+        "dependencies": [
+          1,
+          4,
+          7
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-06-30T15:16:26.906Z",
+      "updated": "2025-06-30T15:16:26.906Z",
+      "description": "Tasks for master context"
+    }
+  }
+}
