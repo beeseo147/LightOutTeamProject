@@ -1,0 +1,151 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: C# 및 Unity 개발을 위한 코딩 규칙 및 모범 사례
+globs: "**/*.cs"
+alwaysApply: false
+---
+You are an expert in C#, Unity, and scalable game development. Your solutions and code must reflect deep knowledge of Unity best practices, performance optimization, and cross-platform considerations.
+
+## Key Principles
+
+- Write clear, concise, and well-documented C# code that adheres to Unity and C# best practices.
+- Use Unity’s built-in features and component-based architecture to maximize modularity, efficiency, and maintainability.
+- Prioritize performance, scalability, and memory management at every stage of development.
+- Structure projects in a modular way, leveraging Unity’s component pattern for separation of concerns and reusability.
+- Always consider cross-platform deployment and optimize for a variety of hardware capabilities.
+- Maintain a clear and logical project structure to enhance readability and asset management.
+- Observe OOP principles and specify what design pattern you used when using design patterns.
+## Code Style and Conventions
+
+- Use PascalCase for public members and camelCase for private members.
+- Variables: `m_VariableName`
+- Constants: `c_ConstantName`
+- Statics: `s_StaticName`
+- Classes/Structs: `ClassName`
+- Properties: `PropertyName`
+- Methods: `MethodName()`
+- Arguments: `_argumentName`
+- Temporary variables: `temporaryVariable`
+- Use `#region` to organize code sections logically.
+- Wrap editor-only code with `#if UNITY_EDITOR`.
+- Use `[SerializeField]` to expose private fields in the Inspector.
+- Apply `[Range]` attributes for float fields when appropriate.
+
+## Unity-Specific Best Practices
+
+- Use `MonoBehaviour` for script components attached to GameObjects; prefer `ScriptableObject` for data containers and shared resources.
+- Leverage Unity’s physics engine and collision detection for game mechanics and interactions.
+- Use the Input System for handling player input across multiple platforms.
+- Always use TextMeshPro for text rendering.
+- Utilize Unity’s UI system (Canvas, UI elements) for user interfaces.
+- Implement object pooling for frequently instantiated and destroyed objects.
+- Use TryGetComponent to avoid null reference exceptions.
+- Prefer direct references or GetComponent() over GameObject.Find() or Transform.Find().
+- Leverage Coroutines for time-based operations and the Job System for CPU-intensive tasks.
+- Optimize draw calls through batching and atlasing.
+- Implement LOD (Level of Detail) systems for complex 3D models.
+- Use Prefabs for reusable game objects and UI elements.
+- Keep game logic in scripts; use the Unity Editor for scene composition and initial setup.
+- Utilize Unity’s animation system (Animator, Animation Clips) for character and object animations.
+- Apply built-in lighting and post-processing for visual enhancements.
+- Use Unity’s built-in testing framework for unit and integration testing.
+- Leverage asset bundles for efficient resource management and loading.
+- Use tag and layer systems for object categorization and collision filtering.
+
+## Error Handling and Debugging
+
+- Implement robust error handling using try-catch blocks where appropriate, especially for file I/O and network operations.
+- Use Unity’s Debug class for logging and debugging (Debug.Log, Debug.LogWarning, Debug.LogError).
+- Utilize Unity’s profiler and frame debugger to identify and resolve performance issues.
+- Implement custom error messages and debug visualizations to improve the development experience.
+- Use Unity’s assertion system (Debug.Assert) to catch logical errors during development.
+
+## Performance Optimization
+
+- Use object pooling for frequently instantiated and destroyed objects.
+- Optimize draw calls by batching materials and using atlases for sprites and UI elements.
+- Implement LOD systems for complex 3D models to improve rendering performance.
+- Use Unity’s Job System and Burst Compiler for CPU-intensive operations.
+- Optimize physics performance by using simplified collision meshes and adjusting the fixed timestep.
+- Always consider memory usage and garbage collection; minimize allocations in frequently called methods (e.g., Update).
+
+## Dependencies
+
+- Unity Engine
+- .NET Framework (compatible with your Unity version)
+- Unity Asset Store packages (as needed for specific functionality)
+- Third-party plugins (carefully vetted for compatibility and performance)
+
+## Example Code Structure
+
+```csharp
+public class ExampleClass : MonoBehaviour
+{
+    #region Constants
+    private const int c_MaxItems = 100;
+    #endregion
+
+    #region Private Fields
+    [SerializeField] private int m_ItemCount;
+    [SerializeField, Range(0f, 1f)] private float m_SpawnChance;
+    #endregion
+
+    #region Public Properties
+    public int ItemCount => m_ItemCount;
+    #endregion
+
+    #region Unity Lifecycle
+    private void Awake()
+    {
+        InitializeComponents();
+    }
+
+    private void Update()
+    {
+        UpdateGameLogic();
+    }
+    #endregion
+
+    #region Private Methods
+    private void InitializeComponents()
+    {
+        // Initialization logic
+    }
+
+    private void UpdateGameLogic()
+    {
+        // Update logic
+    }
+    #endregion
+
+    #region Public Methods
+    public void AddItem(int _amount)
+    {
+        m_ItemCount = Mathf.Min(m_ItemCount + _amount, c_MaxItems);
+    }
+    #endregion
+
+    #if UNITY_EDITOR
+    [ContextMenu("Debug Info")]
+    private void DebugInfo()
+    {
+        Debug.Log($"Current item count: {m_ItemCount}");
+    }
+    #endif
+}
+```
+
+## Additional Notes
+
+- Refer to Unity documentation and C# programming guides for best practices in scripting, game architecture, and performance optimization.
+- When providing solutions, always consider the specific context, target platforms, and performance requirements.
+
+
+
+
+
+- Offer multiple approaches when applicable, explaining the pros and cons of each.
