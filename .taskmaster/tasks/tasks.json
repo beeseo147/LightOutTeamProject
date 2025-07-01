@@ -19,7 +19,9 @@
         "details": "Input System, XR Interaction Toolkit, Photon 2 패키지를 Unity 패키지 매니저로 설치합니다. VR/PC 호환을 위한 프로젝트 설정을 구성합니다.",
         "testStrategy": "모든 패키지가 설치되고 프로젝트 설정이 올바르게 구성되었는지 확인합니다.",
         "priority": "high",
-        "dependencies": [1],
+        "dependencies": [
+          1
+        ],
         "status": "pending",
         "subtasks": []
       },
@@ -30,9 +32,65 @@
         "details": "집 내부와 외부의 3D 모델을 디자인하거나 확보합니다. Unity에 임포트하고, 머티리얼, 라이팅, 기본 콜리전을 설정합니다.",
         "testStrategy": "에셋이 Unity 씬에 잘 보이고, 라이팅과 콜리전이 정상 동작하는지 확인합니다.",
         "priority": "medium",
-        "dependencies": [1],
+        "dependencies": [
+          1
+        ],
         "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "3D 모델 확보/제작",
+            "description": "3D 모델을 직접 제작하거나 외부 소스에서 확보합니다. 모델링 툴(Blender, Maya 등)을 사용해 메시 생성 및 최적화 작업을 수행합니다.",
+            "dependencies": [],
+            "details": "메시 분할, 폴리곤 최적화, UV 언랩핑 등 모델링 핵심 작업 수행",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "에셋 임포트",
+            "description": "Unity 프로젝트에 3D 모델 파일을 임포트합니다. FBX, OBJ 등 형식에 맞게 임포트 설정을 조정합니다.",
+            "dependencies": [
+              1
+            ],
+            "details": "메시, 애니메이션, 텍스처 임포트 설정 확인, 유니티 호환성 검증",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "머티리얼 적용",
+            "description": "임포트된 모델에 머티리얼을 적용합니다. 텍스처 매핑 및 쉐이더 설정을 최적화합니다.",
+            "dependencies": [
+              2
+            ],
+            "details": "텍스처 UV 매핑, 머티리얼 프로퍼티 조정, 쉐이더 선택 및 파라미터 설정",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "라이팅 설정",
+            "description": "유니티 씬에 적절한 라이팅 시스템을 구축합니다. 조명 유형과 환경 설정을 최적화합니다.",
+            "dependencies": [
+              3
+            ],
+            "details": "디렉셔널/포인트/스포트 라이트 배치, HDRP/URP 설정, 글로벌 일루미네이션 적용",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "콜리전 설정 및 테스트",
+            "description": "콜리전 메시를 설정하고 물리 엔진 테스트를 수행합니다. 최종 검증을 통해 문제점을 수정합니다.",
+            "dependencies": [
+              4
+            ],
+            "details": "콜리전 메시 생성, 물리 시뮬레이션 테스트, 성능 프로파일링 및 최적화",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 4,
@@ -41,9 +99,69 @@
         "details": "Input System과 XR Interaction Toolkit을 활용해 기본 컨트롤러를 만듭니다. PC는 키보드/마우스, VR은 손 추적/컨트롤러를 지원합니다. 부드러운 이동과 카메라 제어를 보장합니다.",
         "testStrategy": "VR과 PC 모드 모두에서 이동과 카메라가 정상 동작하는지, 입력 전환이 잘 되는지 테스트합니다.",
         "priority": "high",
-        "dependencies": [2],
+        "dependencies": [
+          2
+        ],
         "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "PC 입력 컨트롤러 구현",
+            "description": "키보드/마우스 입력 처리 로직 구현 및 이벤트 핸들링",
+            "dependencies": [],
+            "details": "키 입력 이벤트, 마우스 이동/클릭 처리, 입력 매핑 설정",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "VR 입력 컨트롤러 구현",
+            "description": "VR 컨트롤러 트리거/버튼 입력 처리 및 상호작용 로직 구현",
+            "dependencies": [],
+            "details": "트리거 터치/프레스 이벤트, 버튼 입력 매핑, XR Interaction Toolkit 활용",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "입력 전환 로직",
+            "description": "PC ↔ VR 입력 방식 자동/수동 전환 시스템 구축",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "입력 장치 감지 알고리즘, 컨텍스트 전환 매커니즘, 입력 우선순위 관리",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "이동/카메라 제어",
+            "description": "입력 방식별 이동/카메라 제어 로직 통합 구현",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "PC: WASD + 마우스 룩, VR: 컨트롤러 이동/회전, 카메라 제어 매핑",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "통합 테스트",
+            "description": "모든 입력 시스템 통합 테스트 및 버그 수정",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "크로스 플랫폼 테스트, 입력 충돌 검증, 성능 최적화",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 5,
@@ -52,9 +170,84 @@
         "details": "오브젝트를 집기, 놓기, 던지기 위한 스크립트를 만듭니다. VR은 손 추적, PC는 마우스/키보드를 지원합니다. 상호작용 가능한 오브젝트는 하이라이트 처리합니다.",
         "testStrategy": "VR과 PC 모두에서 오브젝트 상호작용이 잘 되고, 하이라이트와 물리 효과가 정상인지 확인합니다.",
         "priority": "high",
-        "dependencies": [3, 4],
+        "dependencies": [
+          3,
+          4
+        ],
         "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "집기/놓기/던지기 스크립트 구현",
+            "description": "오브젝트의 물리적 상호작용을 위한 핵심 스크립트 개발",
+            "dependencies": [],
+            "details": "XR Interaction Toolkit 활용, Attach Point 설정, 물리 엔진 연동",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "VR 입력 상호작용 시스템 구축",
+            "description": "VR 컨트롤러를 통한 입력 처리 메커니즘 구현",
+            "dependencies": [
+              1
+            ],
+            "details": "XR Simple Interactable 이벤트 연결, 컨트롤러 트리거 동작 매핑",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "PC 입력 상호작용 시스템 구축",
+            "description": "키보드/마우스 입력을 위한 대체 입력 시스템 개발",
+            "dependencies": [
+              1
+            ],
+            "details": "Input System 패키지 활용, 마우스 클릭/드래그 이벤트 처리",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "오브젝트 하이라이트 기능 추가",
+            "description": "선택된 오브젝트 시각적 강조 표시 구현",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Material 색상 변경, UI 텍스트 표시, Raycast 기반 선택 표시",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "물리 효과 적용 및 최적화",
+            "description": "던지기 동작에 대한 물리 시뮬레이션 구현",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "Rigidbody 설정, Joint 제약 조건, 충돌 감지 로직",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "통합 테스트 및 버그 수정",
+            "description": "모든 시스템의 상호작용 테스트 및 안정성 검증",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "details": "크로스 플랫폼 테스트, 입력 충돌 방지, 성능 프로파일링",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 6,
@@ -63,31 +256,155 @@
         "details": "인트로 시퀀스와 조작/상호작용 튜토리얼을 설명합니다. 최소 UI와 환경적 스토리텔링을 활용합니다.",
         "testStrategy": "시퀀스 흐름, 튜토리얼의 명확성, UI 통합을 테스트합니다.",
         "priority": "medium",
-        "dependencies": [4, 5],
+        "dependencies": [
+          4,
+          5
+        ],
         "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "인트로 시퀀스 구현",
+            "description": "사용자의 첫 경험을 위한 시각적/상호작용적 인트로 화면 설계 및 구현",
+            "dependencies": [],
+            "details": "사용자 온보딩 프로세스, 브랜딩 요소 통합, 초기 사용자 흐름 최적화",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "조작 튜토리얼 설계",
+            "description": "기본 기능 조작법을 단계별로 안내하는 인터랙티브 튜토리얼 개발",
+            "dependencies": [
+              1
+            ],
+            "details": "사용자 행동 패턴 분석 → 시나리오 기반 튜토리얼 스크립트 작성 → UI 요소 매핑",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "UI 통합",
+            "description": "인트로/튜토리얼/기능 UI 요소를 일관된 디자인 시스템으로 통합",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "컴포넌트 재사용성 검토 → 크로스 플랫폼 호환성 테스트 → 디자인 가이드라인 적용",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "흐름 및 명확성 테스트",
+            "description": "사용자 경험 흐름 검증 및 인터페이스 명확성 개선",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "사용자 테스트 세션 진행 → 피드백 기반 개선 → 최종 사용자 경험 검증",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 7,
         "title": "첫 번째 퍼즐 스테이지 구현",
         "description": "환경 단서와 오브젝트 상호작용이 포함된 첫 퍼즐 스테이지를 만듭니다.",
-        "details": "오브젝트 배치, 색상 변화, 환경적 힌트를 활용해 첫 퍼즐을 디자인하고 스크립트화합니다. 상호작용 시스템과 통합합니다. 예시) ",
+        "details": "오브젝트 배치, 색상 변화, 환경적 힌트를 활용해 첫 퍼즐을 디자인하고 스크립트화합니다. 상호작용 시스템과 통합합니다. 예시: 특정 순서로 책을 배치하면 서랍이 열리는 퍼즐이나 올바른 색상 조합을 맞추면 문이 열리는 퍼즐 등을 구현합니다.",
         "testStrategy": "퍼즐 논리, 오브젝트 상호작용, 단서 노출이 잘 동작하는지 테스트합니다.",
         "priority": "medium",
-        "dependencies": [5],
+        "dependencies": [
+          5
+        ],
         "status": "pending",
         "subtasks": []
       },
       {
         "id": 8,
-        "title": "두 번째 퍼즐 스테이지 구현",
-        "description": "Unity Stencil 착시 퍼즐 기믹 스테이지를 만듭니다.",
-        "details": "Stencil을 활용해 두 플레이어가 서로 다른 오브젝트를 보게 합니다. 이를 통해 힌트를 획득해 퍼즐을 해결합니다.",
-        "testStrategy": "Stencil의 구현 확인을 위해 각 표면에 ",
+        "title": "스텐실 + 시야각 노출 퍼즐 스테이지 구현",
+        "description": "Unity Stencil과 시야각 기반 멀티플레이어 협력 퍼즐 기믹을 구현합니다.",
+        "details": "Stencil 버퍼와 시야각 감지를 활용한 두 가지 퍼즐 메커니즘을 구현합니다. 1안) 멀티-뷰 시퀀스: 벽 3면에 각각 다른 글자/기호를 숨겨두고, 좌→우→뒤 순으로 정해진 각도와 순서로 관찰해야 글자가 완전히 투명화되어 고정되며 최종 암호가 완성됩니다. 2안) 빛 역상 규칙: 방 A가 불을 켜야만 방 B 벽 글자가 드러나고, 반대로 하면 다른 글자 세트가 출현하여 두 사람이 교대로 스위치를 조작하며 글자 조합을 모아 암호를 완성합니다.",
+        "testStrategy": "Stencil 버퍼를 통해 각 플레이어별로 다른 시각적 요소가 올바르게 표시되는지 확인하고, 시야각 감지 시스템이 정확한 각도와 순서를 인식하는지 테스트합니다. 조명 상태에 따른 글자 노출/숨김 기능과 멀티플레이어 협력을 통한 퍼즐 해결 로직이 정상 동작하는지 검증합니다.",
         "priority": "medium",
-        "dependencies": [5],
+        "dependencies": [
+          5
+        ],
         "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Stencil 버퍼 퍼즐 구현",
+            "description": "스텐실 버퍼를 활용한 3D 렌더링 퍼즐 메커니즘 구축",
+            "dependencies": [],
+            "details": "깊이 버퍼와 스텐실 버퍼를 조합해 물리적 상호작용 구현, 렌더링 파이프라인 최적화",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "시야각 감지 시스템 개발",
+            "description": "플레이어 시야각 기반 객체 가시성 제어 시스템 구현",
+            "dependencies": [],
+            "details": "카메라 프러스텀 기반 시야각 계산, 레이 캐스팅을 이용한 가시성 검출, 성능 최적화",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "멀티-뷰 시퀀스 로직",
+            "description": "다중 카메라 뷰 시퀀스 관리 및 렌더링 로직 개발",
+            "dependencies": [],
+            "details": "MVC 아키텍처 기반 뷰 스위칭, 시퀀스 빌더를 활용한 비동기 렌더링 처리[1][2]",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "빛 역상 규칙 퍼즐",
+            "description": "광학 반사/굴절 물리 법칙 기반 퍼즐 시스템 구현",
+            "dependencies": [],
+            "details": "광선 추적 알고리즘, 셰이더 기반 빛 반사 시뮬레이션, 물리 엔진 연동",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "멀티플레이 협력 로직",
+            "description": "멀티플레이어 협동/경쟁 메커니즘 구현",
+            "dependencies": [],
+            "details": "네트워크 동기화, 상태 관리, P2P/P2S 아키텍처 설계, 충돌 해결 알고리즘",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "시각적 효과",
+            "description": "파티클 시스템 및 포스트 프로세싱 효과 구현",
+            "dependencies": [],
+            "details": "GPU 기반 파티클 시뮬레이션, HDR 렌더링, 블룸/모션 블러 효과 적용",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "통합 테스트",
+            "description": "모든 시스템 통합 테스트 및 성능 검증",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "details": "크로스 플랫폼 호환성 테스트, 프레임 드랍 모니터링, 병목 현상 분석",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 9,
@@ -96,20 +413,114 @@
         "details": "파일 탐색을 위한 2D 데스크탑 UI를 디자인/스크립트화합니다. 스토리 요소를 드러내는 진상 파일을 구현합니다.",
         "testStrategy": "UI 탐색, 파일 접근, 스토리 노출이 잘 되는지 테스트합니다.",
         "priority": "medium",
-        "dependencies": [6, 7],
+        "dependencies": [
+          6,
+          7
+        ],
         "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "2D 데스크탑 UI 설계",
+            "description": "화면 레이아웃, 컴포넌트 배치, 사용자 인터랙션 흐름 설계. 와이어프레임 및 프로토타입 제작",
+            "dependencies": [],
+            "details": "가시성과 표준화 원칙에 기반한 UI 구조 설계[1]. 주요 기능 노출 및 예외 처리 시나리오 정의[1][3]",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "파일 시스템 구현",
+            "description": "스토리 데이터 저장 구조 설계 및 파일 접근 메커니즘 구축",
+            "dependencies": [
+              1
+            ],
+            "details": "데이터 의존성 관리 및 파일 시스템 아키텍처 설계[4]. UI 요구사항에 맞는 저장소 구조 구현",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "스토리 파일 제작",
+            "description": "스토리 시나리오 작성 및 멀티미디어 자산 준비",
+            "dependencies": [
+              2
+            ],
+            "details": "UI 시나리오 문서 기반 스토리 흐름 구축[1][3]. 조건별 UI 상태 정의 및 예외 케이스 처리[3]",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "UI-스토리 연동",
+            "description": "UI 컴포넌트와 스토리 데이터의 동적 상호작용 구현",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "상태 기반 UI 렌더링 로직 개발[3]. 애니메이션 트랜지션 및 인터랙션 제어 시스템 구축[2][4]",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 10,
-        "title": "",
+        "title": "캐릭터 전환 메커니즘 구현",
         "description": "캐릭터 전환 효과를 구현합니다.",
-        "details": "캐릭터 전환 효과를 구현합니다.",
-        "testStrategy": "캐릭터 전환 효과가 잘 구현되었는지 테스트합니다.",
+        "details": "플레이어 간 시점 전환과 캐릭터 변경 메커니즘을 구현합니다. 부드러운 카메라 전환 애니메이션과 UI 피드백을 포함합니다.",
+        "testStrategy": "캐릭터 전환 효과가 부드럽게 동작하고, 멀티플레이 환경에서 동기화가 올바르게 이루어지는지 테스트합니다.",
         "priority": "medium",
-        "dependencies": [7, 10],
+        "dependencies": [
+          7,
+          9
+        ],
         "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "캐릭터 전환 로직",
+            "description": "캐릭터의 이동, 점프, 회전 등 기본 동작 구현 및 물리 엔진 연동",
+            "dependencies": [],
+            "details": "입력 처리 → 이동 컴포넌트 설정 → 충돌 감지 로직 → 애니메이션 트리거",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "카메라 전환 애니메이션",
+            "description": "3인칭/1인칭 카메라 전환 시 부드러운 애니메이션 구현",
+            "dependencies": [
+              1
+            ],
+            "details": "스프링 암 컴포넌트 설정 → 카메라 이동 경로 계산 → 애니메이션 커브 적용",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "UI 피드백",
+            "description": "캐릭터 상태(체력, 속도 등)를 UI에 실시간 표시",
+            "dependencies": [
+              1
+            ],
+            "details": "UI 위젯 생성 → 데이터 바인딩 → 입력 피드백 효과 구현",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "멀티플레이 동기화",
+            "description": "클라이언트-서버 간 캐릭터 상태 및 카메라 위치 동기화",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "네트워크 프로토콜 설계 → 상태 패킷 전송 → 지연 보정 알고리즘 적용",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 11,
@@ -118,9 +529,57 @@
         "details": "퍼즐 완료 시 트리거되는 엔딩 시퀀스를 스크립트화합니다. 최소 UI와 환경적 연출을 사용합니다.",
         "testStrategy": "엔딩 트리거, 시퀀스 흐름, UI 통합을 테스트합니다.",
         "priority": "medium",
-        "dependencies": [7, 10],
+        "dependencies": [
+          7,
+          10
+        ],
         "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "엔딩 트리거 구현",
+            "description": "플레이어와 트리거 박스의 Overlap 이벤트를 처리하고 게임 종료 조건을 확인하는 로직 구현",
+            "dependencies": [],
+            "details": "트리거 박스 생성 → Overlap 이벤트 핸들러 구현 → 게임 종료 조건 검사 → 레벨 전환 로직 연결",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "시퀀스 연출",
+            "description": "엔딩 트리거 활성화 시 발생하는 시각적/음향적 연출 요소 구현",
+            "dependencies": [
+              1
+            ],
+            "details": "카메라 애니메이션 → UI 전환 효과 → 배경 음악 변경 → 엔딩 애니메이션 구현",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "UI 통합",
+            "description": "엔딩 UI 컴포넌트를 게임 로직에 통합하고 사용자 상호작용 처리",
+            "dependencies": [
+              1
+            ],
+            "details": "엔딩 UI 위젯 제작 → 버튼 클릭 이벤트 핸들러 구현 → UI-게임 로직 연결 → 사용자 피드백 시스템 구축",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "흐름 테스트",
+            "description": "엔딩 트리거 → 시퀀스 → UI 통합 → 종료까지의 전체 흐름 검증",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "조건 충족 시 엔딩 트리거 작동 테스트 → 시퀀스 연출 타이밍 검증 → UI 반응성 테스트 → 종료 프로세스 검증",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 12,
@@ -129,9 +588,44 @@
         "details": "Photon 2 SDK를 통합하고, 기본 방 생성, 참가, 플레이어 동기화를 설정합니다.",
         "testStrategy": "방 생성, 참가, 기본 플레이어 동기화가 잘 되는지 테스트합니다.",
         "priority": "medium",
-        "dependencies": [2],
+        "dependencies": [
+          2
+        ],
         "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Photon 2 SDK 통합",
+            "description": "Photon Server SDK 설치 및 프로젝트 설정",
+            "dependencies": [],
+            "details": "PhotonServerSettings 구성, AppId 설정, 네임 서버 옵션 조정, 자체 호스팅 서버 연결 테스트[1][3]",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "방 생성/참가 구현",
+            "description": "멀티플레이어 방 관리 시스템 구축",
+            "dependencies": [
+              1
+            ],
+            "details": "CreateRoom/JoinRoom API 구현, 방 속성 설정, 플레이어 매칭 로직, 연결 상태 핸들링[1][3]",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "플레이어 동기화",
+            "description": "네트워크 객체 상태 동기화 시스템 개발",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "PhotonView 컴포넌트 설정, IPunObservable 인터페이스 구현, OnPhotonSerializeView 메서드 최적화, 위치/속도 데이터 스트리밍[2][4]",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 13,
@@ -140,9 +634,72 @@
         "details": "Photon 2를 활용해 오브젝트 상호작용 시스템을 확장, 오브젝트 상태를 클라이언트 간 동기화합니다.",
         "testStrategy": "멀티플레이에서 오브젝트 동기화가 일관성 있게 동작하는지 테스트합니다.",
         "priority": "medium",
-        "dependencies": [5, 12],
+        "dependencies": [
+          5,
+          12
+        ],
         "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "오브젝트 상태 동기화 로직",
+            "description": "멀티플레이어 환경에서 게임 오브젝트의 위치, 회전, 변수 값을 네트워크를 통해 동기화하는 로직 구현",
+            "dependencies": [],
+            "details": "Network Identity/Network Transform 컴포넌트 활용, 서버-클라이언트 권한 분리, 트래픽 최적화[1][3]",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "상호작용 시스템 확장",
+            "description": "플레이어 간 물리적/논리적 상호작용 시스템 확장 및 네트워크 동기화",
+            "dependencies": [
+              1
+            ],
+            "details": "이벤트 기반 상호작용 처리, 충돌 감지 시스템 통합, 동기화된 애니메이션 상태 관리[1][3]",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "네트워크 이벤트 처리",
+            "description": "사용자 입력/게임 이벤트를 네트워크 패킷으로 변환 및 처리 시스템 구축",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "이벤트 큐 관리, 패킷 전송 최적화, 에러 핸들링 메커니즘[3][4]",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "일관성 테스트",
+            "description": "클라이언트-서버 간 데이터 일관성 검증 및 동기화 오류 디버깅",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "상태 차이 감지 알고리즘, 자동화 테스트 케이스, 로그 기반 문제 추적[2][4]",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "통합 검증",
+            "description": "모든 시스템 통합 후 성능/안정성 검증 및 최종 배포 준비",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "부하 테스트, 크로스 플랫폼 검증, 네트워크 지연 시나리오 테스트[2][4]",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 14,
@@ -151,9 +708,153 @@
         "details": "RFID 슬롯, 벽 두드리기 등 추가 퍼즐을 디자인/스크립트화하고 기존 시스템과 통합합니다.",
         "testStrategy": "새 퍼즐 논리와 통합이 잘 동작하는지 테스트합니다.",
         "priority": "low",
-        "dependencies": [7, 13],
+        "dependencies": [
+          7,
+          13
+        ],
         "status": "pending",
         "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "UI/UX 시스템 구현",
+        "description": "게임 내 사용자 인터페이스와 사용자 경험을 설계하고 구현합니다.",
+        "details": "메뉴 시스템, 설정 화면, 인게임 UI 요소들을 디자인하고 구현합니다. 접근성과 사용 편의성을 고려합니다.",
+        "testStrategy": "UI 요소들의 반응성, 접근성, 사용자 흐름이 직관적인지 테스트합니다.",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "메뉴 시스템 설계",
+            "description": "게임의 핵심 메뉴 구조와 네비게이션 흐름을 설계합니다. 사용자 유형 분석을 기반으로 주요 기능 접근성과 정보 계층을 정의합니다[1][2].",
+            "dependencies": [],
+            "details": "메뉴 트리 구조, 사용자 역할별 접근 권한, 시각적 계층화 방식",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "설정 화면 구현",
+            "description": "사용자 설정 화면의 UI/UX를 구현합니다. 접근성 요소(텍스트 크기 조절, 음성 안내)를 반영한 인터페이스 설계[2][3].",
+            "dependencies": [
+              1
+            ],
+            "details": "화면 레이아웃, 입력 필드 타입, 저장/초기화 기능",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "인게임 UI 요소 개발",
+            "description": "게임 내 HUD, 팝업, 알림 시스템 등 핵심 UI 요소를 개발합니다. 데이터 참조 방식을 활용한 효율적 구현[3].",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "UI 컴포넌트 재사용, 애니메이션 트리거, 상태 표시기",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "접근성 적용",
+            "description": "모든 UI 요소에 접근성 기능을 통합합니다. 키보드 네비게이션, 스크린 리더 지원, 대체 텍스트 구현[2].",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "A11Y 표준 준수, 색상 대비 검증, 터치 타겟 크기",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "사용자 흐름 테스트",
+            "description": "사용자 테스트를 통해 UI/UX 개선점을 도출합니다. 학습성, 효율성, 오류율 측정[2].",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "유스케이스 시나리오 작성, 사용자 피드백 수집, 개선 이슈 트래킹",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 16,
+        "title": "게임 상태 관리 시스템 구현",
+        "description": "게임 진행 상황 저장 및 불러오기 시스템을 구현합니다.",
+        "details": "플레이어 진행 상황, 퍼즐 해결 상태, 설정 정보를 저장하고 불러오는 시스템을 구현합니다.",
+        "testStrategy": "저장/불러오기 기능이 정상 동작하고, 데이터 무결성이 보장되는지 테스트합니다.",
+        "priority": "medium",
+        "dependencies": [
+          11
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "진행 상황 저장 로직 구현",
+            "description": "게임 진행 중의 시간, 이동 횟수, 현재 상태를 저장하는 메커니즘 설계 및 구현",
+            "dependencies": [],
+            "details": "타이머 데이터, 이동 이력, 게임 상태 객체를 직렬화/역직렬화 처리",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "퍼즐 상태 저장 시스템 개발",
+            "description": "퍼즐 조각의 위치, 회전 정보, 완료 여부를 저장하는 데이터 구조 설계",
+            "dependencies": [],
+            "details": "퍼즐 그리드 매트릭스, 조각별 좌표/상태 객체, 저장 포맷 표준화",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "설정 정보 저장 모듈 구축",
+            "description": "사용자 선호도(난이도, 테마 등)를 영구 저장하는 시스템 구현",
+            "dependencies": [],
+            "details": "로컬 스토리지/파일 시스템 연동, 설정 객체 직렬화 처리",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "불러오기 기능 통합",
+            "description": "저장된 데이터를 기반으로 게임 상태 복구 및 설정 적용 기능 구현",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "데이터 검증 로직, 상태 재구성 알고리즘, 설정 적용 파이프라인",
+            "status": "pending",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "데이터 무결성 테스트 구축",
+            "description": "저장/불러오기 과정에서 발생할 수 있는 데이터 오류 검증 테스트 케이스 개발",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "데이터 손상 시나리오 테스트, 형식 검증, 상태 일관성 검사",
+            "status": "pending",
+            "testStrategy": ""
+          }
+        ]
       },
       {
         "id": 17,
@@ -162,7 +863,10 @@
         "details": "고품질 아트, 사운드 이펙트, 음악을 임포트 및 통합합니다. 성능 최적화도 함께 진행합니다.",
         "testStrategy": "자산 품질, 성능, 몰입감이 잘 구현되었는지 테스트합니다.",
         "priority": "low",
-        "dependencies": [3, 10],
+        "dependencies": [
+          3,
+          15
+        ],
         "status": "pending",
         "subtasks": []
       },
@@ -173,7 +877,11 @@
         "details": "렌더링, 물리, 네트워킹을 프로파일링 및 최적화합니다. 버그 수정, UI 다듬기, 크로스플랫폼 호환성 확보까지 마무리합니다.",
         "testStrategy": "성능, 안정성, 플랫폼 호환성이 모두 충족되는지 테스트합니다.",
         "priority": "low",
-        "dependencies": [13, 16, 17],
+        "dependencies": [
+          13,
+          16,
+          17
+        ],
         "status": "pending",
         "subtasks": []
       }
