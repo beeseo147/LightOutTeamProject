@@ -1,0 +1,27 @@
+FirstPersonHand - VR Ready - RRFreelance
+Version 1.0
+
+This is the First Person Hand, more in tune with VR Design.
+
+The Hand comes with Several poses that can be mapped to the user inputs based on 
+your code. This pack currently contains no scripting but has everything else in place.
+Animations can be blended between poses however you see fit.
+
+For the opposite hand, a copy of the prefab has been made with -1 on the X-Scale.
+3 materials onver 2 albedo textures have been created for skin tone variation.
+
+A script that rotates around an objects point in the scene is included. 
+Add an empty game object there and also to the slot in the script when you add it to the camera to act at the target.
+
+Future Updates planned:More Skin Textures, Props and Poses if suggested my email.
+
+Please Rate based on your Review, if you have any technical issues, please contact me
+by email: me@robertramsay.co.uk
+
+Reviews that act as a negative becuase of a potential bug-fix that can be
+sorted by a simple email will be reported. I intend on delivering the best directly 
+to my customers so you have been advised to contact me first.
+
+Robert Ramsay.
+
+Disclaimer: This product is advertised as-is and contains no code-based solution for VR or other controller or input based solution at the time of writing.
