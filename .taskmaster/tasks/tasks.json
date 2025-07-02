@@ -267,7 +267,7 @@
             "title": "인트로 시퀀스 구현",
             "description": "사용자의 첫 경험을 위한 시각적/상호작용적 인트로 화면 설계 및 구현",
             "dependencies": [],
-            "details": "사용자 온보딩 프로세스, 브랜딩 요소 통합, 초기 사용자 흐름 최적화",
+            "details": "사용자의 조작키와 오브젝트 상호작용을 시각적으로 알 수 있게 하는 프로젝트 구성",
             "status": "pending",
             "testStrategy": ""
           },
@@ -278,7 +278,7 @@
             "dependencies": [
               1
             ],
-            "details": "사용자 행동 패턴 분석 → 시나리오 기반 튜토리얼 스크립트 작성 → UI 요소 매핑",
+            "details": "튜토리얼에 사용할 UI 요소를 설계하고 구현합니다.",
             "status": "pending",
             "testStrategy": ""
           },
@@ -290,7 +290,7 @@
               1,
               2
             ],
-            "details": "컴포넌트 재사용성 검토 → 크로스 플랫폼 호환성 테스트 → 디자인 가이드라인 적용",
+            "details": "인트로/튜토리얼/기능 UI 요소를 일관된 디자인 시스템으로 통합합니다.",
             "status": "pending",
             "testStrategy": ""
           },
@@ -311,24 +311,11 @@
       },
       {
         "id": 7,
-        "title": "첫 번째 퍼즐 스테이지 구현",
-        "description": "환경 단서와 오브젝트 상호작용이 포함된 첫 퍼즐 스테이지를 만듭니다.",
-        "details": "오브젝트 배치, 색상 변화, 환경적 힌트를 활용해 첫 퍼즐을 디자인하고 스크립트화합니다. 상호작용 시스템과 통합합니다. 예시: 특정 순서로 책을 배치하면 서랍이 열리는 퍼즐이나 올바른 색상 조합을 맞추면 문이 열리는 퍼즐 등을 구현합니다.",
-        "testStrategy": "퍼즐 논리, 오브젝트 상호작용, 단서 노출이 잘 동작하는지 테스트합니다.",
-        "priority": "medium",
-        "dependencies": [
-          5
-        ],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 8,
-        "title": "스텐실 + 시야각 노출 퍼즐 스테이지 구현",
-        "description": "Unity Stencil과 시야각 기반 멀티플레이어 협력 퍼즐 기믹을 구현합니다.",
-        "details": "Stencil 버퍼와 시야각 감지를 활용한 두 가지 퍼즐 메커니즘을 구현합니다. 1안) 멀티-뷰 시퀀스: 벽 3면에 각각 다른 글자/기호를 숨겨두고, 좌→우→뒤 순으로 정해진 각도와 순서로 관찰해야 글자가 완전히 투명화되어 고정되며 최종 암호가 완성됩니다. 2안) 빛 역상 규칙: 방 A가 불을 켜야만 방 B 벽 글자가 드러나고, 반대로 하면 다른 글자 세트가 출현하여 두 사람이 교대로 스위치를 조작하며 글자 조합을 모아 암호를 완성합니다.",
-        "testStrategy": "Stencil 버퍼를 통해 각 플레이어별로 다른 시각적 요소가 올바르게 표시되는지 확인하고, 시야각 감지 시스템이 정확한 각도와 순서를 인식하는지 테스트합니다. 조명 상태에 따른 글자 노출/숨김 기능과 멀티플레이어 협력을 통한 퍼즐 해결 로직이 정상 동작하는지 검증합니다.",
-        "priority": "medium",
+        "title": "첫 번째 협동 퍼즐 스테이지 구현",
+        "description": "거울/프리즘 동시 조작과 빛의 경로 안내 협동 기믹을 결합한 스테이지를 구현합니다.",
+        "details": "두 명의 플레이어가 각자 다른 위치에서 거울이나 프리즘을 조작해야만 빛이 목표 지점까지 도달할 수 있도록 설계합니다. 한 명이 각도를 맞추고, 다른 한 명이 타이밍에 맞춰 스위치를 눌러야 빛이 통과하는 동시 행동 퍼즐과, 한 명이 전체 구조(빛의 경로)를 관찰하며 다른 한 명에게 실시간으로 지시하는 협동 퍼즐을 결합합니다. 1기믹 해결 시 힌트 제공, 2기믹 해결 시 다음 스테이지로 이동하는 일련의 과정을 포함합니다.",
+        "testStrategy": "두 명이 협동하여 퍼즐을 해결할 수 있는지, 각 기믹별 힌트 제공 및 스테이지 전환이 정상 동작하는지 테스트합니다.",
+        "priority": "high",
         "dependencies": [
           5
         ],
@@ -336,80 +323,98 @@
         "subtasks": [
           {
             "id": 1,
-            "title": "Stencil 버퍼 퍼즐 구현",
-            "description": "스텐실 버퍼를 활용한 3D 렌더링 퍼즐 메커니즘 구축",
-            "dependencies": [],
-            "details": "깊이 버퍼와 스텐실 버퍼를 조합해 물리적 상호작용 구현, 렌더링 파이프라인 최적화",
-            "status": "pending",
-            "testStrategy": ""
+            "title": "퍼즐 환경 및 오브젝트 배치",
+            "description": "거울, 프리즘, 색상 필터, 스위치 등 주요 오브젝트를 Unity 씬에 배치하고 상호작용 컴포넌트 설정",
+            "details": "플레이어가 조작할 수 있는 거울, 프리즘, 색상 필터, 스위치 등 오브젝트를 적절한 위치에 배치하고, 각 오브젝트에 상호작용 스크립트 및 네트워크 동기화 설정",
+            "status": "pending"
           },
           {
             "id": 2,
-            "title": "시야각 감지 시스템 개발",
-            "description": "플레이어 시야각 기반 객체 가시성 제어 시스템 구현",
-            "dependencies": [],
-            "details": "카메라 프러스텀 기반 시야각 계산, 레이 캐스팅을 이용한 가시성 검출, 성능 최적화",
+            "title": "거울/프리즘 협동 반사 레이저 퍼즐 시스템 구현",
+            "description": "두 명이 각자 거울, 어항, TV 등 다양한 오브젝트를 조작하여 레이저 빔을 목표 센서에 정확히 반사시키는 협동 퍼즐 구현. 각 오브젝트의 상태와 각도, 프리즘/필터 조합에 따라 경로가 실시간으로 변함., 성공 시 여러 프리즘 재료(색상 필터 등) 획득 트리거 구현.",
+            "dependencies": [1],
+            "details": "라인 렌더러로 레이저 경로 시각화, RaycastNonAlloc로 효율적 충돌 처리, 오브젝트별 반사/굴절 특성 구현, 실시간 네트워크 동기화, 플레이어 신체 충돌 시 레이저 차단 등 협동성 강화, 성공 시 여러 프리즘 재료(색상 필터 등) 획득 트리거, 실패 시 피드백 제공",
             "status": "pending",
-            "testStrategy": ""
+            "testStrategy": "두 명이 협동하지 않으면 퍼즐이 풀리지 않는지, 성공 시 여러 프리즘 재료가 제공되는지 테스트"
           },
           {
             "id": 3,
-            "title": "멀티-뷰 시퀀스 로직",
-            "description": "다중 카메라 뷰 시퀀스 관리 및 렌더링 로직 개발",
-            "dependencies": [],
-            "details": "MVC 아키텍처 기반 뷰 스위칭, 시퀀스 빌더를 활용한 비동기 렌더링 처리[1][2]",
+            "title": "색상 조합 협동 퍼즐 구현",
+            "description": "각 플레이어가 서로 다른 색상의 필터(예: 빨강, 파랑)를 들고 정해진 위치에 서서 빛을 통과시키면, 두 색이 합쳐져 특정 색(예: 보라)이 생성되어 문이 열리는 협동 퍼즐 구현. 색상 조합 순서와 위치를 맞추기 위해 플레이어 간 소통이 필요.",
+            "dependencies": [2],
+            "details": "플레이어가 획득한 색상 필터를 각자 들고 지정된 위치에 서서 빛을 통과시키면, 두 색상이 합쳐져 목표 색상이 생성됨. 올바른 색상 조합과 위치, 타이밍이 맞아야 문이 열림. 잘못된 조합/위치/타이밍에는 피드백 제공.",
             "status": "pending",
-            "testStrategy": ""
+            "testStrategy": "두 명이 소통하며 올바른 색상 조합과 위치를 맞춰야 퍼즐이 풀리는지, 성공 시 문이 열리는지 테스트"
           },
           {
             "id": 4,
-            "title": "빛 역상 규칙 퍼즐",
-            "description": "광학 반사/굴절 물리 법칙 기반 퍼즐 시스템 구현",
-            "dependencies": [],
-            "details": "광선 추적 알고리즘, 셰이더 기반 빛 반사 시뮬레이션, 물리 엔진 연동",
-            "status": "pending",
-            "testStrategy": ""
+            "title": "힌트 제공 및 UI/피드백 시스템 구현",
+            "description": "기믹 해결 시 대화 UI 제공, 실시간 피드백 및 결과 화면 제공",
+            "dependencies": [3],
+            "details": "힌트 팝업, 사운드, 이펙트 등 다양한 피드백 요소 구현",
+            "status": "pending"
           },
           {
             "id": 5,
-            "title": "멀티플레이 협력 로직",
-            "description": "멀티플레이어 협동/경쟁 메커니즘 구현",
-            "dependencies": [],
-            "details": "네트워크 동기화, 상태 관리, P2P/P2S 아키텍처 설계, 충돌 해결 알고리즘",
-            "status": "pending",
-            "testStrategy": ""
+            "title": "퍼즐 통합 테스트 및 디버깅",
+            "description": "전체 퍼즐 스테이지의 통합 동작 및 네트워크 협동성 테스트",
+            "dependencies": [4],
+            "details": "여러 플레이어가 실제로 협동하여 퍼즐을 해결할 수 있는지, 각 기믹별 힌트 제공 및 스테이지 전환이 정상 동작하는지 통합 테스트 및 디버깅",
+            "status": "pending"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Arrow-Order 다중 시야 협동 퍼즐 스테이지 구현",
+        "description": "서로 다른 공간에서 플레이어가 시야각과 거리를 맞춰 숨겨진 숫자혹은 방향을 확인하고, 정보를 간접 UI(힌트 요청/응답)로 교환하여 6자리 다이얼락을 푸는 협동 퍼즐 스테이지를 구현합니다.",
+        "details": "각 방에 화살표(불을 꺼야 보임), Parallax+Stencil 셰이더로 숨겨진 숫자혹은 방향, 시야각+거리 트리거, 3자리 다이얼락 등 Arrow-Order 퍼즐 기믹을 구현. 플레이어는 직접 볼 수 없는 정보를 간접 UI(모니터)로 교환해야만 정답을 맞출 수 있음. Photon 네트워크 동기화 필수.",
+        "priority": "high",
+        "dependencies": [7],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Arrow-Order 퍼즐 환경 및 오브젝트 배치",
+            "description": "각 방에 화살표, 벽, 스텐실, 다이얼락, 모니터 ,버튼 등 주요 오브젝트를 Unity 씬에 배치하고, Parallax+Stencil 셰이더 적용",
+            "status": "pending"
+          },
+          {
+            "id": 2,
+            "title": "불 끄면 보이는 화살표 및 숫자 숨김 구현",
+            "description": "URP/Unlit+Emission 머티리얼, LightSwitch.cs, Stencil 셰이더로 평상시엔 숫자 숨김, 불을 꺼야 화살표와 숫자가 보이도록 구현",
+            "status": "pending"
+          },
+          {
+            "id": 3,
+            "title": "시야각+거리 기반 숫자 노출 시스템 구현",
+            "description": "AngleReveal.cs로 HMD 위치와 시야각을 체크, 올바른 각도/거리에서만 숫자가 노출되도록 구현. 순서 체크 및 멀미 방지 로직 포함",
+            "status": "pending"
+          },
+          {
+            "id": 4,
+            "title": "간접 UI 기반 힌트 교환 시스템 구현",
+            "description": "획득한 단서를 모니터 UI를 통해 입력하면 해당 정보가 상대방 모니터에도 공유되는 UI/네트워크 시스템 구현. PhotonView.RPC로 동기화",
+            "status": "pending"
+          },
+          {
+            "id": 5,
+            "title": "3자리 다이얼락 및 정답 체크",
+            "description": "DialLock.cs로 6자리 숫자+문자 입력, 정답 입력 시 문 열림 및 퍼즐 클리어. 네트워크 동기화 및 피드백 포함",
+            "status": "pending"
           },
           {
             "id": 6,
-            "title": "시각적 효과",
-            "description": "파티클 시스템 및 포스트 프로세싱 효과 구현",
-            "dependencies": [],
-            "details": "GPU 기반 파티클 시뮬레이션, HDR 렌더링, 블룸/모션 블러 효과 적용",
-            "status": "pending",
-            "testStrategy": ""
-          },
-          {
-            "id": 7,
-            "title": "통합 테스트",
-            "description": "모든 시스템 통합 테스트 및 성능 검증",
-            "dependencies": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-            ],
-            "details": "크로스 플랫폼 호환성 테스트, 프레임 드랍 모니터링, 병목 현상 분석",
-            "status": "pending",
-            "testStrategy": ""
+            "title": "통합 테스트 및 QA",
+            "description": "멀티플레이 협동성, 성능, 버그, 힌트/피드백, 네트워크 동기화 등 전체 시스템 통합 테스트 및 디버깅",
+            "status": "pending"
           }
         ]
       },
       {
         "id": 9,
-        "title": "합동 스테이지 구현",
-        "description": "2D 데스크탑 UI와 진상 파일 시스템을 만듭니다.",
+        "title": "Player 개별 퍼즐 스테이지 구현",
+        "description": "Stage 분리 후 각 Player 별 퍼즐 스테이지를 구현합니다.",
         "details": "파일 탐색을 위한 2D 데스크탑 UI를 디자인/스크립트화합니다. 스토리 요소를 드러내는 진상 파일을 구현합니다.",
         "testStrategy": "UI 탐색, 파일 접근, 스토리 노출이 잘 되는지 테스트합니다.",
         "priority": "medium",
@@ -421,10 +426,10 @@
         "subtasks": [
           {
             "id": 1,
-            "title": "2D 데스크탑 UI 설계",
-            "description": "화면 레이아웃, 컴포넌트 배치, 사용자 인터랙션 흐름 설계. 와이어프레임 및 프로토타입 제작",
+            "title": "Player 에게 단서를 주는 시스템 구성",
+            "description": "화면 레이아웃 ( 어떻게 배치할지 ) , 컴포넌트 배치 (사진이나 일기 , 기록 등 ) , 사용자 인터랙션 흐름 설계",
             "dependencies": [],
-            "details": "가시성과 표준화 원칙에 기반한 UI 구조 설계[1]. 주요 기능 노출 및 예외 처리 시나리오 정의[1][3]",
+            "details": "",
             "status": "pending",
             "testStrategy": ""
           },
@@ -435,30 +440,7 @@
             "dependencies": [
               1
             ],
-            "details": "데이터 의존성 관리 및 파일 시스템 아키텍처 설계[4]. UI 요구사항에 맞는 저장소 구조 구현",
-            "status": "pending",
-            "testStrategy": ""
-          },
-          {
-            "id": 3,
-            "title": "스토리 파일 제작",
-            "description": "스토리 시나리오 작성 및 멀티미디어 자산 준비",
-            "dependencies": [
-              2
-            ],
-            "details": "UI 시나리오 문서 기반 스토리 흐름 구축[1][3]. 조건별 UI 상태 정의 및 예외 케이스 처리[3]",
-            "status": "pending",
-            "testStrategy": ""
-          },
-          {
-            "id": 4,
-            "title": "UI-스토리 연동",
-            "description": "UI 컴포넌트와 스토리 데이터의 동적 상호작용 구현",
-            "dependencies": [
-              2,
-              3
-            ],
-            "details": "상태 기반 UI 렌더링 로직 개발[3]. 애니메이션 트랜지션 및 인터랙션 제어 시스템 구축[2][4]",
+            "details": "데이터 의존성 관리 및 파일 시스템 아키텍처 설계. UI 요구사항에 맞는 저장소 구조 구현",
             "status": "pending",
             "testStrategy": ""
           }
@@ -466,67 +448,9 @@
       },
       {
         "id": 10,
-        "title": "캐릭터 전환 메커니즘 구현",
-        "description": "캐릭터 전환 효과를 구현합니다.",
-        "details": "플레이어 간 시점 전환과 캐릭터 변경 메커니즘을 구현합니다. 부드러운 카메라 전환 애니메이션과 UI 피드백을 포함합니다.",
-        "testStrategy": "캐릭터 전환 효과가 부드럽게 동작하고, 멀티플레이 환경에서 동기화가 올바르게 이루어지는지 테스트합니다.",
-        "priority": "medium",
-        "dependencies": [
-          7,
-          9
-        ],
-        "status": "pending",
-        "subtasks": [
-          {
-            "id": 1,
-            "title": "캐릭터 전환 로직",
-            "description": "캐릭터의 이동, 점프, 회전 등 기본 동작 구현 및 물리 엔진 연동",
-            "dependencies": [],
-            "details": "입력 처리 → 이동 컴포넌트 설정 → 충돌 감지 로직 → 애니메이션 트리거",
-            "status": "pending",
-            "testStrategy": ""
-          },
-          {
-            "id": 2,
-            "title": "카메라 전환 애니메이션",
-            "description": "3인칭/1인칭 카메라 전환 시 부드러운 애니메이션 구현",
-            "dependencies": [
-              1
-            ],
-            "details": "스프링 암 컴포넌트 설정 → 카메라 이동 경로 계산 → 애니메이션 커브 적용",
-            "status": "pending",
-            "testStrategy": ""
-          },
-          {
-            "id": 3,
-            "title": "UI 피드백",
-            "description": "캐릭터 상태(체력, 속도 등)를 UI에 실시간 표시",
-            "dependencies": [
-              1
-            ],
-            "details": "UI 위젯 생성 → 데이터 바인딩 → 입력 피드백 효과 구현",
-            "status": "pending",
-            "testStrategy": ""
-          },
-          {
-            "id": 4,
-            "title": "멀티플레이 동기화",
-            "description": "클라이언트-서버 간 캐릭터 상태 및 카메라 위치 동기화",
-            "dependencies": [
-              1,
-              2
-            ],
-            "details": "네트워크 프로토콜 설계 → 상태 패킷 전송 → 지연 보정 알고리즘 적용",
-            "status": "pending",
-            "testStrategy": ""
-          }
-        ]
-      },
-      {
-        "id": 11,
         "title": "단일 엔딩 시퀀스 구현",
         "description": "최초 단일 엔딩 시퀀스를 만듭니다.",
-        "details": "퍼즐 완료 시 트리거되는 엔딩 시퀀스를 스크립트화합니다. 최소 UI와 환경적 연출을 사용합니다.",
+        "details": "최종 스테이지 도착 시 트리거되는 엔딩 시퀀스를 스크립트화합니다. 최소 UI와 환경적 연출을 사용합니다.",
         "testStrategy": "엔딩 트리거, 시퀀스 흐름, UI 통합을 테스트합니다.",
         "priority": "medium",
         "dependencies": [
@@ -582,7 +506,7 @@
         ]
       },
       {
-        "id": 12,
+        "id": 11,
         "title": "Photon 2 멀티플레이 서버 설정",
         "description": "멀티플레이 지원을 위해 Photon 2를 구성합니다.",
         "details": "Photon 2 SDK를 통합하고, 기본 방 생성, 참가, 플레이어 동기화를 설정합니다.",
@@ -598,7 +522,7 @@
             "title": "Photon 2 SDK 통합",
             "description": "Photon Server SDK 설치 및 프로젝트 설정",
             "dependencies": [],
-            "details": "PhotonServerSettings 구성, AppId 설정, 네임 서버 옵션 조정, 자체 호스팅 서버 연결 테스트[1][3]",
+            "details": "PhotonServerSettings 구성, AppId 설정, 네임 서버 옵션 조정, 자체 호스팅 서버 연결 테스트",
             "status": "pending",
             "testStrategy": ""
           },
@@ -609,7 +533,7 @@
             "dependencies": [
               1
             ],
-            "details": "CreateRoom/JoinRoom API 구현, 방 속성 설정, 플레이어 매칭 로직, 연결 상태 핸들링[1][3]",
+            "details": "CreateRoom/JoinRoom API 구현, 방 속성 설정, 플레이어 매칭 로직, 연결 상태 핸들링",
             "status": "pending",
             "testStrategy": ""
           },
@@ -621,14 +545,14 @@
               1,
               2
             ],
-            "details": "PhotonView 컴포넌트 설정, IPunObservable 인터페이스 구현, OnPhotonSerializeView 메서드 최적화, 위치/속도 데이터 스트리밍[2][4]",
+            "details": "PhotonView 컴포넌트 설정, IPunObservable 인터페이스 구현, OnPhotonSerializeView 메서드 최적화, 위치/속도 데이터 스트리밍",
             "status": "pending",
             "testStrategy": ""
           }
         ]
       },
       {
-        "id": 13,
+        "id": 12,
         "title": "멀티플레이 오브젝트 동기화 구현",
         "description": "멀티플레이 게임플레이를 위한 오브젝트 동기화를 추가합니다.",
         "details": "Photon 2를 활용해 오브젝트 상호작용 시스템을 확장, 오브젝트 상태를 클라이언트 간 동기화합니다.",
@@ -645,7 +569,7 @@
             "title": "오브젝트 상태 동기화 로직",
             "description": "멀티플레이어 환경에서 게임 오브젝트의 위치, 회전, 변수 값을 네트워크를 통해 동기화하는 로직 구현",
             "dependencies": [],
-            "details": "Network Identity/Network Transform 컴포넌트 활용, 서버-클라이언트 권한 분리, 트래픽 최적화[1][3]",
+            "details": "Network Identity/Network Transform 컴포넌트 활용, 서버-클라이언트 권한 분리, 트래픽 최적화 ( 오브젝트 동기화 시스템 선행 필요 )",
             "status": "pending",
             "testStrategy": ""
           },
@@ -656,7 +580,7 @@
             "dependencies": [
               1
             ],
-            "details": "이벤트 기반 상호작용 처리, 충돌 감지 시스템 통합, 동기화된 애니메이션 상태 관리[1][3]",
+            "details": "이벤트 기반 상호작용 처리, 충돌 감지 시스템 통합, 동기화된 애니메이션 상태 관리",
             "status": "pending",
             "testStrategy": ""
           },
@@ -668,7 +592,7 @@
               1,
               2
             ],
-            "details": "이벤트 큐 관리, 패킷 전송 최적화, 에러 핸들링 메커니즘[3][4]",
+            "details": "이벤트 큐 관리, 패킷 전송 최적화, 에러 핸들링 메커니즘",
             "status": "pending",
             "testStrategy": ""
           },
@@ -681,7 +605,7 @@
               2,
               3
             ],
-            "details": "상태 차이 감지 알고리즘, 자동화 테스트 케이스, 로그 기반 문제 추적[2][4]",
+            "details": "상태 차이 감지 알고리즘, 자동화 테스트 케이스, 로그 기반 문제 추적",
             "status": "pending",
             "testStrategy": ""
           },
@@ -702,7 +626,7 @@
         ]
       },
       {
-        "id": 14,
+        "id": 13,
         "title": "추가 퍼즐 메커니즘 개발",
         "description": "새로운 퍼즐 메커니즘과 스테이지를 추가합니다.",
         "details": "RFID 슬롯, 벽 두드리기 등 추가 퍼즐을 디자인/스크립트화하고 기존 시스템과 통합합니다.",
@@ -716,7 +640,7 @@
         "subtasks": []
       },
       {
-        "id": 15,
+        "id": 14,
         "title": "UI/UX 시스템 구현",
         "description": "게임 내 사용자 인터페이스와 사용자 경험을 설계하고 구현합니다.",
         "details": "메뉴 시스템, 설정 화면, 인게임 UI 요소들을 디자인하고 구현합니다. 접근성과 사용 편의성을 고려합니다.",
@@ -789,7 +713,7 @@
         ]
       },
       {
-        "id": 16,
+        "id": 15,
         "title": "게임 상태 관리 시스템 구현",
         "description": "게임 진행 상황 저장 및 불러오기 시스템을 구현합니다.",
         "details": "플레이어 진행 상황, 퍼즐 해결 상태, 설정 정보를 저장하고 불러오는 시스템을 구현합니다.",
@@ -805,25 +729,16 @@
             "title": "진행 상황 저장 로직 구현",
             "description": "게임 진행 중의 시간, 이동 횟수, 현재 상태를 저장하는 메커니즘 설계 및 구현",
             "dependencies": [],
-            "details": "타이머 데이터, 이동 이력, 게임 상태 객체를 직렬화/역직렬화 처리",
+            "details": "타이머 데이터,게임 상태 객체를 직렬화/역직렬화 처리",
             "status": "pending",
             "testStrategy": ""
           },
           {
             "id": 2,
-            "title": "퍼즐 상태 저장 시스템 개발",
-            "description": "퍼즐 조각의 위치, 회전 정보, 완료 여부를 저장하는 데이터 구조 설계",
+            "title": "엔딩 상태 저장 시스템 개발",
+            "description": "엔딩 조건 및 플레이어 행동 이력을 저장하는 데이터 구조 설계",
             "dependencies": [],
-            "details": "퍼즐 그리드 매트릭스, 조각별 좌표/상태 객체, 저장 포맷 표준화",
-            "status": "pending",
-            "testStrategy": ""
-          },
-          {
-            "id": 3,
-            "title": "설정 정보 저장 모듈 구축",
-            "description": "사용자 선호도(난이도, 테마 등)를 영구 저장하는 시스템 구현",
-            "dependencies": [],
-            "details": "로컬 스토리지/파일 시스템 연동, 설정 객체 직렬화 처리",
+            "details": "엔딩 조건 객체, 플레이어 행동 이력 객체, 저장 포맷 표준화",
             "status": "pending",
             "testStrategy": ""
           },
@@ -833,8 +748,7 @@
             "description": "저장된 데이터를 기반으로 게임 상태 복구 및 설정 적용 기능 구현",
             "dependencies": [
               1,
-              2,
-              3
+              2
             ],
             "details": "데이터 검증 로직, 상태 재구성 알고리즘, 설정 적용 파이프라인",
             "status": "pending",
@@ -857,7 +771,7 @@
         ]
       },
       {
-        "id": 17,
+        "id": 16,
         "title": "아트 및 사운드 자산 고도화",
         "description": "몰입감을 위한 아트 및 사운드 자산을 업그레이드합니다.",
         "details": "고품질 아트, 사운드 이펙트, 음악을 임포트 및 통합합니다. 성능 최적화도 함께 진행합니다.",
@@ -871,7 +785,7 @@
         "subtasks": []
       },
       {
-        "id": 18,
+        "id": 17,
         "title": "게임 최적화 및 마무리",
         "description": "게임 성능을 최적화하고 모든 기능을 마무리합니다.",
         "details": "렌더링, 물리, 네트워킹을 프로파일링 및 최적화합니다. 버그 수정, UI 다듬기, 크로스플랫폼 호환성 확보까지 마무리합니다.",

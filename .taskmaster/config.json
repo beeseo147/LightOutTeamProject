@@ -1,9 +1,9 @@
 {
   "models": {
     "main": {
-      "provider": "perplexity",
-      "modelId": "sonar-reasoning",
-      "maxTokens": 8700,
+      "provider": "openrouter",
+      "modelId": "openai/gpt-4o-mini",
+      "maxTokens": 100000,
       "temperature": 0.2
     },
     "research": {
