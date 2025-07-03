@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum HandState
 {
@@ -13,29 +14,55 @@ public enum HandState
 public class HandAnimationController : MonoBehaviour
 {
     public Animator handAnimator;
+    public InputActionProperty triggerAction;
+    public InputActionProperty gripAction;
+
+    [Header("Threshords")]
+    [Range(0, 1)] public float triggerThreshold = 0.7f;
+    [Range(0, 1)] public float gripThreshold = 0.3f;
+
+    HandState current = HandState.Default;
+
+    private void OnEnable()
+    {
+        triggerAction.action.Enable();
+        gripAction.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        triggerAction.action.Disable();
+        gripAction.action.Disable();
+    }
+
+    private void Update()
+    {
+        float trigger = triggerAction.action.ReadValue<float>();
+        float grip = gripAction.action.ReadValue<float>();
+
+        if (trigger > triggerThreshold && grip > gripThreshold)
+        {
+            SetHandState(HandState.GrabHard);
+        }
+        else if (grip > gripThreshold)
+        {
+            SetHandState(HandState.GrabLight);
+        }
+        else if (trigger > triggerThreshold)
+        {
+            SetHandState(HandState.Point);
+        }
+        else { SetHandState(HandState.Default); }
+    }
 
     public void SetHandState(HandState state)
     {
-        // 전부 false 초기화
-        handAnimator.SetBool("bNeutral", false);
-        handAnimator.SetBool("bPoint", false);
-        handAnimator.SetBool("bHoldFlashlight", false);
-        handAnimator.SetBool("bFormFist", false);
+        if(state == current) return;
+        current = state;
 
-        switch (state)
-        {
-            case HandState.Default:
-                handAnimator.SetBool("bNeutral", true);
-                break;
-            case HandState.Point:
-                handAnimator.SetBool("bPoint", true);
-                break;
-            case HandState.GrabLight:
-                handAnimator.SetBool("bHoldFlashlight", true);
-                break;
-            case HandState.GrabHard:
-                handAnimator.SetBool("bFormFist", true);
-                break;
-        }
+        handAnimator.SetBool("bNeutral", state == HandState.Default);
+        handAnimator.SetBool("bPoint", state == HandState.Point);
+        handAnimator.SetBool("bHoldFlashlight", state == HandState.GrabLight);
+        handAnimator.SetBool("bFormFist", state == HandState.GrabHard);
     }
 }
