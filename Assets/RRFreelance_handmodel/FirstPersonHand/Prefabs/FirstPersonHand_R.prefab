@@ -524,9 +524,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4225364606423572}
   - component: {fileID: 95074870617254676}
+  - component: {fileID: 5069028251871472057}
   - component: {fileID: 114590523497869848}
   - component: {fileID: 114369092748133364}
-  - component: {fileID: 5069028251871472057}
   m_Layer: 0
   m_Name: FirstPersonHand_R
   m_TagString: Untagged
@@ -572,6 +572,47 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5069028251871472057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572917589612068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb9c68595dbf2bb4d8c533636f13dff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handAnimator: {fileID: 95074870617254676}
+  triggerAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Trigger
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 5535384e-c6f9-4bc9-92d0-85b5f0f7aed5
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
+  gripAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Grip
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: c5e6fe35-c469-4725-9415-5d731628aa13
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
+  triggerThreshold: 0.7
+  gripThreshold: 0.3
 --- !u!114 &114590523497869848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,7 +632,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1572917589612068}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d595a147ae103d34184f439fb8bfd924, type: 3}
   m_Name: 
@@ -606,19 +647,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: de28a5e9eb59cd9478473584f025255a, type: 2}
   - {fileID: 2100000, guid: d346f0e418d12744abf3e983ec9a7823, type: 2}
   - {fileID: 2100000, guid: 5ea242662f57e0b448b3cf9949f6571b, type: 2}
---- !u!114 &5069028251871472057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1572917589612068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb9c68595dbf2bb4d8c533636f13dff2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handAnimator: {fileID: 95074870617254676}
 --- !u!1 &1615131967076212
 GameObject:
   m_ObjectHideFlags: 0
