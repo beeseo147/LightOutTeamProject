@@ -1,135 +1,354 @@
 fileFormatVersion: 2
 guid: bea31a2697e189447888a21ccef8af5e
-timeCreated: 1543255359
-licenseType: Free
 ModelImporter:
-  serializedVersion: 21
-  fileIDToRecycleName:
-    100000: Bone001
-    100002: Bone002
-    100004: Bone003
-    100006: Bone005
-    100008: Bone006
-    100010: Bone007
-    100012: Bone009
-    100014: Bone010
-    100016: Bone011
-    100018: Bone013
-    100020: Bone014
-    100022: Bone015
-    100024: Bone017
-    100026: Bone018
-    100028: Bone019
-    100030: Bone021
-    100032: connectBone001
-    100034: connectBone002
-    100036: connectBone003
-    100038: connectBone004
-    100040: connectBone005
-    100042: //RootNode
-    100044: Hand_Mesh
-    100046: IndexBase
-    100048: IndexEnd
-    100050: IndexMiddle
-    100052: metaIndex
-    100054: metaMiddle
-    100056: metaPinky
-    100058: metaRing
-    100060: MetaThumb
-    100062: MiddleBase
-    100064: MiddleEnd
-    100066: MiddleMiddle
-    100068: PinkyBase
-    100070: PinkyEnd
-    100072: PinkyMiddle
-    100074: RingBase
-    100076: RingEnd
-    100078: RingMiddle
-    100080: ThumbBase
-    100082: ThumbEnd
-    100084: ThumbMiddle
-    100086: Wrist
-    400000: Bone001
-    400002: Bone002
-    400004: Bone003
-    400006: Bone005
-    400008: Bone006
-    400010: Bone007
-    400012: Bone009
-    400014: Bone010
-    400016: Bone011
-    400018: Bone013
-    400020: Bone014
-    400022: Bone015
-    400024: Bone017
-    400026: Bone018
-    400028: Bone019
-    400030: Bone021
-    400032: connectBone001
-    400034: connectBone002
-    400036: connectBone003
-    400038: connectBone004
-    400040: connectBone005
-    400042: //RootNode
-    400044: Hand_Mesh
-    400046: IndexBase
-    400048: IndexEnd
-    400050: IndexMiddle
-    400052: metaIndex
-    400054: metaMiddle
-    400056: metaPinky
-    400058: metaRing
-    400060: MetaThumb
-    400062: MiddleBase
-    400064: MiddleEnd
-    400066: MiddleMiddle
-    400068: PinkyBase
-    400070: PinkyEnd
-    400072: PinkyMiddle
-    400074: RingBase
-    400076: RingEnd
-    400078: RingMiddle
-    400080: ThumbBase
-    400082: ThumbEnd
-    400084: ThumbMiddle
-    400086: Wrist
-    4300000: Hand_Mesh
-    7400000: FormFist
-    7400002: PoseFist
-    7400004: PoseSpread
-    7400006: PosePoint
-    7400008: PoseThumbsUp
-    7400010: PoseRockOn
-    7400012: PosePeace
-    7400014: PoseThree
-    7400016: PoseFour
-    7400018: PoseAoK
-    7400020: PoseUpYours
-    7400022: PoseShoot
-    7400024: AnimThumbsy
-    7400026: AnimComeHere
-    7400028: AnimRangeTest
-    7400030: PoseNeutral
-    7400032: PoseCallMe
-    7400034: PoseHoldFlashlight
-    9500000: //RootNode
-    13700000: Hand_Mesh
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Bone001
+  - first:
+      1: 100002
+    second: Bone002
+  - first:
+      1: 100004
+    second: Bone003
+  - first:
+      1: 100006
+    second: Bone005
+  - first:
+      1: 100008
+    second: Bone006
+  - first:
+      1: 100010
+    second: Bone007
+  - first:
+      1: 100012
+    second: Bone009
+  - first:
+      1: 100014
+    second: Bone010
+  - first:
+      1: 100016
+    second: Bone011
+  - first:
+      1: 100018
+    second: Bone013
+  - first:
+      1: 100020
+    second: Bone014
+  - first:
+      1: 100022
+    second: Bone015
+  - first:
+      1: 100024
+    second: Bone017
+  - first:
+      1: 100026
+    second: Bone018
+  - first:
+      1: 100028
+    second: Bone019
+  - first:
+      1: 100030
+    second: Bone021
+  - first:
+      1: 100032
+    second: connectBone001
+  - first:
+      1: 100034
+    second: connectBone002
+  - first:
+      1: 100036
+    second: connectBone003
+  - first:
+      1: 100038
+    second: connectBone004
+  - first:
+      1: 100040
+    second: connectBone005
+  - first:
+      1: 100042
+    second: //RootNode
+  - first:
+      1: 100044
+    second: Hand_Mesh
+  - first:
+      1: 100046
+    second: IndexBase
+  - first:
+      1: 100048
+    second: IndexEnd
+  - first:
+      1: 100050
+    second: IndexMiddle
+  - first:
+      1: 100052
+    second: metaIndex
+  - first:
+      1: 100054
+    second: metaMiddle
+  - first:
+      1: 100056
+    second: metaPinky
+  - first:
+      1: 100058
+    second: metaRing
+  - first:
+      1: 100060
+    second: MetaThumb
+  - first:
+      1: 100062
+    second: MiddleBase
+  - first:
+      1: 100064
+    second: MiddleEnd
+  - first:
+      1: 100066
+    second: MiddleMiddle
+  - first:
+      1: 100068
+    second: PinkyBase
+  - first:
+      1: 100070
+    second: PinkyEnd
+  - first:
+      1: 100072
+    second: PinkyMiddle
+  - first:
+      1: 100074
+    second: RingBase
+  - first:
+      1: 100076
+    second: RingEnd
+  - first:
+      1: 100078
+    second: RingMiddle
+  - first:
+      1: 100080
+    second: ThumbBase
+  - first:
+      1: 100082
+    second: ThumbEnd
+  - first:
+      1: 100084
+    second: ThumbMiddle
+  - first:
+      1: 100086
+    second: Wrist
+  - first:
+      4: 400000
+    second: Bone001
+  - first:
+      4: 400002
+    second: Bone002
+  - first:
+      4: 400004
+    second: Bone003
+  - first:
+      4: 400006
+    second: Bone005
+  - first:
+      4: 400008
+    second: Bone006
+  - first:
+      4: 400010
+    second: Bone007
+  - first:
+      4: 400012
+    second: Bone009
+  - first:
+      4: 400014
+    second: Bone010
+  - first:
+      4: 400016
+    second: Bone011
+  - first:
+      4: 400018
+    second: Bone013
+  - first:
+      4: 400020
+    second: Bone014
+  - first:
+      4: 400022
+    second: Bone015
+  - first:
+      4: 400024
+    second: Bone017
+  - first:
+      4: 400026
+    second: Bone018
+  - first:
+      4: 400028
+    second: Bone019
+  - first:
+      4: 400030
+    second: Bone021
+  - first:
+      4: 400032
+    second: connectBone001
+  - first:
+      4: 400034
+    second: connectBone002
+  - first:
+      4: 400036
+    second: connectBone003
+  - first:
+      4: 400038
+    second: connectBone004
+  - first:
+      4: 400040
+    second: connectBone005
+  - first:
+      4: 400042
+    second: //RootNode
+  - first:
+      4: 400044
+    second: Hand_Mesh
+  - first:
+      4: 400046
+    second: IndexBase
+  - first:
+      4: 400048
+    second: IndexEnd
+  - first:
+      4: 400050
+    second: IndexMiddle
+  - first:
+      4: 400052
+    second: metaIndex
+  - first:
+      4: 400054
+    second: metaMiddle
+  - first:
+      4: 400056
+    second: metaPinky
+  - first:
+      4: 400058
+    second: metaRing
+  - first:
+      4: 400060
+    second: MetaThumb
+  - first:
+      4: 400062
+    second: MiddleBase
+  - first:
+      4: 400064
+    second: MiddleEnd
+  - first:
+      4: 400066
+    second: MiddleMiddle
+  - first:
+      4: 400068
+    second: PinkyBase
+  - first:
+      4: 400070
+    second: PinkyEnd
+  - first:
+      4: 400072
+    second: PinkyMiddle
+  - first:
+      4: 400074
+    second: RingBase
+  - first:
+      4: 400076
+    second: RingEnd
+  - first:
+      4: 400078
+    second: RingMiddle
+  - first:
+      4: 400080
+    second: ThumbBase
+  - first:
+      4: 400082
+    second: ThumbEnd
+  - first:
+      4: 400084
+    second: ThumbMiddle
+  - first:
+      4: 400086
+    second: Wrist
+  - first:
+      43: 4300000
+    second: Hand_Mesh
+  - first:
+      74: 7400000
+    second: FormFist
+  - first:
+      74: 7400002
+    second: PoseFist
+  - first:
+      74: 7400004
+    second: PoseSpread
+  - first:
+      74: 7400006
+    second: PosePoint
+  - first:
+      74: 7400008
+    second: PoseThumbsUp
+  - first:
+      74: 7400010
+    second: PoseRockOn
+  - first:
+      74: 7400012
+    second: PosePeace
+  - first:
+      74: 7400014
+    second: PoseThree
+  - first:
+      74: 7400016
+    second: PoseFour
+  - first:
+      74: 7400018
+    second: PoseAoK
+  - first:
+      74: 7400020
+    second: PoseUpYours
+  - first:
+      74: 7400022
+    second: PoseShoot
+  - first:
+      74: 7400024
+    second: AnimThumbsy
+  - first:
+      74: 7400026
+    second: AnimComeHere
+  - first:
+      74: 7400028
+    second: AnimRangeTest
+  - first:
+      74: 7400030
+    second: PoseNeutral
+  - first:
+      74: 7400032
+    second: PoseCallMe
+  - first:
+      74: 7400034
+    second: PoseHoldFlashlight
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: Hand_Mesh
+  externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 0
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 0
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -141,6 +360,7 @@ ModelImporter:
     - serializedVersion: 16
       name: FormFist
       takeName: Take 001
+      internalID: 0
       firstFrame: 5
       lastFrame: 34
       wrapMode: 0
@@ -169,6 +389,7 @@ ModelImporter:
     - serializedVersion: 16
       name: PoseFist
       takeName: Take 001
+      internalID: 0
       firstFrame: 36
       lastFrame: 37
       wrapMode: 0
@@ -197,6 +418,7 @@ ModelImporter:
     - serializedVersion: 16
       name: PoseSpread
       takeName: Take 001
+      internalID: 0
       firstFrame: 58
       lastFrame: 59
       wrapMode: 0
@@ -225,6 +447,7 @@ ModelImporter:
     - serializedVersion: 16
       name: PosePoint
       takeName: Take 001
+      internalID: 0
       firstFrame: 70
       lastFrame: 71
       wrapMode: 0
@@ -233,7 +456,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -253,6 +476,7 @@ ModelImporter:
     - serializedVersion: 16
       name: PoseThumbsUp
       takeName: Take 001
+      internalID: 0
       firstFrame: 78
       lastFrame: 79
       wrapMode: 0
@@ -281,6 +505,7 @@ ModelImporter:
     - serializedVersion: 16
       name: PoseRockOn
       takeName: Take 001
+      internalID: 0
       firstFrame: 87
       lastFrame: 88
       wrapMode: 0
@@ -309,6 +534,7 @@ ModelImporter:
     - serializedVersion: 16
       name: PosePeace
       takeName: Take 001
+      internalID: 0
       firstFrame: 97
       lastFrame: 98
       wrapMode: 0
@@ -337,6 +563,7 @@ ModelImporter:
     - serializedVersion: 16
       name: PoseThree
       takeName: Take 001
+      internalID: 0
       firstFrame: 107
       lastFrame: 108
       wrapMode: 0
@@ -365,6 +592,7 @@ ModelImporter:
     - serializedVersion: 16
       name: PoseFour
       takeName: Take 001
+      internalID: 0
       firstFrame: 117
       lastFrame: 118
       wrapMode: 0
@@ -393,6 +621,7 @@ ModelImporter:
     - serializedVersion: 16
       name: PoseAoK
       takeName: Take 001
+      internalID: 0
       firstFrame: 124
       lastFrame: 125
       wrapMode: 0
@@ -421,6 +650,7 @@ ModelImporter:
     - serializedVersion: 16
       name: PoseUpYours
       takeName: Take 001
+      internalID: 0
       firstFrame: 132
       lastFrame: 133
       wrapMode: 0
@@ -449,6 +679,7 @@ ModelImporter:
     - serializedVersion: 16
       name: PoseShoot
       takeName: Take 001
+      internalID: 0
       firstFrame: 144
       lastFrame: 145
       wrapMode: 0
@@ -477,6 +708,7 @@ ModelImporter:
     - serializedVersion: 16
       name: AnimThumbsy
       takeName: Take 001
+      internalID: 0
       firstFrame: 160
       lastFrame: 185
       wrapMode: 0
@@ -505,6 +737,7 @@ ModelImporter:
     - serializedVersion: 16
       name: AnimComeHere
       takeName: Take 001
+      internalID: 0
       firstFrame: 190
       lastFrame: 265
       wrapMode: 0
@@ -533,6 +766,7 @@ ModelImporter:
     - serializedVersion: 16
       name: AnimRangeTest
       takeName: Take 001
+      internalID: 0
       firstFrame: 290
       lastFrame: 484
       wrapMode: 0
@@ -561,6 +795,7 @@ ModelImporter:
     - serializedVersion: 16
       name: PoseNeutral
       takeName: Take 001
+      internalID: 0
       firstFrame: 0
       lastFrame: 1
       wrapMode: 0
@@ -589,6 +824,7 @@ ModelImporter:
     - serializedVersion: 16
       name: PoseCallMe
       takeName: Take 001
+      internalID: 0
       firstFrame: 506
       lastFrame: 507
       wrapMode: 0
@@ -617,6 +853,7 @@ ModelImporter:
     - serializedVersion: 16
       name: PoseHoldFlashlight
       takeName: Take 001
+      internalID: 0
       firstFrame: 515
       lastFrame: 516
       wrapMode: 0
@@ -625,7 +862,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -648,30 +885,49 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 0
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
     importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -681,14 +937,19 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
