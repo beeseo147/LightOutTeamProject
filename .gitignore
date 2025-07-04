@@ -95,3 +95,8 @@ node_modules/
 # Task files
 # tasks.json
 # tasks/ 
+/Assets/HQ_Modular_Abandoned_Mansion
+/Assets/Invector-3rdPersonController_LITE
+Assets/Invector-3rdPersonController_LITE.meta
+Assets/HQ_Modular_Abandoned_Mansion.meta
+/Assets/CharactersAsset
