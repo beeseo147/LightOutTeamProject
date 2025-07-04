@@ -22,7 +22,7 @@ public class HandAnimationController : MonoBehaviour
     [Range(0, 1)] public float gripThreshold = 0.3f;
 
     HandState current = HandState.Default;
-
+    private bool overrideByObject = false; // picked up object
     private void OnEnable()
     {
         triggerAction.action.Enable();
@@ -37,6 +37,9 @@ public class HandAnimationController : MonoBehaviour
 
     private void Update()
     {
+        // If you have already picked it up, Ignore input
+        if (overrideByObject) return;
+
         float trigger = triggerAction.action.ReadValue<float>();
         float grip = gripAction.action.ReadValue<float>();
 
@@ -64,5 +67,19 @@ public class HandAnimationController : MonoBehaviour
         handAnimator.SetBool("bPoint", state == HandState.Point);
         handAnimator.SetBool("bHoldFlashlight", state == HandState.GrabLight);
         handAnimator.SetBool("bFormFist", state == HandState.GrabHard);
+    }
+
+
+    /* ---------- For external access ---------- */
+    public void SetOverrideState(HandState pose)
+    {
+        overrideByObject = true;
+        SetHandState(pose); // Setting pose : picked Object's HandPose
+    }
+
+    public void ClearOverride()
+    {
+        overrideByObject = false;
+        //SetHandState(HandState.Default);
     }
 }
