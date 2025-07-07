@@ -1328,14 +1328,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2513054489920556243}
-  - component: {fileID: 2197784343132391780}
   - component: {fileID: 63383774469065360}
   - component: {fileID: 2508222210129048209}
   - component: {fileID: 5468420854834450055}
   - component: {fileID: 3184845236548206233}
   - component: {fileID: 6544069920940115610}
   - component: {fileID: 8342099269883904859}
-  - component: {fileID: 6509677657832486062}
+  - component: {fileID: 251112545968291124}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1360,21 +1359,6 @@ Transform:
   - {fileID: 5961620403107449389}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0.3, z: 0}
---- !u!114 &2197784343132391780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3181821667836786092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04bc27ef06ff710419397768284cbbf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputRig: {fileID: 5961620403107449390}
-  scripts:
-  - {fileID: 6015741844279075260}
 --- !u!114 &63383774469065360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1410,7 +1394,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 0
   ObservedComponents:
-  - {fileID: 6509677657832486062}
+  - {fileID: 251112545968291124}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1424,7 +1408,7 @@ Animator:
   m_GameObject: {fileID: 3181821667836786092}
   m_Enabled: 0
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0958f00777ef1074495b351ed2779e64, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1481,8 +1465,10 @@ MonoBehaviour:
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
   m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
---- !u!114 &6509677657832486062
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
+--- !u!114 &251112545968291124
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1491,13 +1477,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3181821667836786092}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: 6e65e7f496fbd6b40bc56dba69c3af8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
+  leftHandController: {fileID: 5002523617724363539}
+  rightHandController: {fileID: 5002523616961082354}
+  head: {fileID: 5002523617132319601}
+  avatarRoot: {fileID: 3812199384180123317}
+  xrOrigin: {fileID: 5961620403107449389}
 --- !u!1 &3373143144777959867
 GameObject:
   m_ObjectHideFlags: 0
@@ -2091,7 +2078,6 @@ GameObject:
   - component: {fileID: 3812199384180123317}
   - component: {fileID: 5641965144690561153}
   - component: {fileID: 7876159925967293364}
-  - component: {fileID: 4256648416009239262}
   - component: {fileID: 8675198064456984692}
   m_Layer: 0
   m_Name: AvatarVisuals
@@ -2160,19 +2146,6 @@ MonoBehaviour:
   - m_Rig: {fileID: 3009657854127375636}
     m_Active: 1
   m_Effectors: []
---- !u!114 &4256648416009239262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4588173549632797711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7af62918323150a43ab478fec66b90de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraTransform: {fileID: 5002523617132319601}
 --- !u!114 &8675198064456984692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2673,7 +2646,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5002523616961082355}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
   m_Name: 
@@ -3091,8 +3064,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UpdateTrackingType: 0
-  m_EnableInputTracking: 1
-  m_EnableInputActions: 1
+  m_EnableInputTracking: 0
+  m_EnableInputActions: 0
   m_ModelPrefab: {fileID: 4626300192711334, guid: ccdff093f1dc55c48b468e866c8041e3,
     type: 3}
   m_ModelParent: {fileID: 5002523617724363539}
@@ -3348,7 +3321,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5002523617724363532}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
   m_Name: 

@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class XRInputRoot : MonoBehaviourPun
 {
-    [SerializeField] GameObject inputRig;     // XR Origin, Controllers µî
-    [SerializeField] MonoBehaviour[] scripts; // Grab, Locomotion µî ÀÔ·Â ½ºÅ©¸³Æ®µé
+    [SerializeField] GameObject inputRig;     // XR Origin, Controllers ï¿½ï¿½
+    [SerializeField] MonoBehaviour[] scripts; // Grab, Locomotion ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½
 
     void Awake()
     {

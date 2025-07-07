@@ -47,8 +47,16 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
 
         Debug.Log($"spawnPlayer : {myPlayer.name}, spawnPoint : {spawnPoint}");
 
-        PhotonNetwork.Instantiate(myPlayer.name, spawnPoint.position, Quaternion.identity);
+        // photon : different Position SPawn X,
+        // -> Spawn all at once, then move them separately
+        var playerObj = PhotonNetwork.Instantiate(myPlayer.name, Vector3.zero, Quaternion.identity);
         //PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+
+        if (playerObj.GetComponent<PhotonView>().IsMine)
+        {
+            playerObj.transform.position = spawnPoint.position;
+            playerObj.transform.rotation = spawnPoint.rotation;
+        }
     }
 
     void TryJoinOrCreateRoom()

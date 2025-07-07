@@ -1709,9 +1709,9 @@ MonoBehaviour:
   joinedRoomEvent:
     m_PersistentCalls:
       m_Calls: []
-  ServerPlayer: {fileID: 2511272060866718364, guid: b5b7319836c6cd9459ee22d5a1b97eb6,
+  ServerPlayer: {fileID: 3181821667836786092, guid: 4f90a6f9b9447fc489dd0dc6abedb780,
     type: 3}
-  ClientPlayer: {fileID: 2511272060866718364, guid: b5b7319836c6cd9459ee22d5a1b97eb6,
+  ClientPlayer: {fileID: 3181821667836786092, guid: 4f90a6f9b9447fc489dd0dc6abedb780,
     type: 3}
   spawnPoint1: {fileID: 772610703}
   spawnPoint2: {fileID: 847376697}
@@ -2407,7 +2407,7 @@ PrefabInstance:
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
