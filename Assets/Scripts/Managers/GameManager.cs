@@ -1,13 +1,18 @@
-using Photon.Pun;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviourPunCallbacks
+public class GameManager : MonoBehaviour
 {
-    [SerializeField] string playerPrefabName = "Player";   // Resources/Player.prefab
-    [SerializeField] Vector3 spawnPos = Vector3.zero;
-
-    public override void OnJoinedRoom()
+    // Start is called before the first frame update
+    void Start()
     {
-        PhotonNetwork.Instantiate(playerPrefabName, spawnPos, Quaternion.identity);
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }
