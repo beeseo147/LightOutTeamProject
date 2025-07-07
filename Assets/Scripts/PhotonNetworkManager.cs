@@ -7,6 +7,7 @@ using UnityEngine.Events;
 
 public class PhotonNetworkManager : MonoBehaviourPunCallbacks
 {
+    [Header("Network Settings")]
     [SerializeField] UnityEvent joinedRoomEvent;
 
     void Start()
@@ -18,14 +19,21 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         TryJoinOrCreateRoom();
-        Debug.Log("¸¶½ºÅÍ ¼­¹ö ¿¬°áµÊ, ¹æ ÀÔÀå ½Ãµµ");
-
+        Debug.Log("ë§ˆìŠ¤í„° ì„œë²„ ì—°ê²°ë¨, ë°© ì…ì¥ ì‹œë„");
     }
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("¹æ ÀÔÀå ¼º°ø");
-        joinedRoomEvent.Invoke();    
+        Debug.Log("ë°© ì…ì¥ ì™„ë£Œ");
+        joinedRoomEvent.Invoke();
+        
+        // Resources í´ë”ì˜ Player í”„ë¦¬íŒ¹ì„ ì›ì ì— ìŠ¤í°
+        SpawnPlayer();
+    }
+
+    private void SpawnPlayer()
+    {
+        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
     }
 
     void TryJoinOrCreateRoom()
@@ -33,6 +41,6 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
         var roomName = "MyRoom";
         var options = new RoomOptions { MaxPlayers = 2 };
         PhotonNetwork.JoinOrCreateRoom(roomName, options, TypedLobby.Default);
-        Debug.Log("¹æ ÀÔÀå ¶Ç´Â »ı¼º ½Ãµµ");
+        Debug.Log("ë°© ì…ì¥ ë˜ëŠ” ìƒì„± ì‹œë„");
     }
 }
