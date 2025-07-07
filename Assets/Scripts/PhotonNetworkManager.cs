@@ -10,6 +10,8 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
     [Header("Network Settings")]
     [SerializeField] UnityEvent joinedRoomEvent;
 
+    [SerializeField] Transform playerSpawnTransform;
+
     void Start()
     {
         PhotonNetwork.NickName = "Player" + Random.Range(1000, 9999);
@@ -33,6 +35,7 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
 
     private void SpawnPlayer()
     {
+        //PhotonNetwork.Instantiate("Player", playerSpawnTransform.position, Quaternion.identity);
         PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
     }
 
