@@ -6,8 +6,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class PlayerSetup : MonoBehaviourPun
 {
-    [SerializeField] GameObject xrOrigin;        // XR Origin »Ñ¸®
-    [SerializeField] GameObject avatarVisuals;   // ¸ö ÀüÃ¼(¸Þ½Ã Æ÷ÇÔ)
+    [SerializeField] GameObject xrOrigin;        // XR Origin ï¿½Ñ¸ï¿½
+    [SerializeField] GameObject avatarVisuals;   // ï¿½ï¿½ ï¿½ï¿½Ã¼(ï¿½Þ½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 
     void Awake()
     {
