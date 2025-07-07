@@ -22,6 +22,8 @@ public class RotatableObject : MonoBehaviour
     XRGrabInteractable grab;
     Rigidbody rb;
     Quaternion initialObjRot, initialHandRot;
+    Vector3 initialHandVec;
+    float smoothedAngle = 0f;
 
     void Awake()
     {
@@ -35,8 +37,16 @@ public class RotatableObject : MonoBehaviour
             grab.throwOnDetach = false;
             // No Move
             rb.constraints = RigidbodyConstraints.FreezePosition;
-            // FreezePosition : X, Z
-            rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+
+            // Fix Rotation Axis
+            if (rotationAxis == Axis.X)
+                rb.constraints |= RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+          
+            else if (rotationAxis == Axis.Y)
+                rb.constraints |= RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+          
+            else if (rotationAxis == Axis.Z)
+                rb.constraints |= RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
         }
 
         /* ---------- Grab Setting ---------- */
@@ -58,7 +68,8 @@ public class RotatableObject : MonoBehaviour
                 controller.SetOverrideState(handPose.poseState);
         }
 
-        // Save : Rotation Origin 
+        // Save : Vector, Rotation Origin 
+        initialHandVec = HandRefVector(args.interactorObject.transform).normalized;
         initialObjRot = transform.rotation;
         initialHandRot = args.interactorObject.transform.rotation;
 
@@ -80,18 +91,45 @@ public class RotatableObject : MonoBehaviour
         if (!grab || !grab.isSelected)
             return;
 
-        var hand = grab.interactorsSelecting[0].transform.rotation;
-        Quaternion delta = hand * Quaternion.Inverse(initialHandRot);
+        Transform handTf = grab.interactorsSelecting[0].transform;
 
-        // angle calculation
-        Vector3 euler = (delta * Vector3.forward).normalized;
-        float angle = Vector3.SignedAngle(euler, Vector3.forward, AxisVector(rotationAxis));
+        /* ① 현재 컨트롤러 기준 벡터를 축 직교 평면에 투영 */
+        Vector3 rotAxis = AxisVector(rotationAxis);
+        Vector3 grabVec = ProjectOnPlane(initialHandVec, rotAxis).normalized; // Origin Vector
+        Vector3 curVec  = ProjectOnPlane(HandRefVector(handTf), rotAxis).normalized;
 
-        if (useLimits) angle = Mathf.Clamp(angle, minAngle, maxAngle);
 
-        transform.rotation = initialObjRot * Quaternion.AngleAxis(angle, AxisVector(rotationAxis));
+        // 2) Get Degree : -180 ~ 180
+        float rawAngle = Vector3.SignedAngle(grabVec, curVec, rotAxis);
+
+        // 3) Ignore : Up to dead degrees
+        const float dead = 5f;
+        if (Mathf.Abs(rawAngle) < dead)
+            rawAngle = 0f;
+
+        // 4) Lerp 12% : Old Degree/New Degree (To Smoothly)
+        const float lerpK = 0.12f;
+        smoothedAngle = Mathf.Lerp(smoothedAngle, rawAngle, lerpK);
+
+        // 5) Limit : Rotation Range
+        float finalAngle = useLimits ?
+            Mathf.Clamp(smoothedAngle, minAngle, maxAngle) : smoothedAngle;
+
+        //var hand = grab.interactorsSelecting[0].transform.rotation;
+        //Quaternion delta = hand * Quaternion.Inverse(initialHandRot);
+
+        //// angle calculation
+        //Vector3 euler = (delta * Vector3.forward).normalized;
+
+        //float angle = Vector3.SignedAngle(euler, Vector3.forward, AxisVector(rotationAxis));
+
+        //if (useLimits)
+        //    rawAngle = Mathf.Clamp(rawAngle, minAngle, maxAngle);
+
+        //transform.rotation = initialObjRot * Quaternion.AngleAxis(rawAngle, AxisVector(rotationAxis));
+        transform.rotation = initialObjRot * Quaternion.AngleAxis(finalAngle, rotAxis);
     }
-
+    public enum Axis { X, Y, Z }
     Vector3 AxisVector(Axis ax)
     {
         return ax switch
@@ -103,5 +141,16 @@ public class RotatableObject : MonoBehaviour
         };
     }
 
-    public enum Axis { X, Y, Z }
+    /* ② 컨트롤러에서 “각 축에 맞춰” 돌릴 때 기준이 될 벡터 선택 */
+    Vector3 HandRefVector(Transform hand) => rotationAxis switch
+    {
+        Axis.Y => hand.right,
+        Axis.X => hand.up,   
+        Axis.Z => hand.up,
+        _ => hand.forward,
+    };
+
+    /* 한 벡터를 평면(법선 n)에 투영 */
+    static Vector3 ProjectOnPlane(Vector3 v, Vector3 n) => v - Vector3.Dot(v, n) * n;
+
 }

@@ -4,11 +4,20 @@ using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
 using UnityEngine.Events;
+using JetBrains.Annotations;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class PhotonNetworkManager : MonoBehaviourPunCallbacks
 {
     [Header("Network Settings")]
     [SerializeField] UnityEvent joinedRoomEvent;
+    [SerializeField] GameObject ServerPlayer;
+    [SerializeField] GameObject ClientPlayer;
+    [SerializeField] Transform spawnPoint1;
+    [SerializeField] Transform spawnPoint2;
+
+    GameObject myPlayer;
+    Transform  spawnPoint;
 
     void Start()
     {
@@ -33,7 +42,13 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
 
     private void SpawnPlayer()
     {
-        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        myPlayer    = PhotonNetwork.IsMasterClient ? ServerPlayer : ClientPlayer;
+        spawnPoint  = PhotonNetwork.IsMasterClient ? spawnPoint1  : spawnPoint2;
+
+        Debug.Log($"spawnPlayer : {myPlayer.name}, spawnPoint : {spawnPoint}");
+
+        PhotonNetwork.Instantiate(myPlayer.name, spawnPoint.position, Quaternion.identity);
+        //PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
     }
 
     void TryJoinOrCreateRoom()

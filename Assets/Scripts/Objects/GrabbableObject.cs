@@ -44,6 +44,7 @@ public class GrabbableObject : MonoBehaviour
         grab = GetComponent<XRGrabInteractable>();
         rb = GetComponent<Rigidbody>();
 
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
         ApplyWeightSettings();
 
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
