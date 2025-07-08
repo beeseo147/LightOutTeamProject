@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public enum Weight
@@ -15,6 +16,9 @@ public enum Weight
 /// 요청한 컴포넌트들이 없으면 에디터,런타임 모두에서 경고하고 비활성화.
 /// </summary>
 [RequireComponent(typeof(XRGrabInteractable), typeof(Rigidbody))]
+//[RequireComponent(typeof(PhotonView), typeof(PhotonTransformView))]
+
+// typeof(PhotonTransformView)
 public class GrabbableObject : MonoBehaviour
 {
     [Header("Optional Hand Pose Profile")]

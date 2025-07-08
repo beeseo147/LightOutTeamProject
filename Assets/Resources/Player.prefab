@@ -1427,7 +1427,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3181821667836786092}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
   m_Name: 
@@ -1999,7 +1999,7 @@ MonoBehaviour:
     m_Mid: {fileID: 3718539243245093781}
     m_Tip: {fileID: 2792263144014599240}
     m_Target: {fileID: 5090067734835061745}
-    m_Hint: {fileID: 0}
+    m_Hint: {fileID: 2132896051169143547}
     m_TargetPositionWeight: 1
     m_TargetRotationWeight: 1
     m_HintWeight: 1
@@ -3064,8 +3064,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UpdateTrackingType: 0
-  m_EnableInputTracking: 0
-  m_EnableInputActions: 0
+  m_EnableInputTracking: 1
+  m_EnableInputActions: 1
   m_ModelPrefab: {fileID: 4626300192711334, guid: ccdff093f1dc55c48b468e866c8041e3,
     type: 3}
   m_ModelParent: {fileID: 5002523617724363539}
@@ -3674,7 +3674,7 @@ MonoBehaviour:
     m_Mid: {fileID: 2882084485508093638}
     m_Tip: {fileID: 7708976451660433554}
     m_Target: {fileID: 2956803387050714515}
-    m_Hint: {fileID: 0}
+    m_Hint: {fileID: 4175621632624763117}
     m_TargetPositionWeight: 1
     m_TargetRotationWeight: 1
     m_HintWeight: 1
