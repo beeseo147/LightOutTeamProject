@@ -26,7 +26,7 @@ public class GrabbableObject : MonoBehaviour
     //[Header("Push by external collision")]
     //public bool isPushable = false;
 
-    XRGrabInteractable grab;
+    protected XRGrabInteractable grab;
     Rigidbody rb;
     bool originalKinematic;
     RigidbodyConstraints originalConstraints;

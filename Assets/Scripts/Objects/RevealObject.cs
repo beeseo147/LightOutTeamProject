@@ -4,7 +4,6 @@ using UnityEngine;
 public class RevealObject : MonoBehaviour
 {
     [SerializeField] Light spotLight;
-
     private Material m_Mat;
 
     private void Start()
@@ -22,7 +21,16 @@ public class RevealObject : MonoBehaviour
 
     private void Update()
     {
-        m_Mat.SetVector("_MyLightPosition", spotLight.transform.position);
-        m_Mat.SetVector("_MyLightDirection", -spotLight.transform.forward);
+        if (spotLight != null && spotLight.enabled && spotLight.intensity > 0f)
+        {
+            m_Mat.SetVector("_LightPos", spotLight.transform.position);
+            m_Mat.SetVector("_LightDir", -spotLight.transform.forward);
+        }
+        else
+        {
+            // reveal이 절대 안 되도록
+            m_Mat.SetVector("_LightPos", new Vector3(99999, 99999, 99999));
+            m_Mat.SetVector("_LightDir", Vector3.forward);
+        }
     }
 }
