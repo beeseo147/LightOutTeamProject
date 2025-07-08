@@ -6,17 +6,17 @@ using UnityEngine;
 public class PlayerAvatarRoot : MonoBehaviourPun
 {
     [SerializeField] Transform hmd;          // Main Camera Transform
-    [SerializeField] Transform avatarRoot;   // AvatarVisuals ·çÆ®
-    [SerializeField] Vector3 hipOffset = new(0, -0.15f, 0); // ¸Ó¸®¡æ¾ûµ¢ÀÌ ¿ÀÇÁ¼Â
+    [SerializeField] Transform avatarRoot;   // AvatarVisuals ï¿½ï¿½Æ®
+    [SerializeField] Vector3 hipOffset = new(0, -0.15f, 0); // ï¿½Ó¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     void LateUpdate()
     {
-        if (!photonView.IsMine) return;      // º»ÀÎ¸¸ °è»ê, ¸®¸ðÆ®´Â ³×Æ®¿öÅ© °ª¸¸ ¼ö½Å
+        if (!photonView.IsMine) return;      // ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        // 1. À§Ä¡ = HMD ¼¼°è ÁÂÇ¥ + ¿ÀÇÁ¼Â
+        // 1. ï¿½ï¿½Ä¡ = HMD ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ + ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         avatarRoot.position = hmd.position + hipOffset;
 
-        // 2. È¸Àü = HMDÀÇ ¼öÆò Yaw¸¸ µû¶ó°¨
+        // 2. È¸ï¿½ï¿½ = HMDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Yawï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Vector3 yaw = new(0f, hmd.eulerAngles.y, 0f);
         avatarRoot.rotation = Quaternion.Euler(yaw);
     }

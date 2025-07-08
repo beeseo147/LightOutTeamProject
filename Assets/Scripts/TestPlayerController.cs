@@ -1,11 +1,14 @@
 using UnityEngine;
 
+// 테스트용, 작성자 - 현주옥
+
 public class TestPlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float testMoveSpeed = 5f;
     [SerializeField] private float testRunSpeed = 8f;
     [SerializeField] private float testJumpForce = 5f;
+    [SerializeField] private bool testMovementEnabled = true;
     
     [Header("Mouse Look Settings")]
     [SerializeField] private float testMouseSensitivity = 2f;
@@ -94,6 +97,10 @@ public class TestPlayerController : MonoBehaviour
     
     void HandleMovement()
     {
+        // Check if movement is enabled
+        if (!testMovementEnabled)
+            return;
+            
         // Check if grounded
         testIsGrounded = testCharacterController.isGrounded;
         
@@ -134,5 +141,23 @@ public class TestPlayerController : MonoBehaviour
     public void SetMouseSensitivity(float newSensitivity)
     {
         testMouseSensitivity = newSensitivity;
+    }
+    
+    // Method to toggle movement on/off
+    public void ToggleMovement()
+    {
+        testMovementEnabled = !testMovementEnabled;
+    }
+    
+    // Method to enable movement
+    public void EnableMovement()
+    {
+        testMovementEnabled = true;
+    }
+    
+    // Method to disable movement
+    public void DisableMovement()
+    {
+        testMovementEnabled = false;
     }
 } 
