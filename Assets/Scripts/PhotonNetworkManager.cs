@@ -4,13 +4,20 @@ using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
 using UnityEngine.Events;
+using JetBrains.Annotations;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class PhotonNetworkManager : MonoBehaviourPunCallbacks
 {
     [Header("Network Settings")]
     [SerializeField] UnityEvent joinedRoomEvent;
+    [SerializeField] GameObject ServerPlayer;
+    [SerializeField] GameObject ClientPlayer;
+    [SerializeField] Transform spawnPoint1;
+    [SerializeField] Transform spawnPoint2;
 
-    [SerializeField] Transform playerSpawnTransform;
+    GameObject myPlayer;
+    Transform  spawnPoint;
 
     void Start()
     {
@@ -35,8 +42,21 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
 
     private void SpawnPlayer()
     {
-        //PhotonNetwork.Instantiate("Player", playerSpawnTransform.position, Quaternion.identity);
-        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        myPlayer    = PhotonNetwork.IsMasterClient ? ServerPlayer : ClientPlayer;
+        spawnPoint  = PhotonNetwork.IsMasterClient ? spawnPoint1  : spawnPoint2;
+
+        Debug.Log($"spawnPlayer : {myPlayer.name}, spawnPoint : {spawnPoint}");
+
+        // photon : different Position SPawn X,
+        // -> Spawn all at once, then move them separately
+        var playerObj = PhotonNetwork.Instantiate(myPlayer.name, Vector3.zero, Quaternion.identity);
+        //PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+
+        if (playerObj.GetComponent<PhotonView>().IsMine)
+        {
+            playerObj.transform.position = spawnPoint.position;
+            playerObj.transform.rotation = spawnPoint.rotation;
+        }
     }
 
     void TryJoinOrCreateRoom()
