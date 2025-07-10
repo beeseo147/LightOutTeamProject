@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7871987805671465274}
   - component: {fileID: 470704189897648585}
-  - component: {fileID: 1972063908755572493}
   - component: {fileID: 8594487068081570355}
   - component: {fileID: 426057651620204658}
   - component: {fileID: 1997282716524953107}
@@ -60,22 +59,6 @@ MonoBehaviour:
   weight: 0
   flashlightLight: {fileID: 6234672406868497141}
   switchSound: {fileID: 8512573892068843995}
---- !u!114 &1972063908755572493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2990915685010449324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6325df608211b914a90564654be9fbab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handPose: {fileID: 11400000, guid: 09ef462100ca2a24ea9d8574434f927f, type: 2}
-  weight: 0
-  flashlightLight: {fileID: 6234672406868497141}
-  switchSound: {fileID: 4185904198211612096}
 --- !u!33 &8594487068081570355
 MeshFilter:
   m_ObjectHideFlags: 0

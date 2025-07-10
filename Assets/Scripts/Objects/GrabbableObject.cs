@@ -19,7 +19,7 @@ public enum Weight
 //[RequireComponent(typeof(PhotonView), typeof(PhotonTransformView))]
 
 // typeof(PhotonTransformView)
-public class GrabbableObject : MonoBehaviour
+public class GrabbableObject : MonoBehaviourPun
 {
     [Header("Optional Hand Pose Profile")]
     public HandPoseProfileSO handPose;
@@ -73,6 +73,7 @@ public class GrabbableObject : MonoBehaviour
 
             if (controller)
             {
+                photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
                 controller.SetOverrideState(handPose.poseState);
                 grab.movementType = XRBaseInteractable.MovementType.Kinematic;
                 // Directly Move Setting : No Physics
