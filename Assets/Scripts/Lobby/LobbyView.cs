@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Realtime;
+using TMPro;
 public class LobbyView : MonoBehaviour
 {
     [Header("UI References")]
@@ -56,9 +58,21 @@ public class LobbyView : MonoBehaviour
         lobbyPanel.SetActive(false);
     }
 
-    // 대기 텍스트 표시
+    // 예시: 메시지 표시용 텍스트
+    [SerializeField] private Text messageText;
+    // 메시지 표시
+    public void ShowMessage(string message)
+    {
+        if (messageText != null)
+            messageText.text = message;
+        else
+            Debug.Log(message); // 텍스트가 없으면 콘솔에 출력
+    }
+
+    // 대기 텍스트 표시 (이미 있을 수 있음)
     public void SetWaitingText(string text)
     {
-        waitingText.text = text;
+        if (waitingText != null)
+            waitingText.text = text;
     }
 }

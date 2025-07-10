@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
-
+using ExitGames.Client.Photon;
 //Photon Unity Networking
 //포톤을 사용하여 멀티플레이를 구현하기 위한 클래스
 //Player 가 접속시 방을 생성하고 이미 존재하는 방에 접속하는 기능을 구현
@@ -17,7 +17,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //본인이 Master 라면 David 라고 설정 그외 Player Kevin 이라고 설정
     public string userName;
     public LobbyView lobbyView; // LobbyView 스크립트 참조
-    
+
     //게임 실행시 최초 실행되는 함수
     void Start()
     {
@@ -82,22 +82,37 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         // 로비 텍스트 갱신
         UpdateLobbyWaitingText();
+        //if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            PhotonNetwork.LoadLevel("MainScene");
+        }
     }
 
     // 방에 새로운 플레이어가 들어올 때마다 호출됨
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        // 닉네임 자동 할당 (예: Kevin, David 등)
+        if (newPlayer.IsMasterClient)
+            newPlayer.NickName = "David";
+        else
+            newPlayer.NickName = "Kevin";
+
+        // UI 갱신
         UpdateLobbyWaitingText();
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LoadLevel("KimTest");
-        }
+
+        // 알림 메시지
+        lobbyView?.ShowMessage($"{newPlayer.NickName} 님이 입장했습니다.");
+
+        // 2명 모이면 자동 시작
+       // if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
+            PhotonNetwork.LoadLevel("MainScene");
     }
 
     // (선택) 방에 플레이어가 나갈 때도 처리하고 싶으면
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         UpdateLobbyWaitingText();
+        lobbyView?.ShowMessage($"{otherPlayer.NickName} 님이 퇴장했습니다.");
     }
 
     private void UpdateLobbyWaitingText()
@@ -111,5 +126,44 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             else
                 lobbyView.SetWaitingText("게임을 시작합니다!");
         }
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        lobbyView?.ShowMessage($"{newMasterClient.NickName} 님이 새로운 마스터가 되었습니다.");
+        UpdateLobbyWaitingText();
+    }
+
+
+    public override void OnCreatedRoom()
+    {
+        lobbyView?.ShowMessage("방이 성공적으로 생성되었습니다.");
+        UpdateLobbyWaitingText();
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        lobbyView?.ShowMessage($"방 생성 실패: {message}");
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        lobbyView?.ShowMessage($"방 참가 실패: {message}");
+    }
+
+    public override void OnLeftRoom()
+    {
+        lobbyView?.ShowMessage("방에서 나갔습니다.");
+        // 로비 UI로 복귀 등 추가 처리
+    }
+
+    public override void OnLeftLobby()
+    {
+        lobbyView?.ShowMessage("로비에서 나갔습니다.");
+    }
+
+    public override void OnConnected()
+    {
+        lobbyView?.ShowMessage("Photon 서버에 연결되었습니다.");
     }
 }

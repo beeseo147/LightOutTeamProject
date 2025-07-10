@@ -301,7 +301,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.00139, y: 1.3369}
+  m_AnchoredPosition: {x: 0.0014038086, y: 1.3369141}
   m_SizeDelta: {x: 1961.375, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &806493446989179193
@@ -397,6 +397,7 @@ MonoBehaviour:
   exitGameButton: {fileID: 1476965569730482057}
   lobbyPanel: {fileID: 6903574021195457503}
   waitingText: {fileID: 3925106791143690201}
+  messageText: {fileID: 0}
 --- !u!114 &7841301129166049135
 MonoBehaviour:
   m_ObjectHideFlags: 0
