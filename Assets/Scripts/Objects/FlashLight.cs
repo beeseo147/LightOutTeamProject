@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using Photon.Pun;   
 
-public class FlashLight : GrabbableObject
+public class FlashLight : GrabbableObject, IPunObservable
 {
     [Header("Flashlight Settings")]
     [SerializeField] private Light flashlightLight;   // 손전등 라이트 컴포넌트
@@ -18,9 +19,8 @@ public class FlashLight : GrabbableObject
             flashlightLight.enabled = false;
         }
         
-        //트리거 이벤트 리스너 등록
+        // 트리거 이벤트 리스너 등록 (누를 때만)
         grab.activated.AddListener(OnTriggerPressed);
-        grab.deactivated.AddListener(OnTriggerReleased);
     }
 
     private void Update()
@@ -37,14 +37,6 @@ public class FlashLight : GrabbableObject
         }
     }
     
-    private void OnTriggerReleased(DeactivateEventArgs args)
-    {
-        if(isGrabbed)
-        {
-            ToggleLight();
-        }
-    }
-    
     private void ToggleLight()
     {
         isLightOn = !isLightOn;
@@ -53,6 +45,28 @@ public class FlashLight : GrabbableObject
         if(switchSound != null)
         {
             switchSound.Play();
+        }
+    }
+
+    // 네트워크 동기화를 위한 OnPhotonSerializeView 구현
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // 내가 소유한 손전등일 때: 상태를 네트워크로 전송
+            stream.SendNext(isLightOn);
+        }
+        else
+        {
+            // 다른 플레이어의 손전등일 때: 네트워크에서 상태를 받아서 적용
+            bool networkLightState = (bool)stream.ReceiveNext();
+            
+            // 네트워크 상태와 현재 상태가 다르면 업데이트
+            if (networkLightState != isLightOn)
+            {
+                isLightOn = networkLightState;
+                flashlightLight.enabled = isLightOn;
+            }
         }
     }
 }

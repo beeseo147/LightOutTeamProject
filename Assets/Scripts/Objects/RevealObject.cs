@@ -1,7 +1,7 @@
 using UnityEngine;
-
+using Photon.Pun;
 [ExecuteAlways] // 에디터 모드에서도 실행, 테스트 편리
-public class RevealObject : MonoBehaviour
+public class RevealObject : MonoBehaviour,IPunObservable
 {
     [SerializeField] Light spotLight;
     private Material m_Mat;
@@ -31,6 +31,14 @@ public class RevealObject : MonoBehaviour
             // reveal이 절대 안 되도록
             m_Mat.SetVector("_LightPos", new Vector3(99999, 99999, 99999));
             m_Mat.SetVector("_LightDir", Vector3.forward);
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if(stream.IsWriting)
+        {
+            stream.SendNext(spotLight.intensity);
         }
     }
 }
