@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class PadLockOpen : MonoBehaviour
 {
-    public GameObject padLockRing;
+    public Transform padLockRing;
     bool bisOpen = false;
     // Start is called before the first frame update
     void Start()
     {
-        padLockRing = GameObject.Find("PadlockRing");
+        padLockRing = transform.Find("PadlockRing");
     }
     
     public void OpenLock()
     {
         if(bisOpen == false)
         {
-            padLockRing.transform.localPosition += new Vector3(0,0.1f,0);
+            padLockRing.GetComponent<Animator>().SetBool("isOpen", true);
             bisOpen = true;
         }
     }
