@@ -82,7 +82,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         // 로비 텍스트 갱신
         UpdateLobbyWaitingText();
-        //if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
         {
             PhotonNetwork.LoadLevel("MainScene");
         }
@@ -104,7 +104,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         lobbyView?.ShowMessage($"{newPlayer.NickName} 님이 입장했습니다.");
 
         // 2명 모이면 자동 시작
-       // if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
+       if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && PhotonNetwork.IsMasterClient)
             PhotonNetwork.LoadLevel("MainScene");
     }
 

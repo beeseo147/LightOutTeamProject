@@ -43,7 +43,7 @@ public class RullerDial : MonoBehaviour
         });
 
         // 초기값 동기화
-        //SyncStateWithTransform();
+        SyncStateWithTransform();
     }
 
     void Update()
@@ -56,7 +56,7 @@ public class RullerDial : MonoBehaviour
         // 각도 차이 계산
         float angleDelta = Mathf.DeltaAngle(lastSnappedAngle, currentAngle);
         // 18도 이상 회전했는지 확인
-        if (Mathf.Abs(angleDelta) >= SNAP_THRESHOLD)
+        if (Mathf.Abs(angleDelta) >= SNAP_THRESHOLD && !isHeld)
         {
             // 회전 방향 결정 (양수: 시계방향, 음수: 반시계방향)
             int direction = angleDelta > 0 ? 1 : -1;
@@ -110,7 +110,7 @@ public class RullerDial : MonoBehaviour
 
         int steps = Mathf.RoundToInt(offsetAngle / 36f) % 10;
         if (steps < 0) steps += 10;
-        lastNumber = steps+1;
+        lastNumber = (steps+1)%10;
 
         print($"[{rullerIndex}] SyncState - currentAngle: {currentAngle:F2}, offsetAngle: {offsetAngle:F2}, steps: {steps}, lastNumber: {lastNumber}");
         moveRuller._numberArray[rullerIndex] = lastNumber;

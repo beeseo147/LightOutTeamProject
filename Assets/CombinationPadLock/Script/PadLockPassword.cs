@@ -6,7 +6,7 @@ using UnityEngine;
 public class PadLockPassword : MonoBehaviour
 {
     MoveRuller _moveRull;
-
+    public static event System.Action OnPasswordSuccess;
     public int[] _numberPassword = {0,0,0,0};
 
     private void Awake()
@@ -19,7 +19,8 @@ public class PadLockPassword : MonoBehaviour
         // 현재 패스워드 값이 _numberPassword와 일치하는지 확인
         if (_moveRull._numberArray.SequenceEqual(_numberPassword))
         {
-            PadLockOpen padLockOpen = FindFirstObjectByType<PadLockOpen>();
+            print($"GameObject : {gameObject.name} Password correct");
+            PadLockOpen padLockOpen = GetComponent<PadLockOpen>();
             padLockOpen.OpenLock();
             // Here enter the event for the correct combination
             Debug.Log("Password correct");
@@ -29,7 +30,9 @@ public class PadLockPassword : MonoBehaviour
                 _moveRull._rullers[i].GetComponent<PadLockEmissionColor>()._isSelect = false;
                 _moveRull._rullers[i].GetComponent<PadLockEmissionColor>().BlinkingMaterial();
             }
-
+            OnPasswordSuccess?.Invoke();
         }
+        
     }
+    
 }
