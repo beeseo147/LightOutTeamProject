@@ -21,6 +21,7 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        print("PhotonNetworkManager Start");
         PhotonNetwork.NickName = "Player" + Random.Range(1000, 9999);
         //PhotonNetwork.ConnectUsingSettings();
 
