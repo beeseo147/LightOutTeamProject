@@ -1374,6 +1374,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xrOrigin: {fileID: 5961620403107449390}
   avatarVisuals: {fileID: 4588173549632797711}
+  leftHandModel: {fileID: 0}
+  rightHandModel: {fileID: 0}
 --- !u!114 &121106662069370319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1398,7 +1400,6 @@ Animator:
   m_GameObject: {fileID: 3181821667836786092}
   m_Enabled: 0
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0958f00777ef1074495b351ed2779e64, type: 2}
   m_Controller: {fileID: 9100000, guid: 0958f00777ef1074495b351ed2779e64, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -1430,7 +1431,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 0
   ObservedComponents:
-  - {fileID: 7037097950211363825}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
