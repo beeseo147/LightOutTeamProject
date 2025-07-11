@@ -23,10 +23,10 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
     {
         print("PhotonNetworkManager Start");
         PhotonNetwork.NickName = "Player" + Random.Range(1000, 9999);
-        //PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.ConnectUsingSettings();
 
         // Resources 폴더의 Player 프리팹을 원점에 스폰
-        SpawnPlayer();
+        //SpawnPlayer();
     }
 
     public override void OnConnectedToMaster()
@@ -39,11 +39,12 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("방 입장 완료");
         //joinedRoomEvent.Invoke();
-        
+
         //// Resources 폴더의 Player 프리팹을 원점에 스폰
-        //SpawnPlayer();
+        SpawnPlayer();
     }
 
+    [ContextMenu(nameof(SpawnPlayer))]
     private void SpawnPlayer()
     {
         myPlayer    = PhotonNetwork.IsMasterClient ? ServerPlayer : ClientPlayer;
@@ -66,7 +67,8 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
     void TryJoinOrCreateRoom()
     {
         var roomName = "MyRoom";
-        var options = new RoomOptions { MaxPlayers = 2 };
+        var options = new RoomOptions { MaxPlayers = 10 };
+        //var options = new RoomOptions { MaxPlayers = 2 };
         PhotonNetwork.JoinOrCreateRoom(roomName, options, TypedLobby.Default);
         Debug.Log("방 입장 또는 생성 시도");
     }

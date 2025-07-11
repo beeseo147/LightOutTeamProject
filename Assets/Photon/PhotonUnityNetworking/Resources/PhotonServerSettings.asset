@@ -39,6 +39,7 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - DrawLaser
   - RPC_StartDialogue
   DisableAutoOpenWizard: 1
   ShowSettings: 1

@@ -16,7 +16,7 @@ public enum Weight
 /// 요청한 컴포넌트들이 없으면 에디터,런타임 모두에서 경고하고 비활성화.
 /// </summary>
 [RequireComponent(typeof(XRGrabInteractable), typeof(Rigidbody))]
-//[RequireComponent(typeof(PhotonView), typeof(PhotonTransformView))]
+[RequireComponent(typeof(PhotonView), typeof(PhotonTransformView))]
 
 // typeof(PhotonTransformView)
 public class GrabbableObject : MonoBehaviourPun
@@ -34,6 +34,7 @@ public class GrabbableObject : MonoBehaviourPun
     Rigidbody rb;
     bool originalKinematic;
     RigidbodyConstraints originalConstraints;
+    bool isPickedUp = false;
 
 #if UNITY_EDITOR
     private void OnValidate()
@@ -67,6 +68,11 @@ public class GrabbableObject : MonoBehaviourPun
 
     void OnGrab(SelectEnterEventArgs args)
     {
+        if (isPickedUp)
+            return;
+
+        isPickedUp = true;
+
         if (handPose)
         {
             var controller = args.interactorObject.transform.GetComponentInChildren<HandAnimationController>();
@@ -86,6 +92,7 @@ public class GrabbableObject : MonoBehaviourPun
     {
         var controller = args.interactorObject.transform.GetComponentInChildren<HandAnimationController>();
 
+        isPickedUp = false;
         if (controller)
         {
             controller.ClearOverride();
