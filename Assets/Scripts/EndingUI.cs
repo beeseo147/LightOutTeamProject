@@ -7,6 +7,7 @@ public class EndingUI : MonoBehaviour
 {
     public GameObject davidUI;
     public GameObject kevinUI;
+    public GameObject timeoutUI; // 타임아웃 UI 추가
 
     void Start()
     {
@@ -17,16 +18,25 @@ public class EndingUI : MonoBehaviour
         {
             davidUI.SetActive(true);
             kevinUI.SetActive(false);
+            timeoutUI.SetActive(false);
         }
         else if (winner == "Kevin")
         {
             davidUI.SetActive(false);
             kevinUI.SetActive(true);
+            timeoutUI.SetActive(false);
+        }
+        else if (winner == "Timeout") // 타임아웃 엔딩 추가
+        {
+            davidUI.SetActive(false);
+            kevinUI.SetActive(false);
+            timeoutUI.SetActive(true);
         }
         else
         {
             davidUI.SetActive(false);
             kevinUI.SetActive(false);
+            timeoutUI.SetActive(false);
         }
     }
 }
