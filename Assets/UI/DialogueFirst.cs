@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-
+using Photon.Pun; // 추가
 //현주옥 작성
-
+//김동균 수정
 [System.Serializable]
 public class DialogueSegment
 {
@@ -14,7 +14,7 @@ public class DialogueSegment
     public string dialogue;
 }
 
-public class DialogueFirst : MonoBehaviour
+public class DialogueFirst : MonoBehaviourPun, ICheckPeopleEvent
 {
     [Header("References")]
     [SerializeField] private AudioSource audioSource;
@@ -54,20 +54,7 @@ public class DialogueFirst : MonoBehaviour
     }
     
     void Update()
-    {
-        // Selected key to start/stop dialogue
-        if (Input.GetKeyDown(triggerKey))
-        {
-            if (isPlaying)
-            {
-                StopDialogue();
-            }
-            else
-            {
-                StartDialogue();
-            }
-        }
-        
+    {        
         // Update dialogue if playing
         if (isPlaying)
         {
@@ -250,5 +237,25 @@ public class DialogueFirst : MonoBehaviour
         
         // Ensure final color is correct
         dialogueText.color = originalColor;
+    }
+    // ICheckPeopleEvent 인터페이스 구현
+    public void OnBothSelected()
+    {
+        print("OnBothSelected 실행");
+        // 네트워크 전체에 대화 실행
+        PlayDialogueNetwork();
+    }
+
+    // 이미 구현된 네트워크 동기화 함수
+    public void PlayDialogueNetwork()
+    {
+        print("PlayDialogueNetwork 실행");
+        photonView.RPC(nameof(RPC_StartDialogue), RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RPC_StartDialogue()
+    {
+        StartDialogue();
     }
 } 
