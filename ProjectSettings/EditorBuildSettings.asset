@@ -24,14 +24,8 @@ EditorBuildSettings:
     path: Assets/Scenes/MainScene.unity
     guid: b0731fb183afe6148836803de6f26bb1
   - enabled: 1
-    path: Assets/Scenes/Ending/Ending-KevinOut.unity
-    guid: 1bb74d64118fce541ad1f01eba1fa5f8
-  - enabled: 1
-    path: Assets/Scenes/Ending/Ending-DavidOut.unity
-    guid: 936f870233ab1e64c8d89b219d06d659
-  - enabled: 1
-    path: Assets/Scenes/Ending/Ending-TimeOut.unity
-    guid: 656dff6bf4d02b14c92714214ad26a8f
+    path: Assets/Scenes/EndingScene.unity
+    guid: bac1f5d5b5672be499e3e272723c97f8
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: cecce1ec45ba6984a88959d7d2379516,
       type: 2}
