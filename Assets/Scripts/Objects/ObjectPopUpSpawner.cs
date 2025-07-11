@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
+using Unity.XR.CoreUtils;
 using UnityEngine.XR.Interaction.Toolkit;
 //VR 기기로 오브젝트 상호작용시 팝업 창 생성
 public class ObjectPopUpSpawner : MonoBehaviour
@@ -13,6 +14,7 @@ public class ObjectPopUpSpawner : MonoBehaviour
     public Transform playerCamera;
     public float popUpDuration = 3.0f;
     public float popupDistance = 4.0f; // 팝업이 카메라로부터 얼마나 떨어져 있을지
+    public float farDistance = 10.0f;
     public float popUpDelay = 0.5f;
     public float popUpScale = 4.0f;
     public float popUpRotation = 0.0f;
@@ -30,7 +32,7 @@ public class ObjectPopUpSpawner : MonoBehaviour
             Debug.LogError("PopUp Parent Transform is not assigned!");
             return;
         }
-        playerCamera = Camera.main.transform;
+        
         interactable = GetComponent<XRGrabInteractable>();
     }
     
@@ -38,27 +40,54 @@ public class ObjectPopUpSpawner : MonoBehaviour
     {
         PadLockPassword.OnPasswordSuccess += OnPopUpEventEnd;
     }
-    public void OnPopUpEvent()
+        // XR Simple Interactable에 직접 할당
+    public void OnPopUpEvent(SelectEnterEventArgs args)
     {
-        
-        Vector3 spawnPos = playerCamera.position + playerCamera.forward * popupDistance;
-        if(PhotonNetwork.IsMasterClient)
+        // 1. 상호작용한 플레이어의 XR Origin(혹은 카메라) Transform 얻기
+        var interactor = args.interactorObject.transform;
+        Transform playerCamera = null;
+
+        // XR Origin 구조에 따라 Camera 찾기
+        // XR Origin → Camera Offset → Main Camera
+        var xrOrigin = interactor.GetComponentInParent<XROrigin>();
+        if (xrOrigin != null)
         {
-            popUpObject = PhotonNetwork.Instantiate(popUpPrefab.name, spawnPos, popUpParent.rotation);
+            playerCamera = xrOrigin.Camera.transform;
         }
         else
         {
-            popUpObject = Instantiate(popUpPrefab, spawnPos, popUpParent.rotation);
+            // Fallback: interactor 바로 아래에 카메라가 있을 수도 있음
+            playerCamera = interactor.GetComponentInChildren<Camera>()?.transform;
         }
-        popUpObject.transform.LookAt(playerCamera); // 카메라 바라보게
+
+        if (playerCamera == null)
+        {
+            Debug.LogError("플레이어 카메라를 찾을 수 없습니다!");
+            return;
+        }
+
+        // 2. 해당 플레이어 카메라 기준으로 팝업 위치 계산
+        Vector3 spawnPos = playerCamera.position + playerCamera.forward * popupDistance;
+
+        GameObject popUpObject;
+        if (PhotonNetwork.InRoom)
+        {
+            popUpObject = PhotonNetwork.Instantiate(popUpPrefab.name, spawnPos, Quaternion.identity);
+        }
+        else
+        {
+            popUpObject = Instantiate(popUpPrefab, spawnPos, Quaternion.identity);
+        }
+
+        popUpObject.transform.LookAt(playerCamera);
         popUpObject.transform.localScale = Vector3.one * popUpScale;
-        // 팝업 오브젝트에서 ObjectPopUpSpawner 컴포넌트 제거
+
+        
         var spawner = popUpObject.GetComponent<ObjectPopUpSpawner>();
         if (spawner != null)
         {
             spawner.enabled = false;
         }
-        print("OnPopUpEvent");
     }
     public void OnPopUpEventEnd()
     {
@@ -73,7 +102,30 @@ public class ObjectPopUpSpawner : MonoBehaviour
     private void Update()
     {
         //SyncPopUpObject();
+        if(IsbFar())
+        {
+            StartCoroutine(WaitForOpenAndDestroy());
+        }
     }
+    public bool IsbFar()
+    {
+        if (popUpObject == null) return false;
+        
+        // 플레이어 카메라와 팝업 오브젝트 사이의 거리를 계산
+        float distance = Vector3.Distance(playerCamera.position, popUpObject.transform.position);
+        
+        // 지정된 거리보다 멀리 떨어져 있으면 팝업 오브젝트를 비활성화
+        if (distance > farDistance)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
     public IEnumerator WaitForOpenAndDestroy()
     {
         yield return new WaitForSeconds(2.0f);
