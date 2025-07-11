@@ -1,73 +1,121 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using JetBrains.Annotations;
 
 [RequireComponent(typeof(Renderer))]
-public class LaserTarget : MonoBehaviour
+public class LaserTarget : MonoBehaviourPun
 {
     [Header("Feedback")]
     [SerializeField] Color hitColor = Color.cyan;
-    [SerializeField] ParticleSystem hitParticle;
-    [SerializeField] AudioSource hitSound;
+    [SerializeField] Color clearColor = Color.red;
+    [SerializeField] ParticleSystem clearParticle;
+    [SerializeField] AudioClip hitSound;
+    [SerializeField] AudioClip clearSound;
 
     [SerializeField] float maxCharge = 1f;
-    float curCharge = 0f;
+    public float curCharge = 0f;
+    bool isHitThisFrame = false;
+    bool isCurrentlyLit = false;
+    AudioSource audioSource;
 
-    // 퍼즐 매니저가 읽어 갈 수 있도록
-    public bool IsHit => isHit;
+    //public bool IsHit => isHit;
     public bool IsCleared => isCleared;
     bool isCleared = false;
-    bool isHit = false;
+    //bool isHit = false;
     Color originalColor;
     Renderer rend;
 
     void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         rend = GetComponent<Renderer>();
         originalColor = rend.material.color;
     }
 
     /// Laser -> Target
-    public void Activate(Vector3 hitPos)
+    public void Activate()
     {
-        isHit = true;
+        //if (0 == curCharge)
+        if (isCleared)
+            return;
+
         rend.material.color = hitColor;
-
-        if (isCleared) 
-            return;
-
-        if (hitParticle) 
-        { 
-            hitParticle.transform.position = hitPos;
-            hitParticle.Play(); 
-        }
-        if (hitSound)
-            hitSound.Play();
+        isCurrentlyLit = true;
+            //curCharge += Time.deltaTime;
+            //isHitThisFrame = true;
     }
 
-    /// Laser가 더 이상 닿지 않을 때 호출(선택)
-    public void Deactivate()
+    public void DeActivate()
     {
-        if (!isHit)
-            return;
-
-        isHit = false;
-        if (!isCleared)
-            rend.material.color = originalColor;
-
-        if (hitParticle)
-            hitParticle.Stop();
+        rend.material.color = originalColor;
+        isCurrentlyLit = false;
     }
 
-    IEnumerator CoCharging()
+    public void Clear()
     {
-        while (curCharge < maxCharge)
+        isCleared = true;
+        rend.material.color = clearColor;
+        isCurrentlyLit = false;
+    }
+
+
+    private void FixedUpdate()
+    {
+        //CheckCurrentOn();
+        //isHitThisFrame = false;
+    }
+
+    //private void LateUpdate()
+    //{
+    //    isHitThisFrame = false;
+    //}
+
+    void CheckCurrentOn()
+    {
+        // Charging .. 
+        if (1 <= curCharge)
         {
-            curCharge += Time.deltaTime;
+            if (!isCurrentlyLit)
+            {
+                rend.material.color = hitColor;
+                isCurrentlyLit = true;
+
+                //if (hitSound)
+                //{
+                //    audioSource.clip = hitSound;
+                //    audioSource.Play();
+                //}
+            }
+            //curCharge += Time.deltaTime;
+
+            if (curCharge >= maxCharge)
+            {
+                Debug.Log("PUZZLE CLEARED!");
+                isCleared = true;
+
+                /* Effect */
+                //if (clearSound)
+                //{
+                //    audioSource.clip = clearSound;
+                //    audioSource.Play();
+                //}
+
+                //if (clearParticle)
+                //    clearParticle.Play();
+            }
         }
-
-        curCharge = 0f;
-
-        yield return null;
+        // Finish Charging
+        else
+        {
+            if (isCurrentlyLit)
+            {
+                rend.material.color = originalColor;
+                curCharge = 0f;
+                isCurrentlyLit = false;
+            }
+        }
     }
+
 }

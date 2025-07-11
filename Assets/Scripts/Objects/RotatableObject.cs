@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 /// 요청한 컴포넌트들이 없으면 에디터,런타임 모두에서 경고하고 비활성화.
 /// </summary>
 [RequireComponent(typeof(XRGrabInteractable), typeof(Rigidbody))]
+[RequireComponent(typeof(PhotonView))]
 
-public class RotatableObject : MonoBehaviour
+public class RotatableObject : MonoBehaviourPun, IPunObservable
 {
     public HandPoseProfileSO handPose;
 
@@ -19,14 +21,19 @@ public class RotatableObject : MonoBehaviour
     public float maxAngle = 45f;
     public bool useLimits = true;
 
+    PhotonTransformView ptv;
     XRGrabInteractable grab;
     Rigidbody rb;
     Quaternion initialObjRot, initialHandRot;
     Vector3 initialHandVec;
     float smoothedAngle = 0f;
+    /* Networking */
+    float netFinalAngle;
+    Vector3 netRotAxis;
 
     void Awake()
     {
+        ptv = GetComponent<PhotonTransformView>();
         grab = GetComponent<XRGrabInteractable>() ?? gameObject.AddComponent<XRGrabInteractable>();
         rb = GetComponent<Rigidbody>();
         /* ---------- Rigidbody Setting ---------- */
@@ -60,12 +67,20 @@ public class RotatableObject : MonoBehaviour
 
     void OnGrab(SelectEnterEventArgs args)
     {
+        if (!photonView.IsMine)
+        {
+            photonView.RequestOwnership();
+        }
+
         if (handPose)
         {
             var controller = args.interactorObject.transform.GetComponentInChildren<HandAnimationController>();
 
             if (controller && handPose)
+            {
+                photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
                 controller.SetOverrideState(handPose.poseState);
+            }
         }
 
         // Save : Vector, Rotation Origin 
@@ -81,9 +96,13 @@ public class RotatableObject : MonoBehaviour
     {
         // init HandPose
         var controller = args.interactorObject.transform.GetComponentInChildren<HandAnimationController>();
-        if (controller) controller.ClearOverride();
+        if (controller)
+        {
+            controller.ClearOverride();
+            photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+        }
 
-        grab.trackRotation = true;
+            grab.trackRotation = true;
     }
 
     void Update()
@@ -93,14 +112,13 @@ public class RotatableObject : MonoBehaviour
 
         Transform handTf = grab.interactorsSelecting[0].transform;
 
-        /* ① 현재 컨트롤러 기준 벡터를 축 직교 평면에 투영 */
-        Vector3 rotAxis = AxisVector(rotationAxis);
-        Vector3 grabVec = ProjectOnPlane(initialHandVec, rotAxis).normalized; // Origin Vector
-        Vector3 curVec  = ProjectOnPlane(HandRefVector(handTf), rotAxis).normalized;
-
+        /* 1) 현재 컨트롤러 기준 벡터를 축 직교 평면에 투영 */
+        netRotAxis = AxisVector(rotationAxis);
+        Vector3 grabVec = ProjectOnPlane(initialHandVec, netRotAxis).normalized; // Origin Vector
+        Vector3 curVec  = ProjectOnPlane(HandRefVector(handTf), netRotAxis).normalized;
 
         // 2) Get Degree : -180 ~ 180
-        float rawAngle = Vector3.SignedAngle(grabVec, curVec, rotAxis);
+        float rawAngle = Vector3.SignedAngle(grabVec, curVec, netRotAxis);
 
         // 3) Ignore : Up to dead degrees
         const float dead = 5f;
@@ -112,22 +130,10 @@ public class RotatableObject : MonoBehaviour
         smoothedAngle = Mathf.Lerp(smoothedAngle, rawAngle, lerpK);
 
         // 5) Limit : Rotation Range
-        float finalAngle = useLimits ?
+        netFinalAngle = useLimits ?
             Mathf.Clamp(smoothedAngle, minAngle, maxAngle) : smoothedAngle;
 
-        //var hand = grab.interactorsSelecting[0].transform.rotation;
-        //Quaternion delta = hand * Quaternion.Inverse(initialHandRot);
-
-        //// angle calculation
-        //Vector3 euler = (delta * Vector3.forward).normalized;
-
-        //float angle = Vector3.SignedAngle(euler, Vector3.forward, AxisVector(rotationAxis));
-
-        //if (useLimits)
-        //    rawAngle = Mathf.Clamp(rawAngle, minAngle, maxAngle);
-
-        //transform.rotation = initialObjRot * Quaternion.AngleAxis(rawAngle, AxisVector(rotationAxis));
-        transform.rotation = initialObjRot * Quaternion.AngleAxis(finalAngle, rotAxis);
+        transform.rotation = initialObjRot * Quaternion.AngleAxis(netFinalAngle, netRotAxis);
     }
     public enum Axis { X, Y, Z }
     Vector3 AxisVector(Axis ax)
@@ -153,4 +159,17 @@ public class RotatableObject : MonoBehaviour
     /* 한 벡터를 평면(법선 n)에 투영 */
     static Vector3 ProjectOnPlane(Vector3 v, Vector3 n) => v - Vector3.Dot(v, n) * n;
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(netFinalAngle);
+            stream.SendNext(netRotAxis);
+        }
+        else
+        {
+            netFinalAngle = (float)stream.ReceiveNext();
+            netRotAxis = (Vector3)stream.ReceiveNext();
+        }
+    }
 }

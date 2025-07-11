@@ -1,10 +1,14 @@
+using Photon.Pun;
 using Photon.Pun.Demo.SlotRacer.Utils;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 [RequireComponent(typeof(LineRenderer))]
+//[RequireComponent(typeof(PhotonView))]
 public class LaserStart : MonoBehaviour
 {
     /* ---------- Status ---------- */
@@ -24,24 +28,23 @@ public class LaserStart : MonoBehaviour
     LaserTarget laserTarget;
     [SerializeField] int maxBounceCount = 5;
     const float farDistance = 300f;
+    bool ishIt = false;
+    [SerializeField] float maxCharge = 3f;
+    public float curCharge = 0f;
+
+    Coroutine chargeRoutine;
 
     void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
         laserRendererSetting.Apply(lineRenderer);
-        //prevPos = transform.position;
     }
 
     void FixedUpdate()
     {
-        //UpdateMoveFlag();
-
         if (isOn)
         {
-            //if (isMoved || 0 == hitPoints.Count)
-            //if (0 == hitPoints.Count)
-                RecalculatePath();
-
+            RecalculatePath();
             DrawLaser();
         }
         else
@@ -80,6 +83,7 @@ public class LaserStart : MonoBehaviour
         ShootBeamRecur(start, transform.forward, 0);
     }
     /// <summary>LineRenderer에 pts 리스트를 그린다</summary>
+    [PunRPC]
     void DrawLaser()
     {
         lineRenderer.positionCount = hitPoints.Count;
@@ -94,6 +98,7 @@ public class LaserStart : MonoBehaviour
         int mirrorLayer = LayerMask.NameToLayer("Mirror");
         int targetLayer = LayerMask.NameToLayer("LaserTarget");
         int hitMask = (1 << mirrorLayer) | (1 << targetLayer);
+        
         if (Physics.Raycast(origin, dir, out var hit, farDistance, hitMask))
         {
             hitPoints.Add(hit.point);
@@ -102,7 +107,16 @@ public class LaserStart : MonoBehaviour
             // 1) Mirror Hit : Reflection Repeat..
             if (layerHit == mirrorLayer)
             {
-                Debug.Log($"Mirror Hit, depth {depth}");
+                if (null != chargeRoutine)
+                {
+                    if (laserTarget)
+                        laserTarget.DeActivate();
+                    StopCoroutine(chargeRoutine);
+                    chargeRoutine = null;
+                    if (curCharge < maxCharge)
+                        curCharge = 0f;
+                }
+                //Debug.Log($"Mirror Hit, depth {depth}");
                 Vector3 nextOrigin = hit.point + hit.normal * 0.001f; // 1 mm offset
                 Vector3 nextDir = Vector3.Reflect(dir, hit.normal);
                 ShootBeamRecur(nextOrigin, nextDir, depth + 1);
@@ -111,15 +125,52 @@ public class LaserStart : MonoBehaviour
             // 2) LaserTarget Hit : Finish Puzzle and Recursion
             else if (layerHit == targetLayer)
             {
-                Debug.Log($"Target Hit, depth {depth}");
+                LaserTarget obj = hit.collider.gameObject.GetComponent<LaserTarget>();
+                if (null == chargeRoutine)
+                {
+                    if (obj)
+                    {
+                        laserTarget = obj;
+                        if (0f == curCharge)
+                            obj.Activate(); // ON
+                    }
+                    chargeRoutine = StartCoroutine(nameof(CoCharging));
+                }
+
+                //Debug.Log($"Target Hit, depth {depth}");
                 return;
             }
         }
         // 3) No Hit
         else
         {
-            Debug.Log($"No Hit, depth {depth}");
+            if (null != chargeRoutine)
+            {
+                if (laserTarget)
+                    laserTarget.DeActivate();
+                StopCoroutine(chargeRoutine);
+                chargeRoutine = null;
+                if (curCharge < maxCharge)
+                    curCharge = 0f;
+            }
+            //Debug.Log($"No Hit, depth {depth}");
             hitPoints.Add(origin + dir * farDistance);
         }
+    }
+
+    IEnumerator CoCharging()
+    {
+        //rend.material.color = hitColor;
+
+        while (curCharge < maxCharge)
+        {
+            curCharge += Time.deltaTime;
+            Debug.Log($"curChgarge : {curCharge}");
+        }
+        //rend.material.color = originalColor;
+        laserTarget.Clear();
+        //curCharge = 0f;
+
+        yield return null;
     }
 }
