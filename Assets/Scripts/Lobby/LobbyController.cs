@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class LobbyController : MonoBehaviour
 {
-    private LobbyModel model;
-    private LobbyView view;
+    [SerializeField] private LobbyModel model;
+    [SerializeField] private LobbyView view;
     
     public LobbyController(LobbyModel model, LobbyView view)
     {
@@ -14,7 +14,12 @@ public class LobbyController : MonoBehaviour
         
         InitializeEvents();
     }
-    
+    void Awake()
+    {
+        model = GetComponent<LobbyModel>();
+        view = GetComponent<LobbyView>();
+        InitializeEvents();
+    }
     private void InitializeEvents()
     {
         // View 이벤트 구독
@@ -39,14 +44,16 @@ public class LobbyController : MonoBehaviour
     
     private void HandleHowToPlay()
     {
+        print("HowToPlay 버튼 클릭");
         view.PlayButtonClickSound();
+        view.HowToPanel.SetActive(true); // HowToPlay 패널 표시
     }
     
     private void HandleSettings()
     {
         view.PlayButtonClickSound();
         // 설정 패널 표시
-        //SettingsManager.Instance.ShowSettings();
+        view.SettingsPanel.SetActive(true);
     }
     
     private void HandleExitGame()
