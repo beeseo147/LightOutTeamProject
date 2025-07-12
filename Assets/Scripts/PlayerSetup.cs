@@ -9,27 +9,35 @@ using UnityEngine.XR.Interaction.Toolkit.Inputs;
 public class PlayerSetup : MonoBehaviourPun
 {
     [SerializeField] GameObject xrOrigin;        // XR Origin �Ѹ�
-    [SerializeField] GameObject avatarVisuals;   // �� ��ü(�޽� ����)
-    [SerializeField] GameObject leftHandModel;
-    [SerializeField] GameObject rightHandModel;
+    [SerializeField] GameObject avatarVisuals;
+    //[SerializeField] GameObject cameraOffset;
+    //[SerializeField] GameObject locomotion;
+    //[SerializeField] GameObject leftHandModel;
+    //[SerializeField] GameObject rightHandModel;
 
     void Awake()
     {
         if (photonView.IsMine)
         {
-            avatarVisuals.SetActive(false);
+            //avatarVisuals.SetActive(false);
+            xrOrigin.SetActive(true);
+
             //var myCam = xrOrigin.GetComponentInChildren<Camera>(true);
             //if (myCam != null)
             //    myCam.gameObject.SetActive(true);
             //xrOrigin.SetActive(true);
-            //SetLayerRecursively(avatarVisuals, LayerMask.NameToLayer("LocalBody"));
+            SetLayerRecursively(avatarVisuals, LayerMask.NameToLayer("LocalBody"));
         }
         else
         {
+
+            //avatarVisuals.SetActive(true);
+            SetLayerRecursively(avatarVisuals, LayerMask.NameToLayer("RemoteBody"));
+            //cameraOffset.SetActive(false);
+            //locomotion.SetActive(false);
             //leftHandModel.SetActive(false);
             //rightHandModel.SetActive(false);
-            avatarVisuals.SetActive(true);
-            xrOrigin.SetActive(false);
+            //avatarVisuals.SetActive(true);
             //GetComponentInChildren<LocomotionSystem>().enabled = false;
             //GetComponentInChildren<InputActionManager>().enabled = false;
             //var cam = xrOrigin.GetComponentInChildren<Camera>(true);
@@ -44,7 +52,6 @@ public class PlayerSetup : MonoBehaviourPun
             //foreach (var tpd in trackedPoseDrivers)
             //    tpd.enabled = false;
             //xrOrigin.SetActive(false);
-            //SetLayerRecursively(avatarVisuals, LayerMask.NameToLayer("RemoteBody"));
         }
     }
 
