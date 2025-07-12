@@ -3,119 +3,125 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using JetBrains.Annotations;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Renderer))]
 public class LaserTarget : MonoBehaviourPun
 {
-    [Header("Feedback")]
+    [Header("Hit")]
     [SerializeField] Color hitColor = Color.cyan;
+    [SerializeField] AudioClip hitSound;
+
+    [Header("Clear")]
     [SerializeField] Color clearColor = Color.red;
     [SerializeField] ParticleSystem clearParticle;
-    [SerializeField] AudioClip hitSound;
     [SerializeField] AudioClip clearSound;
 
-    [SerializeField] float maxCharge = 1f;
+    [Header("MaxTime")]
+    [SerializeField] float maxCharge = 2f;
     public float curCharge = 0f;
-    bool isHitThisFrame = false;
-    bool isCurrentlyLit = false;
-    AudioSource audioSource;
 
-    //public bool IsHit => isHit;
-    public bool IsCleared => isCleared;
     bool isCleared = false;
-    //bool isHit = false;
+    bool isHitThisFrame = false;
+    bool isCharging = false;
     Color originalColor;
+
+    AudioSource audioSource;
     Renderer rend;
+    //Material rendMat;
 
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        if (audioSource)
+        {
+            audioSource.loop = false;
+            audioSource.playOnAwake = false;
+        }
+
         rend = GetComponent<Renderer>();
-        originalColor = rend.material.color;
+        if (rend)
+        {
+            originalColor = rend.material.color;
+        }
     }
 
     /// Laser -> Target
     public void Activate()
     {
-        //if (0 == curCharge)
         if (isCleared)
             return;
 
-        rend.material.color = hitColor;
-        isCurrentlyLit = true;
-            //curCharge += Time.deltaTime;
-            //isHitThisFrame = true;
+        isHitThisFrame = true;
     }
 
     public void DeActivate()
     {
-        rend.material.color = originalColor;
-        isCurrentlyLit = false;
+        isHitThisFrame = false;
     }
 
-    public void Clear()
+    void Update()
     {
-        isCleared = true;
-        rend.material.color = clearColor;
-        isCurrentlyLit = false;
-    }
+        if (isCleared)
+            return;
 
-
-    private void FixedUpdate()
-    {
-        //CheckCurrentOn();
-        //isHitThisFrame = false;
-    }
-
-    //private void LateUpdate()
-    //{
-    //    isHitThisFrame = false;
-    //}
-
-    void CheckCurrentOn()
-    {
-        // Charging .. 
-        if (1 <= curCharge)
+        if (isHitThisFrame)
         {
-            if (!isCurrentlyLit)
+            if (!isCharging)
             {
+                // First Start
                 rend.material.color = hitColor;
-                isCurrentlyLit = true;
 
-                //if (hitSound)
-                //{
-                //    audioSource.clip = hitSound;
-                //    audioSource.Play();
-                //}
+                //photonView.RPC("PlaySound", RpcTarget.All, "hitSound");
+                PlaySound(hitSound);
+                isCharging = true;
             }
-            //curCharge += Time.deltaTime;
+
+            curCharge += Time.deltaTime;
 
             if (curCharge >= maxCharge)
             {
-                Debug.Log("PUZZLE CLEARED!");
-                isCleared = true;
-
-                /* Effect */
-                //if (clearSound)
-                //{
-                //    audioSource.clip = clearSound;
-                //    audioSource.Play();
-                //}
-
-                //if (clearParticle)
-                //    clearParticle.Play();
+                Clear();
             }
         }
-        // Finish Charging
         else
         {
-            if (isCurrentlyLit)
+            if (isCharging)
             {
+                // Stop Charging
                 rend.material.color = originalColor;
                 curCharge = 0f;
-                isCurrentlyLit = false;
+                isCharging = false;
             }
         }
     }
 
+    private void Clear()
+    {
+        isCleared = true;
+        rend.material.color = clearColor;
+
+        //if (clearParticle)
+        //    clearParticle.Play();
+        //photonView.RPC("PlaySound", RpcTarget.All, "clearSound");
+        PlaySound(clearSound);
+    }
+
+    [PunRPC]
+    //private void PlaySound(string clipName)
+    private void PlaySound(AudioClip clip)
+    {
+        //AudioClip clip = Resources.Load<AudioClip>(clipName);
+        if (audioSource.isPlaying)
+            return;
+
+        if (clip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.LogWarning($"AudioClip '{clip.name}' not found in Resources.");
+        }
+    }
 }

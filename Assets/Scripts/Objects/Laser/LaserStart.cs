@@ -11,28 +11,18 @@ using UnityEngine.XR.Interaction.Toolkit;
 //[RequireComponent(typeof(PhotonView))]
 public class LaserStart : MonoBehaviour
 {
-    /* ---------- Status ---------- */
     [Header("Laser On / Off")]
     [SerializeField] bool isOn = true; // True : Drawing, False : Nothing
 
-    /* Holding ... */
-    //bool isMoved;
-    //Vector3 prevPos;
-    //Quaternion prevRot;
-
-    /* ---------- Laser Setting ---------- */
+    [Header("Laser Setting")]
     [SerializeField] LaserRendererSettingSO laserRendererSetting;
+    [SerializeField] LaserTarget laserTarget;
     LineRenderer lineRenderer;
     List<Vector3> hitPoints = new();
 
-    LaserTarget laserTarget;
-    [SerializeField] int maxBounceCount = 5;
+    //LaserTarget laserTarget;
+    [SerializeField] int maxBounceCount = 10;
     const float farDistance = 300f;
-    bool ishIt = false;
-    [SerializeField] float maxCharge = 3f;
-    public float curCharge = 0f;
-
-    Coroutine chargeRoutine;
 
     void Awake()
     {
@@ -53,27 +43,6 @@ public class LaserStart : MonoBehaviour
         }
     }
 
-    /* Holding ... */
-    /// <summary>현재 프레임에 오브젝트가 이동했는지 판단하여 isMoved 갱신</summary>
-    //void UpdateMoveFlag()
-    //{
-    //    /* ---------- Checking for movement ---------- */
-    //    Vector3 curPos = transform.position;
-    //    const float posEps = 0.0001f; // ~ 0.1mm distance OK 
-    //    bool posMoved = (curPos - prevPos).sqrMagnitude > posEps * posEps;
-
-    //    /* ---------- Checking for rotation ---------- */
-    //    Quaternion curRot = transform.rotation;
-    //    const float rotEps = 0.1f; // ~ 0.1°distance OK
-    //    bool rotMoved = Quaternion.Angle(curRot, prevRot) > rotEps;
-
-    //    isMoved = posMoved || rotMoved;
-
-    //    /* ---------- Save for next frame comparison ---------- */
-    //    prevPos = curPos;
-    //    prevRot = curRot;
-    //}
-    /// <summary>레이저 경로를 다시 계산하며 pts 리스트를 채운다</summary>
     void RecalculatePath()
     {
         hitPoints.Clear();
@@ -82,8 +51,8 @@ public class LaserStart : MonoBehaviour
 
         ShootBeamRecur(start, transform.forward, 0);
     }
-    /// <summary>LineRenderer에 pts 리스트를 그린다</summary>
-    [PunRPC]
+
+    //[PunRPC]
     void DrawLaser()
     {
         lineRenderer.positionCount = hitPoints.Count;
@@ -95,9 +64,10 @@ public class LaserStart : MonoBehaviour
         if (maxBounceCount <= depth)
             return;
 
+        int defaultLayer = LayerMask.NameToLayer("Default");
         int mirrorLayer = LayerMask.NameToLayer("Mirror");
         int targetLayer = LayerMask.NameToLayer("LaserTarget");
-        int hitMask = (1 << mirrorLayer) | (1 << targetLayer);
+        int hitMask = (1 << mirrorLayer) | (1 << targetLayer) | (1 << defaultLayer);
         
         if (Physics.Raycast(origin, dir, out var hit, farDistance, hitMask))
         {
@@ -107,15 +77,8 @@ public class LaserStart : MonoBehaviour
             // 1) Mirror Hit : Reflection Repeat..
             if (layerHit == mirrorLayer)
             {
-                if (null != chargeRoutine)
-                {
-                    if (laserTarget)
-                        laserTarget.DeActivate();
-                    StopCoroutine(chargeRoutine);
-                    chargeRoutine = null;
-                    if (curCharge < maxCharge)
-                        curCharge = 0f;
-                }
+                laserTarget.DeActivate();
+
                 //Debug.Log($"Mirror Hit, depth {depth}");
                 Vector3 nextOrigin = hit.point + hit.normal * 0.001f; // 1 mm offset
                 Vector3 nextDir = Vector3.Reflect(dir, hit.normal);
@@ -125,18 +88,7 @@ public class LaserStart : MonoBehaviour
             // 2) LaserTarget Hit : Finish Puzzle and Recursion
             else if (layerHit == targetLayer)
             {
-                LaserTarget obj = hit.collider.gameObject.GetComponent<LaserTarget>();
-                if (null == chargeRoutine)
-                {
-                    if (obj)
-                    {
-                        laserTarget = obj;
-                        if (0f == curCharge)
-                            obj.Activate(); // ON
-                    }
-                    chargeRoutine = StartCoroutine(nameof(CoCharging));
-                }
-
+                laserTarget.Activate();
                 //Debug.Log($"Target Hit, depth {depth}");
                 return;
             }
@@ -144,33 +96,10 @@ public class LaserStart : MonoBehaviour
         // 3) No Hit
         else
         {
-            if (null != chargeRoutine)
-            {
-                if (laserTarget)
-                    laserTarget.DeActivate();
-                StopCoroutine(chargeRoutine);
-                chargeRoutine = null;
-                if (curCharge < maxCharge)
-                    curCharge = 0f;
-            }
+            laserTarget.DeActivate();
+
             //Debug.Log($"No Hit, depth {depth}");
             hitPoints.Add(origin + dir * farDistance);
         }
-    }
-
-    IEnumerator CoCharging()
-    {
-        //rend.material.color = hitColor;
-
-        while (curCharge < maxCharge)
-        {
-            curCharge += Time.deltaTime;
-            Debug.Log($"curChgarge : {curCharge}");
-        }
-        //rend.material.color = originalColor;
-        laserTarget.Clear();
-        //curCharge = 0f;
-
-        yield return null;
     }
 }
