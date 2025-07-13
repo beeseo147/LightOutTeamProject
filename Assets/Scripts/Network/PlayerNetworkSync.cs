@@ -73,8 +73,6 @@ public class PlayerNetworkSync : MonoBehaviourPun, IPunObservable
             //avatarRoot.rotation = Quaternion.Euler(0, yRot, 0);
         }
 
-        //transform.position = xrOrigin.position;
-        //transform.rotation = xrOrigin.rotation;
         // **몸통 위치·회전 항상 마지막에 맞추기**
         avatarRoot.position = xrOrigin.position;
         avatarRoot.rotation = Quaternion.Euler(0, head.rotation.eulerAngles.y, 0);

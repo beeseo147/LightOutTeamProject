@@ -6,13 +6,6 @@ public class HandTargetFollower : MonoBehaviourPun
     public Transform source;
     public Vector3 eulerOffset = new(90, 0, 0);
 
-    private void Awake()
-    {
-        if(!photonView.IsMine)
-        {
-            this.enabled = false;
-        }
-    }
     void LateUpdate()
     {
         //if (photonView.IsMine && source != null)
