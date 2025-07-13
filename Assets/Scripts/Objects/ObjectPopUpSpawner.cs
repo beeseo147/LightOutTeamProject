@@ -16,7 +16,7 @@ public class ObjectPopUpSpawner : MonoBehaviour
     public float popupDistance = 4.0f; // 팝업이 카메라로부터 얼마나 떨어져 있을지
     public float farDistance = 10.0f;
     public float popUpDelay = 0.5f;
-    public float popUpScale = 4.0f;
+    public float popUpScale = 1.0f;
     public float popUpRotation = 0.0f;
     public float popUpPosition = 0.0f;
     public XRGrabInteractable interactable;
@@ -45,7 +45,7 @@ public class ObjectPopUpSpawner : MonoBehaviour
     {
         // 1. 상호작용한 플레이어의 XR Origin(혹은 카메라) Transform 얻기
         var interactor = args.interactorObject.transform;
-        Transform playerCamera = null;
+        playerCamera = null;
 
         // XR Origin 구조에 따라 Camera 찾기
         // XR Origin → Camera Offset → Main Camera
@@ -88,21 +88,18 @@ public class ObjectPopUpSpawner : MonoBehaviour
         {
             spawner.enabled = false;
         }
+        this.popUpObject = popUpObject; // 반드시 멤버 변수에 할당!
     }
     public void OnPopUpEventEnd()
     {
-        StartCoroutine(WaitForOpenAndDestroy());
-        
-        print("OnPopUpEventEnd");
+        if (!isDestroying)
+            StartCoroutine(WaitForOpenAndDestroy());
     }
-    public void SyncPopUpObject()
-    {
-        
-    }
+    private bool isDestroying = false;
+
     private void Update()
     {
-        //SyncPopUpObject();
-        if(IsbFar())
+        if (!isDestroying && IsbFar())
         {
             StartCoroutine(WaitForOpenAndDestroy());
         }
@@ -128,14 +125,37 @@ public class ObjectPopUpSpawner : MonoBehaviour
 
     public IEnumerator WaitForOpenAndDestroy()
     {
+        isDestroying = true;
         yield return new WaitForSeconds(2.0f);
-        if(PhotonNetwork.InRoom)
+
+        Debug.Log($"[Destroy] popUpObject: {popUpObject}, InRoom: {PhotonNetwork.InRoom}");
+
+        if (popUpObject != null)
         {
-            PhotonNetwork.Destroy(popUpObject);
+            if (PhotonNetwork.InRoom)
+            {
+                Debug.Log("[Destroy] PhotonNetwork.Destroy 호출");
+                PhotonNetwork.Destroy(popUpObject);
+                PhotonNetwork.Destroy(gameObject);
+            }
+            else
+            {
+                Debug.Log("[Destroy] 일반 Destroy 호출");
+                Destroy(popUpObject);
+                Destroy(gameObject);
+            }
+            popUpObject = null;
         }
         else
         {
-            Destroy(popUpObject);
+            Debug.LogWarning("[Destroy] popUpObject가 이미 null입니다.");
         }
+    }
+
+    [PunRPC]
+    public void RPC_OnPopUpEventEnd()
+    {
+        if (!isDestroying)
+            StartCoroutine(WaitForOpenAndDestroy());
     }
 }

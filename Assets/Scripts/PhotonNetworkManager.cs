@@ -22,11 +22,11 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
     void Start()
     {
         print("PhotonNetworkManager Start");
-        PhotonNetwork.NickName = "Player" + Random.Range(1000, 9999);
-        PhotonNetwork.ConnectUsingSettings();
+        //PhotonNetwork.NickName = "Player" + Random.Range(1000, 9999);
+        //PhotonNetwork.ConnectUsingSettings();
 
         // Resources 폴더의 Player 프리팹을 원점에 스폰
-        //SpawnPlayer();
+        SpawnPlayer();
     }
 
     public override void OnConnectedToMaster()
@@ -41,7 +41,7 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
         //joinedRoomEvent.Invoke();
 
         //// Resources 폴더의 Player 프리팹을 원점에 스폰
-        SpawnPlayer();
+        //SpawnPlayer();
     }
 
     [ContextMenu(nameof(SpawnPlayer))]

@@ -773,7 +773,7 @@ MonoBehaviour:
   popupDistance: 2
   farDistance: 10
   popUpDelay: 0.5
-  popUpScale: 4
+  popUpScale: 2
   popUpRotation: 0
   popUpPosition: 0
   interactable: {fileID: 0}

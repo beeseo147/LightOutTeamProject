@@ -21,12 +21,12 @@ public class MoveRuller : MonoBehaviour
 
     //룰러를 돌릴 때마다 활성화되는 이펙션 여부
     private bool _isActveEmission = false;
-
+    private bool bIsCorrect = false;
 
     void Awake()
     {
-        _lockPassword = FindFirstObjectByType<PadLockPassword>();
-        _pLockColor = FindFirstObjectByType<PadLockEmissionColor>();
+        _lockPassword = GetComponent<PadLockPassword>();
+        _pLockColor = GetComponent<PadLockEmissionColor>();
 
         _rullers.Add(GameObject.Find("Ruller1"));
         _rullers.Add(GameObject.Find("Ruller2"));
@@ -44,8 +44,11 @@ public class MoveRuller : MonoBehaviour
     {
         //MoveRulles();
         //RotateRullers();
-        print("numberArray: " + _numberArray[0] + _numberArray[1] + _numberArray[2] + _numberArray[3]);
-        _lockPassword.Password();
+        //print("numberArray: " + _numberArray[0] + _numberArray[1] + _numberArray[2] + _numberArray[3]);
+        if(!bIsCorrect)
+        {
+            _lockPassword.Password();
+        }
     }
 
     void MoveRulles()
