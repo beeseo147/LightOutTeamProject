@@ -234,6 +234,7 @@ MonoBehaviour:
   isOn: 1
   laserRendererSetting: {fileID: 11400000, guid: 60c1182d464310d48837508d246acc70,
     type: 2}
+  laserTarget: {fileID: 0}
   maxBounceCount: 10
 --- !u!120 &2420150053411978247
 LineRenderer:

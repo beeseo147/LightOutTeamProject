@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 /// <summary>
-/// ºÙÀÌ±â¸¸ ÇÏ¸é Rotation °¡´ÉÇØÁö´Â ÄÄÆ÷³ÍÆ®.
-/// ¿äÃ»ÇÑ ÄÄÆ÷³ÍÆ®µéÀÌ ¾øÀ¸¸é ¿¡µðÅÍ,·±Å¸ÀÓ ¸ðµÎ¿¡¼­ °æ°íÇÏ°í ºñÈ°¼ºÈ­.
+/// ï¿½ï¿½ï¿½Ì±â¸¸ ï¿½Ï¸ï¿½ Rotation ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®.
+/// ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­.
 /// </summary>
 [RequireComponent(typeof(XRGrabInteractable), typeof(Rigidbody))]
 [RequireComponent(typeof(PhotonView))]
@@ -112,7 +112,7 @@ public class RotatableObject : MonoBehaviourPun, IPunObservable
 
         Transform handTf = grab.interactorsSelecting[0].transform;
 
-        /* 1) ÇöÀç ÄÁÆ®·Ñ·¯ ±âÁØ º¤ÅÍ¸¦ Ãà Á÷±³ Æò¸é¿¡ Åõ¿µ */
+        /* 1) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ */
         netRotAxis = AxisVector(rotationAxis);
         Vector3 grabVec = ProjectOnPlane(initialHandVec, netRotAxis).normalized; // Origin Vector
         Vector3 curVec  = ProjectOnPlane(HandRefVector(handTf), netRotAxis).normalized;
@@ -147,7 +147,7 @@ public class RotatableObject : MonoBehaviourPun, IPunObservable
         };
     }
 
-    /* ¨è ÄÁÆ®·Ñ·¯¿¡¼­ ¡°°¢ Ãà¿¡ ¸ÂÃç¡± µ¹¸± ¶§ ±âÁØÀÌ µÉ º¤ÅÍ ¼±ÅÃ */
+    /* ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½à¿¡ ï¿½ï¿½ï¿½ç¡± ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
     Vector3 HandRefVector(Transform hand) => rotationAxis switch
     {
         Axis.Y => hand.right,
@@ -156,7 +156,6 @@ public class RotatableObject : MonoBehaviourPun, IPunObservable
         _ => hand.forward,
     };
 
-    /* ÇÑ º¤ÅÍ¸¦ Æò¸é(¹ý¼± n)¿¡ Åõ¿µ */
     static Vector3 ProjectOnPlane(Vector3 v, Vector3 n) => v - Vector3.Dot(v, n) * n;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

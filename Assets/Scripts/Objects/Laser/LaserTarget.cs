@@ -4,6 +4,8 @@ using UnityEngine;
 using Photon.Pun;
 using JetBrains.Annotations;
 using UnityEngine.UIElements;
+using TMPro;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Renderer))]
 public class LaserTarget : MonoBehaviourPun
@@ -13,6 +15,7 @@ public class LaserTarget : MonoBehaviourPun
     [SerializeField] AudioClip hitSound;
 
     [Header("Clear")]
+    [SerializeField] UnityEvent clearEvent;
     [SerializeField] Color clearColor = Color.red;
     [SerializeField] ParticleSystem clearParticle;
     [SerializeField] AudioClip clearSound;
@@ -26,12 +29,14 @@ public class LaserTarget : MonoBehaviourPun
     bool isCharging = false;
     Color originalColor;
 
+    TextMeshPro hintNumText;
     AudioSource audioSource;
     Renderer rend;
     //Material rendMat;
 
     void Awake()
     {
+        hintNumText = GetComponentInChildren<TextMeshPro>();
         audioSource = GetComponent<AudioSource>();
         if (audioSource)
         {
@@ -104,7 +109,8 @@ public class LaserTarget : MonoBehaviourPun
         //if (clearParticle)
         //    clearParticle.Play();
         //photonView.RPC("PlaySound", RpcTarget.All, "clearSound");
-        PlaySound(clearSound);
+        clearEvent.Invoke();
+        //PlaySound(clearSound)
     }
 
     [PunRPC]

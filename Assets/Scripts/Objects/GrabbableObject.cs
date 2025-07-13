@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.Events;
 
 public enum Weight
 {
@@ -12,8 +13,8 @@ public enum Weight
 }
 
 /// <summary>
-/// ºÙÀÌ±â¸¸ ÇÏ¸é Grab °¡´ÉÇØÁö´Â ÄÄÆ÷³ÍÆ®.
-/// ¿äÃ»ÇÑ ÄÄÆ÷³ÍÆ®µéÀÌ ¾øÀ¸¸é ¿¡µðÅÍ,·±Å¸ÀÓ ¸ðµÎ¿¡¼­ °æ°íÇÏ°í ºñÈ°¼ºÈ­.
+/// ï¿½ï¿½ï¿½Ì±â¸¸ ï¿½Ï¸ï¿½ Grab ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®.
+/// ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­.
 /// </summary>
 [RequireComponent(typeof(XRGrabInteractable), typeof(Rigidbody))]
 [RequireComponent(typeof(PhotonView), typeof(PhotonTransformView))]
@@ -27,9 +28,12 @@ public class GrabbableObject : MonoBehaviourPun
     [Header("Optional Weight Category")]
     public Weight weight = Weight.Heavy;
 
-    //[Header("Push by external collision")]
-    //public bool isPushable = false;
+    [Header("Clickable Setting")]
+    public bool isClickable = false;
+    [SerializeField] UnityEvent OnclickEvent;
+    [SerializeField] UnityEvent OffclickEvent;
 
+    bool isClicked = false;
     protected XRGrabInteractable grab;
     Rigidbody rb;
     bool originalKinematic;
@@ -57,13 +61,17 @@ public class GrabbableObject : MonoBehaviourPun
         rb.useGravity = true;
 
         /* ---------- Grab Setting ---------- */
-        /* XR Grab ¼¼ÆÃ (´øÁö±â ¹°Ã¼´Â throw ÄÑ±â) */
+        /* XR Grab ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ throw ï¿½Ñ±ï¿½) */
         grab.movementType = XRBaseInteractable.MovementType.VelocityTracking;
         grab.throwOnDetach = true;
         grab.attachEaseInTime = 0.25f; // attach slowly
 
         grab.selectEntered.AddListener(OnGrab);
         grab.selectExited.AddListener(OnRelease);
+
+        //if (isClickable)
+        //    handPose.poseState = HandState.Point;
+
     }
 
     void OnGrab(SelectEnterEventArgs args)
@@ -75,6 +83,20 @@ public class GrabbableObject : MonoBehaviourPun
 
         if (handPose)
         {
+            if (isClickable)
+            {
+                if (!isClicked)
+                {
+                    OnclickEvent.Invoke();      // Light On
+                    isClicked = true;
+                }
+                else
+                {
+                    OffclickEvent.Invoke();     // Light Off
+                    isClicked = false;
+                }
+            }
+
             var controller = args.interactorObject.transform.GetComponentInChildren<HandAnimationController>();
 
             if (controller)
