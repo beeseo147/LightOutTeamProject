@@ -101,6 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitColor: {r: 0, g: 1, b: 1, a: 1}
+  clearColor: {r: 1, g: 0, b: 0, a: 1}
+  clearParticle: {fileID: 0}
   hitSound: {fileID: 8300000, guid: 833d4a26102260448ad9eff0a89ca49a, type: 3}
   clearColor: {r: 1, g: 0, b: 0, a: 1}
   clearParticle: {fileID: 0}
