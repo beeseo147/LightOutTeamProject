@@ -2596,6 +2596,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xrOrigin: {fileID: 1091332726371812433}
   avatarVisuals: {fileID: 8888681402286534601}
+  leftHandModel: {fileID: 0}
+  rightHandModel: {fileID: 0}
 --- !u!114 &5158043240934565664
 MonoBehaviour:
   m_ObjectHideFlags: 0
