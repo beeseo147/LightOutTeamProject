@@ -77,8 +77,8 @@ public class LaserTarget : MonoBehaviourPun
                 // First Start
                 rend.material.color = hitColor;
 
-                //photonView.RPC("PlaySound", RpcTarget.All, "hitSound");
-                PlaySound(hitSound);
+                photonView.RPC("PlayHitSound", RpcTarget.All);
+                //PlaySound(hitSound);
                 isCharging = true;
             }
 
@@ -113,21 +113,43 @@ public class LaserTarget : MonoBehaviourPun
         //PlaySound(clearSound)
     }
 
-    [PunRPC]
     //private void PlaySound(string clipName)
-    private void PlaySound(AudioClip clip)
+    [PunRPC]
+    private void PlayHitSound()
     {
         //AudioClip clip = Resources.Load<AudioClip>(clipName);
         if (audioSource.isPlaying)
             return;
 
-        if (clip != null && audioSource != null)
+        if (hitSound != null && audioSource != null)
         {
-            audioSource.PlayOneShot(clip);
+            audioSource.PlayOneShot(hitSound);
         }
         else
         {
-            Debug.LogWarning($"AudioClip '{clip.name}' not found in Resources.");
+            Debug.LogWarning($"AudioClip '{hitSound.name}' not found in Resources.");
+        }
+    }
+
+    public void CallPlayClearSound()
+    {
+        photonView.RPC("PlayClearSound", RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void PlayClearSound()
+    {
+        //AudioClip clip = Resources.Load<AudioClip>(clipName);
+        if (audioSource.isPlaying)
+            return;
+
+        if (clearSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(clearSound);
+        }
+        else
+        {
+            Debug.LogWarning($"AudioClip '{clearSound.name}' not found in Resources.");
         }
     }
 }
