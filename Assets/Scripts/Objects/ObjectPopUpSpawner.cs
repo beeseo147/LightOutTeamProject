@@ -45,6 +45,18 @@ public class ObjectPopUpSpawner : MonoBehaviourPun
         // XR Simple Interactable에 직접 할당
     public void OnPopUpEvent(SelectEnterEventArgs args)
     {
+        // 기존 팝업이 남아있으면 먼저 파괴
+        if (popUpObject != null)
+        {
+            if (PhotonNetwork.InRoom)
+                PhotonNetwork.Destroy(popUpObject);
+            else
+                Destroy(popUpObject);
+
+            popUpObject = null;
+            isDestroying = false; // 플래그 초기화
+        }
+
         // 1. 상호작용한 플레이어의 XR Origin(혹은 카메라) Transform 얻기
         var interactor = args.interactorObject.transform;
         playerCamera = null;
@@ -89,14 +101,8 @@ public class ObjectPopUpSpawner : MonoBehaviourPun
         {
             spawner.enabled = false;
         }
-        if(popUpObject != null)
-        {
-            this.popUpObject = popUpObject; // 반드시 멤버 변수에 할당!
-        }
-        else
-        {
-            print("popUpObject is null");
-        }
+        this.popUpObject = popUpObject;
+        isDestroying = false; // 새 팝업 생성 시 플래그 초기화
     }
     public void OnPopUpEventEnd()
     {
@@ -172,6 +178,7 @@ public class ObjectPopUpSpawner : MonoBehaviourPun
         {
             Debug.LogWarning("[Destroy] popUpObject가 이미 null입니다.");
         }
+        isDestroying = false; // 코루틴 종료 시 플래그 초기화
     }
 
     [PunRPC]
