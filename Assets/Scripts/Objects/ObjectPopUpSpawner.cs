@@ -6,7 +6,7 @@ using Photon.Pun;
 using Unity.XR.CoreUtils;
 using UnityEngine.XR.Interaction.Toolkit;
 //VR 기기로 오브젝트 상호작용시 팝업 창 생성
-public class ObjectPopUpSpawner : MonoBehaviour
+public class ObjectPopUpSpawner : MonoBehaviourPun
 {
     public GameObject popUpPrefab;
     public Transform popUpParent;
@@ -16,10 +16,12 @@ public class ObjectPopUpSpawner : MonoBehaviour
     public float popupDistance = 4.0f; // 팝업이 카메라로부터 얼마나 떨어져 있을지
     public float farDistance = 10.0f;
     public float popUpDelay = 0.5f;
-    public float popUpScale = 4.0f;
+    public float popUpScale = 1.0f;
     public float popUpRotation = 0.0f;
     public float popUpPosition = 0.0f;
     public XRGrabInteractable interactable;
+
+    private bool bFarObject = false;
     private void Start()
     {
         if (popUpPrefab == null)
@@ -45,7 +47,7 @@ public class ObjectPopUpSpawner : MonoBehaviour
     {
         // 1. 상호작용한 플레이어의 XR Origin(혹은 카메라) Transform 얻기
         var interactor = args.interactorObject.transform;
-        Transform playerCamera = null;
+        playerCamera = null;
 
         // XR Origin 구조에 따라 Camera 찾기
         // XR Origin → Camera Offset → Main Camera
@@ -69,7 +71,6 @@ public class ObjectPopUpSpawner : MonoBehaviour
         // 2. 해당 플레이어 카메라 기준으로 팝업 위치 계산
         Vector3 spawnPos = playerCamera.position + playerCamera.forward * popupDistance;
 
-        GameObject popUpObject;
         if (PhotonNetwork.InRoom)
         {
             popUpObject = PhotonNetwork.Instantiate(popUpPrefab.name, spawnPos, Quaternion.identity);
@@ -88,21 +89,25 @@ public class ObjectPopUpSpawner : MonoBehaviour
         {
             spawner.enabled = false;
         }
+        if(popUpObject != null)
+        {
+            this.popUpObject = popUpObject; // 반드시 멤버 변수에 할당!
+        }
+        else
+        {
+            print("popUpObject is null");
+        }
     }
     public void OnPopUpEventEnd()
     {
-        StartCoroutine(WaitForOpenAndDestroy());
-        
-        print("OnPopUpEventEnd");
+        if (!isDestroying)
+            StartCoroutine(WaitForOpenAndDestroy());
     }
-    public void SyncPopUpObject()
-    {
-        
-    }
+    private bool isDestroying = false;
+
     private void Update()
     {
-        //SyncPopUpObject();
-        if(IsbFar())
+        if (!isDestroying && IsbFar())
         {
             StartCoroutine(WaitForOpenAndDestroy());
         }
@@ -117,10 +122,12 @@ public class ObjectPopUpSpawner : MonoBehaviour
         // 지정된 거리보다 멀리 떨어져 있으면 팝업 오브젝트를 비활성화
         if (distance > farDistance)
         {
+            bFarObject = true;
             return true;
         }
         else
         {
+            bFarObject = false;
             return false;
         }
     }
@@ -128,14 +135,49 @@ public class ObjectPopUpSpawner : MonoBehaviour
 
     public IEnumerator WaitForOpenAndDestroy()
     {
+        isDestroying = true;
         yield return new WaitForSeconds(2.0f);
-        if(PhotonNetwork.InRoom)
+
+        if (popUpObject != null)
         {
-            PhotonNetwork.Destroy(popUpObject);
+            if (PhotonNetwork.InRoom)
+            {
+                Debug.Log("[Destroy] PhotonNetwork.Destroy 호출");
+                if(bFarObject)
+                {
+                    PhotonNetwork.Destroy(popUpObject);
+                }
+                else
+                {
+                    PhotonNetwork.Destroy(popUpObject);
+                    PhotonNetwork.Destroy(gameObject);
+                }
+            }
+            else
+            {
+                Debug.Log("[Destroy] 일반 Destroy 호출");
+                if(bFarObject)
+                {
+                    Destroy(popUpObject);
+                }
+                else
+                {
+                    Destroy(popUpObject);
+                    Destroy(gameObject);
+                }
+            }
+            popUpObject = null;
         }
         else
         {
-            Destroy(popUpObject);
+            Debug.LogWarning("[Destroy] popUpObject가 이미 null입니다.");
         }
+    }
+
+    [PunRPC]
+    public void RPC_OnPopUpEventEnd()
+    {
+        if (!isDestroying)
+            StartCoroutine(WaitForOpenAndDestroy());
     }
 }
