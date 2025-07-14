@@ -1433,6 +1433,7 @@ GameObject:
   - component: {fileID: 3673701149521701208}
   - component: {fileID: 8171156817942186959}
   - component: {fileID: 3171845805269120735}
+  - component: {fileID: 453635701720615939}
   m_Layer: 0
   m_Name: PadlockRing
   m_TagString: Untagged
@@ -1529,6 +1530,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &453635701720615939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5207312377161105042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 2
+    Name: isOpen
+  m_SynchronizeLayers:
+  - SynchronizeType: 2
+    LayerIndex: 0
 --- !u!1 &7723135829563789686
 GameObject:
   m_ObjectHideFlags: 0
