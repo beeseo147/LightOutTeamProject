@@ -741,8 +741,9 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   popUpDuration: 3
   popupDistance: 2
+  farDistance: 10
   popUpDelay: 0.5
-  popUpScale: 4
+  popUpScale: 1
   popUpRotation: 0
   popUpPosition: 0
   interactable: {fileID: 0}
@@ -884,7 +885,6 @@ GameObject:
   - component: {fileID: 6847996990661153460}
   - component: {fileID: 899323762300769193}
   - component: {fileID: 8563227119813367086}
-  - component: {fileID: 9000960448857956736}
   - component: {fileID: 7247212962601175890}
   m_Layer: 0
   m_Name: Ruller1
@@ -1022,20 +1022,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 110
   m_CollisionDetection: 0
---- !u!114 &9000960448857956736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6490718625422956988}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d42672c244ec504e9773d1e41cbdcd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rullerIndex: 0
-  moveRuller: {fileID: 0}
 --- !u!114 &7247212962601175890
 MonoBehaviour:
   m_ObjectHideFlags: 0

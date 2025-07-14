@@ -21,6 +21,8 @@ public class LobbyView : MonoBehaviour
     public event System.Action OnHowToPlayClicked;
     public event System.Action OnSettingsClicked;
     public event System.Action OnExitGameClicked;
+    public event System.Action OnHowToBackClicked;
+    public event System.Action OnSettingsBackClicked;
     
     private void Awake()
     {
@@ -30,6 +32,16 @@ public class LobbyView : MonoBehaviour
         settingsButton.onClick.AddListener(() => OnSettingsClicked?.Invoke());
         exitGameButton.onClick.AddListener(() => OnExitGameClicked?.Invoke());
         lobbyPanel.SetActive(false);
+
+        // HowToPanel의 BackButton 연결
+        var howToBackBtn = HowToPanel.transform.Find("BackButton")?.GetComponent<Button>();
+        if (howToBackBtn != null)
+            howToBackBtn.onClick.AddListener(() => OnHowToBackClicked?.Invoke());
+
+        // SettingsPanel의 BackButton 연결
+        var settingsBackBtn = SettingsPanel.transform.Find("BackButton")?.GetComponent<Button>();
+        if (settingsBackBtn != null)
+            settingsBackBtn.onClick.AddListener(() => OnSettingsBackClicked?.Invoke());
     }
     
     // UI 업데이트 메서드들

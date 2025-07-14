@@ -2,8 +2,8 @@
 
 using System.Linq;
 using UnityEngine;
-
-public class PadLockPassword : MonoBehaviour
+using Photon.Pun;
+public class PadLockPassword : MonoBehaviourPun
 {
     MoveRuller _moveRull;
     public static event System.Action OnPasswordSuccess;
@@ -11,7 +11,11 @@ public class PadLockPassword : MonoBehaviour
 
     private void Awake()
     {
-        _moveRull = FindFirstObjectByType<MoveRuller>();
+        _moveRull = GetComponent<MoveRuller>();
+        if(_moveRull == null)
+        {
+            Debug.LogError("MoveRuller component not found on this object");
+        }
     }
 
     public void Password()
@@ -23,7 +27,7 @@ public class PadLockPassword : MonoBehaviour
             PadLockOpen padLockOpen = GetComponent<PadLockOpen>();
             padLockOpen.OpenLock();
             // Here enter the event for the correct combination
-            Debug.Log("Password correct");
+            //Debug.Log("Password correct");
             // Es. Below the for loop to disable Blinking Material after the correct password
             for (int i = 0; i < _moveRull._rullers.Count; i++)
             {
@@ -31,6 +35,10 @@ public class PadLockPassword : MonoBehaviour
                 _moveRull._rullers[i].GetComponent<PadLockEmissionColor>().BlinkingMaterial();
             }
             OnPasswordSuccess?.Invoke();
+            if(PhotonNetwork.InRoom)
+            {
+                photonView.RPC("RPC_OnPopUpEventEnd", RpcTarget.All);
+            }
         }
         
     }

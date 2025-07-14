@@ -41,7 +41,7 @@ MonoBehaviour:
   - RespawnSpaceship
   - DrawLaser
   - RPC_StartDialogue
-  - PlaySound
+  - RPC_OnPopUpEventEnd
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
