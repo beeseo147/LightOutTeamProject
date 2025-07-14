@@ -206,7 +206,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.06414, y: 0.7074396, z: 0.84745103}
+  m_LocalScale: {x: 0.06414, y: 0.38896444, z: 0.4979792}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 705556079781623523}
@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd169eff5dc20a34c99db63761c3bbde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitColor: {r: 0, g: 1, b: 1, a: 1}
+  hitColor: {r: 1, g: 0.7817019, b: 0, a: 1}
   hitSound: {fileID: 8300000, guid: 833d4a26102260448ad9eff0a89ca49a, type: 3}
   clearEvent:
     m_PersistentCalls:
@@ -305,7 +305,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  clearColor: {r: 1, g: 0, b: 0, a: 1}
+  clearColor: {r: 0.6712856, g: 0, b: 1, a: 1}
   clearParticle: {fileID: 0}
   clearSound: {fileID: 8300000, guid: 987a26cdbddaea8419aacf6ff8ab42ae, type: 3}
   maxCharge: 2
