@@ -17,12 +17,17 @@ public class RullerDial : MonoBehaviour
     // 18도 이상 회전시 36도로 스냅하기 위한 임계값
     private const float SNAP_THRESHOLD = 18f;
     private const float SNAP_STEP = 36f;
+    public AudioSource rullerSound;
 
     void Start()
     {
-        moveRuller = FindFirstObjectByType<MoveRuller>();
+        moveRuller = GetComponentInParent<MoveRuller>();
         interactable = GetComponent<XRBaseInteractable>();
-
+        rullerSound = moveRuller.GetComponent<AudioSource>();
+        if(rullerSound == null)
+        {
+            print("RullerSound is null, please assign an AudioSource to the MoveRuller GameObject.");
+        }
         // XR Interaction 이벤트 리스너 등록
         interactable.selectEntered.AddListener(_ =>
         {
@@ -39,6 +44,7 @@ public class RullerDial : MonoBehaviour
             isHeld = false;
             //SnapToNearestStep(); // 손 뗐을 때 각도 보정
             print($"[{rullerIndex}] 손 떼기 - 최종 각도: {Vector3.SignedAngle(transform.forward, Vector3.forward, Vector3.right):F2}");
+            rullerSound.Play();
             SyncStateWithTransform();
         });
 
@@ -55,9 +61,11 @@ public class RullerDial : MonoBehaviour
         
         // 각도 차이 계산
         float angleDelta = Mathf.DeltaAngle(lastSnappedAngle, currentAngle);
+        
         // 18도 이상 회전했는지 확인
         if (Mathf.Abs(angleDelta) >= SNAP_THRESHOLD && !isHeld)
         {
+            
             // 회전 방향 결정 (양수: 시계방향, 음수: 반시계방향)
             int direction = angleDelta > 0 ? 1 : -1;
             

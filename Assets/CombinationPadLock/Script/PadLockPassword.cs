@@ -34,6 +34,7 @@ public class PadLockPassword : MonoBehaviourPun
                 _moveRull._rullers[i].GetComponent<PadLockEmissionColor>()._isSelect = false;
                 _moveRull._rullers[i].GetComponent<PadLockEmissionColor>().BlinkingMaterial();
             }
+            GetComponent<AudioSource>().Play();
             OnPasswordSuccess?.Invoke();
             if(PhotonNetwork.InRoom)
             {
