@@ -41,8 +41,11 @@ public class GrabbableObject : MonoBehaviourPun
     bool isClicked = false;
     bool isPickedUp = false;
 
-    [Header("OutLine")]
-    [SerializeField] Material outlineMT;
+    [Header("Attach")]
+    [SerializeField]  GameObject attachObject;
+
+    [Header("HighLight")]
+    [SerializeField] Material highLightMT;
     MeshRenderer rend;
     List<Material> materialList = new List<Material>();
 
@@ -67,6 +70,8 @@ public class GrabbableObject : MonoBehaviourPun
         rb.useGravity = true;
 
         /* ---------- Grab Setting ---------- */
+        if (attachObject)
+            grab.attachTransform = attachObject.transform;
         grab.movementType = XRBaseInteractable.MovementType.VelocityTracking;
         grab.throwOnDetach = true;
         grab.attachEaseInTime = 0.15f; // attach slowly
@@ -80,6 +85,7 @@ public class GrabbableObject : MonoBehaviourPun
         //    handPose.poseState = HandState.Point;
 
         rend = GetComponent<MeshRenderer>();
+        highLightMT = Resources.Load<Material>("Materials/M_HighLight");
     }
 
     private void OnHoverEnter(HoverEnterEventArgs arg0)
@@ -94,13 +100,13 @@ public class GrabbableObject : MonoBehaviourPun
 
     void DrawOutLine()
     {
-        if (rend)
+        if (rend && highLightMT)
         {
             materialList.Clear();
             materialList.AddRange(rend.sharedMaterials);
-            if (!materialList.Contains(outlineMT))
+            if (!materialList.Contains(highLightMT))
             {
-                materialList.Add(outlineMT);
+                materialList.Add(highLightMT);
                 rend.sharedMaterials = materialList.ToArray();
             }
         }
@@ -108,13 +114,13 @@ public class GrabbableObject : MonoBehaviourPun
 
     void EraseOutLine()
     {
-        if (rend)
+        if (rend && highLightMT)
         {
             materialList.Clear();
             materialList.AddRange(rend.sharedMaterials);
-            if (materialList.Contains(outlineMT))
+            if (materialList.Contains(highLightMT))
             {
-                materialList.Remove(outlineMT);
+                materialList.Remove(highLightMT);
                 rend.sharedMaterials = materialList.ToArray();
             }
         }
@@ -150,8 +156,6 @@ public class GrabbableObject : MonoBehaviourPun
                 photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
                 controller.SetOverrideState(handPose.poseState);
                 grab.movementType = XRBaseInteractable.MovementType.Kinematic;
-                // Directly Move Setting : No Physics
-                //rb.isKinematic = true;
             }
         }
     }
@@ -162,13 +166,10 @@ public class GrabbableObject : MonoBehaviourPun
 
         isPickedUp = false;
 
-        if (controller)
+        if (controller) // HandAnimationController
         {
             controller.ClearOverride();
             grab.movementType = XRBaseInteractable.MovementType.VelocityTracking;
-            // Directly Move Reset
-            //rb.constraints = originalConstraints;
-            //rb.isKinematic = originalKinematic;
         }
     }
 
