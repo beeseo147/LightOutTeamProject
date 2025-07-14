@@ -702,7 +702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: 5950594136245895816}
-  eulerOffset: {x: -50, y: -50, z: 180}
+  eulerOffset: {x: -10, y: -75, z: 180}
 --- !u!114 &8974972034028745180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1660,7 +1660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: 913198086022094904}
-  eulerOffset: {x: 20, y: -50, z: 0}
+  eulerOffset: {x: 0.5, y: -100, z: 10}
 --- !u!114 &7440349308391171321
 MonoBehaviour:
   m_ObjectHideFlags: 0
