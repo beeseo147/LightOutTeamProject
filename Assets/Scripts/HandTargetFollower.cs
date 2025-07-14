@@ -8,8 +8,8 @@ public class HandTargetFollower : MonoBehaviourPun
 
     void LateUpdate()
     {
-        //if (photonView.IsMine && source != null)
-        //transform.SetPositionAndRotation(source.position, source.rotation);
-        transform.SetPositionAndRotation(source.position, source.rotation * Quaternion.Euler(eulerOffset));
+        if (photonView.IsMine && source != null)
+            transform.SetPositionAndRotation(source.position, source.rotation * Quaternion.Euler(eulerOffset));
+        // else: PhotonTransformView가 알아서 처리
     }
 }

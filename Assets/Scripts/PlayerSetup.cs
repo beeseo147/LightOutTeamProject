@@ -19,47 +19,12 @@ public class PlayerSetup : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            //avatarVisuals.SetActive(false);
             xrOrigin.SetActive(true);
-
-            //var myCam = xrOrigin.GetComponentInChildren<Camera>(true);
-            //if (myCam != null)
-            //    myCam.gameObject.SetActive(true);
-            //xrOrigin.SetActive(true);
             SetLayerRecursively(avatarVisuals, LayerMask.NameToLayer("LocalBody"));
         }
         else
         {
-
-            //avatarVisuals.SetActive(true);
             SetLayerRecursively(avatarVisuals, LayerMask.NameToLayer("RemoteBody"));
-            //cameraOffset.SetActive(false);
-            //locomotion.SetActive(false);
-            //leftHandModel.SetActive(false);
-            //rightHandModel.SetActive(false);
-            //avatarVisuals.SetActive(true);
-            //GetComponentInChildren<LocomotionSystem>().enabled = false;
-            //GetComponentInChildren<InputActionManager>().enabled = false;
-            //var cam = xrOrigin.GetComponentInChildren<Camera>(true);
-            //if (cam != null)
-            //    cam.gameObject.SetActive(false);
-
-            //var handAnimators = GetComponentsInChildren<HandAnimationController>(true);
-            //foreach (var h in handAnimators)
-            //    h.enabled = false;
-
-            //var trackedPoseDrivers = xrOrigin.GetComponentsInChildren<UnityEngine.SpatialTracking.TrackedPoseDriver>(true);
-            //foreach (var tpd in trackedPoseDrivers)
-            //    tpd.enabled = false;
-            //xrOrigin.SetActive(false);
-        }
-    }
-
-    private void Update()
-    {
-        if (!photonView.IsMine)
-        {
-
         }
     }
 
