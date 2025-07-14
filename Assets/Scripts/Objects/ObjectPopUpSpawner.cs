@@ -6,7 +6,7 @@ using Photon.Pun;
 using Unity.XR.CoreUtils;
 using UnityEngine.XR.Interaction.Toolkit;
 //VR 기기로 오브젝트 상호작용시 팝업 창 생성
-public class ObjectPopUpSpawner : MonoBehaviour
+public class ObjectPopUpSpawner : MonoBehaviourPun
 {
     public GameObject popUpPrefab;
     public Transform popUpParent;
@@ -20,6 +20,8 @@ public class ObjectPopUpSpawner : MonoBehaviour
     public float popUpRotation = 0.0f;
     public float popUpPosition = 0.0f;
     public XRGrabInteractable interactable;
+
+    private bool bFarObject = false;
     private void Start()
     {
         if (popUpPrefab == null)
@@ -69,7 +71,6 @@ public class ObjectPopUpSpawner : MonoBehaviour
         // 2. 해당 플레이어 카메라 기준으로 팝업 위치 계산
         Vector3 spawnPos = playerCamera.position + playerCamera.forward * popupDistance;
 
-        GameObject popUpObject;
         if (PhotonNetwork.InRoom)
         {
             popUpObject = PhotonNetwork.Instantiate(popUpPrefab.name, spawnPos, Quaternion.identity);
@@ -88,7 +89,14 @@ public class ObjectPopUpSpawner : MonoBehaviour
         {
             spawner.enabled = false;
         }
-        this.popUpObject = popUpObject; // 반드시 멤버 변수에 할당!
+        if(popUpObject != null)
+        {
+            this.popUpObject = popUpObject; // 반드시 멤버 변수에 할당!
+        }
+        else
+        {
+            print("popUpObject is null");
+        }
     }
     public void OnPopUpEventEnd()
     {
@@ -114,10 +122,12 @@ public class ObjectPopUpSpawner : MonoBehaviour
         // 지정된 거리보다 멀리 떨어져 있으면 팝업 오브젝트를 비활성화
         if (distance > farDistance)
         {
+            bFarObject = true;
             return true;
         }
         else
         {
+            bFarObject = false;
             return false;
         }
     }
@@ -128,21 +138,33 @@ public class ObjectPopUpSpawner : MonoBehaviour
         isDestroying = true;
         yield return new WaitForSeconds(2.0f);
 
-        Debug.Log($"[Destroy] popUpObject: {popUpObject}, InRoom: {PhotonNetwork.InRoom}");
-
         if (popUpObject != null)
         {
             if (PhotonNetwork.InRoom)
             {
                 Debug.Log("[Destroy] PhotonNetwork.Destroy 호출");
-                PhotonNetwork.Destroy(popUpObject);
-                PhotonNetwork.Destroy(gameObject);
+                if(bFarObject)
+                {
+                    PhotonNetwork.Destroy(popUpObject);
+                }
+                else
+                {
+                    PhotonNetwork.Destroy(popUpObject);
+                    PhotonNetwork.Destroy(gameObject);
+                }
             }
             else
             {
                 Debug.Log("[Destroy] 일반 Destroy 호출");
-                Destroy(popUpObject);
-                Destroy(gameObject);
+                if(bFarObject)
+                {
+                    Destroy(popUpObject);
+                }
+                else
+                {
+                    Destroy(popUpObject);
+                    Destroy(gameObject);
+                }
             }
             popUpObject = null;
         }
