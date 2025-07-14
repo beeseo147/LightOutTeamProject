@@ -14,7 +14,7 @@ public class ObjectPopUpSpawner : MonoBehaviourPun
     public Transform playerCamera;
     public float popUpDuration = 3.0f;
     public float popupDistance = 4.0f; // 팝업이 카메라로부터 얼마나 떨어져 있을지
-    public float farDistance = 10.0f;
+    public float farDistance = 3.0f;
     public float popUpDelay = 0.5f;
     public float popUpScale = 1.0f;
     public float popUpRotation = 0.0f;
@@ -80,9 +80,10 @@ public class ObjectPopUpSpawner : MonoBehaviourPun
             return;
         }
 
-        // 2. 해당 플레이어 카메라 기준으로 팝업 위치 계산
-        Vector3 spawnPos = playerCamera.position + playerCamera.forward * popupDistance;
-
+        // 2. 해당 플레이어 카메라와 오브젝트의 중간 위치 계산
+        Vector3 midPoint = (playerCamera.position + transform.position) / 2f;
+        Vector3 spawnPos = midPoint + playerCamera.forward * 0.2f; // 0.2f만큼 카메라 앞쪽으로
+        
         if (PhotonNetwork.InRoom)
         {
             popUpObject = PhotonNetwork.Instantiate(popUpPrefab.name, spawnPos, Quaternion.identity);

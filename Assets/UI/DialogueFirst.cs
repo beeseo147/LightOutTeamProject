@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using Photon.Pun; // 추가
+using UnityEngine.XR.Interaction.Toolkit;
+using Unity.XR.CoreUtils;
 //현주옥 작성
 //김동균 수정
 [System.Serializable]
@@ -37,33 +39,65 @@ public class DialogueFirst : MonoBehaviourPun, ICheckPeopleEvent
     private Coroutine dialogueCoroutine;
     private float dialogueStartTime;
     private Coroutine fadeCoroutine;
-    
+    private GameObject xrOrigin;
     void Start()
     {
-        // Disable panel at start
-        if (dialoguePanel != null)
-        {
-            dialoguePanel.gameObject.SetActive(false);
-        }
+
+            // Disable panel at start
+            if (dialoguePanel != null)
+            {
+                dialoguePanel.gameObject.SetActive(false);
+            }
+            
+            // Auto start if enabled
+            if (autoStart)
+            {
+                StartDialogue();
+            }
+
+            // 1. 카메라 찾기
+             xrOrigin= GameObject.FindFirstObjectByType<XROrigin>()?.gameObject;
+            Camera myCamera = xrOrigin.GetComponentInChildren<Camera>(true);
+
+            // 2. DialogueUI를 카메라 앞에 배치
+            if (dialoguePanel != null && myCamera != null)
+            {
+                // 카메라 앞 2미터 위치
+                Vector3 uiPos = myCamera.transform.position + myCamera.transform.forward * 2.0f;
+                dialoguePanel.transform.position = uiPos;
+
+                // 카메라를 바라보도록 회전
+                dialoguePanel.transform.rotation = Quaternion.LookRotation(dialoguePanel.transform.position - myCamera.transform.position);
+
+                // 필요시 크기 조정
+                dialoguePanel.transform.localScale = Vector3.one * 0.01f; // 적절한 크기로 조정
+            }
         
-        // Auto start if enabled
-        if (autoStart)
-        {
-            StartDialogue();
-        }
     }
     
     void Update()
     {        
-        // Update dialogue if playing
-        if (isPlaying)
+        if (dialoguePanel != null)
         {
-            UpdateDialogue();
+            // Update dialogue if playing
+            if (isPlaying)
+            {
+                UpdateDialogue();
+            }
+
+            // Dialogue UI가 항상 카메라 앞에 오도록(고정/추적)
+            Camera myCamera = xrOrigin.GetComponentInChildren<Camera>(true);
+            if (myCamera != null)
+            {
+                Vector3 uiPos = myCamera.transform.position + myCamera.transform.forward * 2.0f;
+                dialoguePanel.transform.position = uiPos;
+                dialoguePanel.transform.rotation = Quaternion.LookRotation(dialoguePanel.transform.position - myCamera.transform.position);
+            }
         }
     }
-    
     void StartDialogue()
     {
+        
         if (audioSource == null || dialogueText == null)
         {
             Debug.LogError("AudioSource or DialogueText is not assigned!");
