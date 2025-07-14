@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 851428fc396654741b62d25bd0c7a583, type: 3}
   m_Name: GreenLaserSettingSO
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 1, b: 0.43265295, a: 0}
+  color: {r: 0, g: 0.8301887, b: 0.2568846, a: 0}
   width: 0.01
-  emissionAmount: 10
+  emissionAmount: 40

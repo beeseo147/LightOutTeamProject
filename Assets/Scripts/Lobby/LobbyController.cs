@@ -8,7 +8,7 @@ public class LobbyController : MonoBehaviour
 {
     [SerializeField] private LobbyModel model;
     [SerializeField] private LobbyView view;
-    
+
     public LobbyController(LobbyModel model, LobbyView view)
     {
         this.model = model;
@@ -22,6 +22,7 @@ public class LobbyController : MonoBehaviour
         view = GetComponent<LobbyView>();
         InitializeEvents();
     }
+
     private void InitializeEvents()
     {
         // View 이벤트 구독

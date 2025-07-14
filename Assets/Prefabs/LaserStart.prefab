@@ -213,12 +213,12 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
+  m_Radius: 0.15
+  m_Height: 1.3
   m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7496298826661703623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,8 +231,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4acbd75005e0584bbb8a05c077e03f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOn: 1
   laserRendererSetting: {fileID: 11400000, guid: 60c1182d464310d48837508d246acc70,
     type: 2}
+  laserTarget: {fileID: 0}
+  maxBounceCount: 10
 --- !u!120 &2420150053411978247
 LineRenderer:
   serializedVersion: 2

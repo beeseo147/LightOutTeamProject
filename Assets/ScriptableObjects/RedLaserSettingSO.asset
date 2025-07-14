@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: {r: 0.8679245, g: 0.0076412517, b: 0, a: 0}
   width: 0.01
-  emissionAmount: 10
+  emissionAmount: 40

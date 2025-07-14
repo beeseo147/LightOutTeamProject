@@ -15,12 +15,17 @@ public class LaserRendererSettingSO : ScriptableObject
         lineRenderer.useWorldSpace = true;
         string path = "Materials/M_Laser";
         lineRenderer.material = Resources.Load<Material>(path);
-        lineRenderer.material.color = color;
+        //Material originalMat = Resources.Load<Material>(path);
+        //Material matInstance = new Material(originalMat);
+
+        //matInstance.color = color.linear;
+        //matInstance.EnableKeyword("_EMISSION");
+        //matInstance.SetColor("_EmissionColor", color.linear * emissionAmount);
+        //lineRenderer.material = matInstance;
+        lineRenderer.material.color = color.linear;
         lineRenderer.material.EnableKeyword("_EMISSION");
-        lineRenderer.material.SetColor("_EmissionColor", color * emissionAmount);
-        //lineRenderer.startColor = color;
+        lineRenderer.material.SetColor("_EmissionColor", color.linear * emissionAmount);
         lineRenderer.startWidth = width;
-        //lineRenderer.endColor = color;
         lineRenderer.endWidth = width;
     }
 }
