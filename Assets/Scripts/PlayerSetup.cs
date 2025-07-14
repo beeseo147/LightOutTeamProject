@@ -10,6 +10,7 @@ public class PlayerSetup : MonoBehaviourPun
 {
     [SerializeField] GameObject xrOrigin;        // XR Origin  Ѹ 
     [SerializeField] GameObject avatarVisuals;
+    [SerializeField] GameObject DialogueUI;
     //[SerializeField] GameObject cameraOffset;
     //[SerializeField] GameObject locomotion;
     //[SerializeField] GameObject leftHandModel;
@@ -27,6 +28,7 @@ public class PlayerSetup : MonoBehaviourPun
             //    myCam.gameObject.SetActive(true);
             //xrOrigin.SetActive(true);
             SetLayerRecursively(avatarVisuals, LayerMask.NameToLayer("LocalBody"));
+            DialogueUI.SetActive(true);
         }
         else
         {
@@ -52,6 +54,7 @@ public class PlayerSetup : MonoBehaviourPun
             //foreach (var tpd in trackedPoseDrivers)
             //    tpd.enabled = false;
             //xrOrigin.SetActive(false);
+            DialogueUI.SetActive(false);
         }
     }
 

@@ -43,6 +43,7 @@ MonoBehaviour:
   - RPC_StartDialogue
   - RPC_OnPopUpEventEnd
   - PlaySound
+  - StartDialogue
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
