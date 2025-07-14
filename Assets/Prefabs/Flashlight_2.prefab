@@ -157,6 +157,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 725798687499911706}
+  - component: {fileID: 7381771753179545374}
   - component: {fileID: 5706937252331582224}
   - component: {fileID: 6797761411229472382}
   - component: {fileID: 2251097073427989080}
@@ -191,6 +192,20 @@ Transform:
   - {fileID: 5263039133708363216}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!114 &7381771753179545374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6057662506634002742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc4ba7b8ef2e5e34eafd5f936314a4a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashlightLight: {fileID: 893595876657030886}
+  switchSound: {fileID: 2730667161743287705}
 --- !u!114 &5706937252331582224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,8 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handPose: {fileID: 11400000, guid: 09ef462100ca2a24ea9d8574434f927f, type: 2}
   weight: 0
-  flashlightLight: {fileID: 893595876657030886}
-  switchSound: {fileID: 2730667161743287705}
+  lightSync: {fileID: 7381771753179545374}
 --- !u!33 &6797761411229472382
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -614,10 +628,10 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 5706937252331582224}
+  - {fileID: 7381771753179545374}
   - {fileID: 7377926534252213793}
   sceneViewId: 0
   InstantiationId: 0
