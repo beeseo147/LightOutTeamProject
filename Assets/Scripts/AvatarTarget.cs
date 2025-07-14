@@ -4,7 +4,7 @@ using UnityEngine;
 public class AvatarTarget : MonoBehaviourPun
 {
     public Transform source;
-    public Vector3 positionOffset = new Vector3(0, -1.4f, 0); // HMD ±âÁØ ¾ûµ¢ÀÌ À§Ä¡
+    public Vector3 positionOffset = new Vector3(0, -1.4f, 0); 
     public Vector3 eulerOffset;
 
     void LateUpdate()
