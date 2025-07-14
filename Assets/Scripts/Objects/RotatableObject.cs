@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
 /// <summary>
@@ -30,6 +31,11 @@ public class RotatableObject : MonoBehaviourPun, IPunObservable
     /* Networking */
     float netFinalAngle;
     Vector3 netRotAxis;
+
+    [Header("OutLine")]
+    [SerializeField] Material outlineMT;
+    MeshRenderer rend;
+    List<Material> materialList = new List<Material>();
 
     void Awake()
     {
@@ -61,10 +67,51 @@ public class RotatableObject : MonoBehaviourPun, IPunObservable
         grab.trackRotation = true;
         grab.movementType = XRBaseInteractable.MovementType.Kinematic;
 
+        grab.hoverEntered.AddListener(OnHoverEnter);
+        grab.hoverExited.AddListener(OnHoverExit);
         grab.selectEntered.AddListener(OnGrab);
         grab.selectExited.AddListener(OnRelease);
+
+        rend = GetComponent<MeshRenderer>();
     }
 
+    private void OnHoverEnter(HoverEnterEventArgs arg0)
+    {
+        DrawOutLine();
+    }
+
+    private void OnHoverExit(HoverExitEventArgs arg0)
+    {
+        EraseOutLine();
+    }
+
+    void DrawOutLine()
+    {
+        if (rend)
+        {
+            materialList.Clear();
+            materialList.AddRange(rend.sharedMaterials);
+            if (!materialList.Contains(outlineMT))
+            {
+                materialList.Add(outlineMT);
+                rend.sharedMaterials = materialList.ToArray();
+            }
+        }
+    }
+
+    void EraseOutLine()
+    {
+        if (rend)
+        {
+            materialList.Clear();
+            materialList.AddRange(rend.sharedMaterials);
+            if (materialList.Contains(outlineMT))
+            {
+                materialList.Remove(outlineMT);
+                rend.sharedMaterials = materialList.ToArray();
+            }
+        }
+    }
     void OnGrab(SelectEnterEventArgs args)
     {
         if (!photonView.IsMine)

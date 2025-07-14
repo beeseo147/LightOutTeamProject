@@ -8,28 +8,28 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public string whoWin = "None";
-    
-    // íƒ€ì„ì•„ì›ƒ ê´€ë ¨ ë³€ìˆ˜ë“¤
+
+    // Å¸ÀÓ¾Æ¿ô °ü·Ã º¯¼öµé
     [Header("Timeout Settings")]
     public bool isTimeoutActive = false;
     public float timeoutDuration = 60f;
     public float timeoutStartTime = 0f;
-    public bool isTimeoutTriggered = false; // íƒ€ì„ì•„ì›ƒì´ ì‹œì‘ë˜ì—ˆëŠ”ì§€ í™•ì¸
+    public bool isTimeoutTriggered = false; // Å¸ÀÓ¾Æ¿ôÀÌ ½ÃÀÛµÇ¾ú´ÂÁö È®ÀÎ
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // ì”¬ ì „í™˜ì—ë„ ìœ ì§€
+            DontDestroyOnLoad(gameObject); // ¾À ÀüÈ¯¿¡µµ À¯Áö
         }
         else
         {
             Destroy(gameObject);
         }
     }
-    
-    // íƒ€ì„ì•„ì›ƒ ì‹œì‘
+
+    // Å¸ÀÓ¾Æ¿ô ½ÃÀÛ
     public void StartTimeout()
     {
         if (!isTimeoutActive && !isTimeoutTriggered)
@@ -37,18 +37,18 @@ public class GameManager : MonoBehaviour
             isTimeoutActive = true;
             isTimeoutTriggered = true;
             timeoutStartTime = Time.time;
-            Debug.Log("íƒ€ì„ì•„ì›ƒ ì‹œì‘: 60ì´ˆ ì¹´ìš´íŠ¸ë‹¤ìš´");
+            Debug.Log("Å¸ÀÓ¾Æ¿ô ½ÃÀÛ: 60ÃÊ Ä«¿îÆ®´Ù¿î");
         }
     }
-    
-    // íƒ€ì„ì•„ì›ƒ ì‹œê°„ í™•ì¸
+
+    // Å¸ÀÓ¾Æ¿ô ½Ã°£ È®ÀÎ
     public float GetRemainingTime()
     {
         if (!isTimeoutActive) return 0f;
         return Mathf.Max(0f, timeoutDuration - (Time.time - timeoutStartTime));
     }
-    
-    // íƒ€ì„ì•„ì›ƒ ì™„ë£Œ í™•ì¸
+
+    // Å¸ÀÓ¾Æ¿ô ¿Ï·á È®ÀÎ
     public bool IsTimeoutComplete()
     {
         return isTimeoutActive && GetRemainingTime() <= 0f;

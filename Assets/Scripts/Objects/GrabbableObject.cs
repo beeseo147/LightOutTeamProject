@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.Events;
+using System;
 
 public enum Weight
 {
@@ -33,12 +34,17 @@ public class GrabbableObject : MonoBehaviourPun
     [SerializeField] UnityEvent OnclickEvent;
     [SerializeField] UnityEvent OffclickEvent;
 
-    bool isClicked = false;
     protected XRGrabInteractable grab;
     Rigidbody rb;
-    bool originalKinematic;
     RigidbodyConstraints originalConstraints;
+    bool originalKinematic;
+    bool isClicked = false;
     bool isPickedUp = false;
+
+    [Header("OutLine")]
+    [SerializeField] Material outlineMT;
+    MeshRenderer rend;
+    List<Material> materialList = new List<Material>();
 
 #if UNITY_EDITOR
     private void OnValidate()
@@ -61,17 +67,57 @@ public class GrabbableObject : MonoBehaviourPun
         rb.useGravity = true;
 
         /* ---------- Grab Setting ---------- */
-        /* XR Grab ���� (������ ��ü�� throw �ѱ�) */
         grab.movementType = XRBaseInteractable.MovementType.VelocityTracking;
         grab.throwOnDetach = true;
-        grab.attachEaseInTime = 0.25f; // attach slowly
+        grab.attachEaseInTime = 0.15f; // attach slowly
 
+        grab.hoverEntered.AddListener(OnHoverEnter);
+        grab.hoverExited.AddListener(OnHoverExit);
         grab.selectEntered.AddListener(OnGrab);
         grab.selectExited.AddListener(OnRelease);
 
         //if (isClickable)
         //    handPose.poseState = HandState.Point;
 
+        rend = GetComponent<MeshRenderer>();
+    }
+
+    private void OnHoverEnter(HoverEnterEventArgs arg0)
+    {
+        DrawOutLine();
+    }
+
+    private void OnHoverExit(HoverExitEventArgs arg0)
+    {
+        EraseOutLine();
+    }
+
+    void DrawOutLine()
+    {
+        if (rend)
+        {
+            materialList.Clear();
+            materialList.AddRange(rend.sharedMaterials);
+            if (!materialList.Contains(outlineMT))
+            {
+                materialList.Add(outlineMT);
+                rend.sharedMaterials = materialList.ToArray();
+            }
+        }
+    }
+
+    void EraseOutLine()
+    {
+        if (rend)
+        {
+            materialList.Clear();
+            materialList.AddRange(rend.sharedMaterials);
+            if (materialList.Contains(outlineMT))
+            {
+                materialList.Remove(outlineMT);
+                rend.sharedMaterials = materialList.ToArray();
+            }
+        }
     }
 
     void OnGrab(SelectEnterEventArgs args)
@@ -115,6 +161,7 @@ public class GrabbableObject : MonoBehaviourPun
         var controller = args.interactorObject.transform.GetComponentInChildren<HandAnimationController>();
 
         isPickedUp = false;
+
         if (controller)
         {
             controller.ClearOverride();
