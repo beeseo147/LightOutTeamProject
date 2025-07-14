@@ -18,7 +18,7 @@ public class LaserStart : MonoBehaviour
     [SerializeField] LaserRendererSettingSO laserRendererSetting;
     [SerializeField] LaserTarget laserTarget;
     LineRenderer lineRenderer;
-    List<Vector3> hitPoints = new();
+    List<Vector3> hitPoints = new List<Vector3>();
 
     //LaserTarget laserTarget;
     [SerializeField] int maxBounceCount = 10;
@@ -78,7 +78,8 @@ public class LaserStart : MonoBehaviour
             // 1) Mirror Hit : Reflection Repeat..
             if (layerHit == mirrorLayer)
             {
-                laserTarget.DeActivate();
+                if (laserTarget)
+                    laserTarget.DeActivate();
 
                 //Debug.Log($"Mirror Hit, depth {depth}");
                 Vector3 nextOrigin = hit.point + hit.normal * 0.001f; // 1 mm offset
@@ -89,7 +90,8 @@ public class LaserStart : MonoBehaviour
             // 2) LaserTarget Hit : Finish Puzzle and Recursion
             else if (layerHit == targetLayer)
             {
-                laserTarget.Activate();
+                if (laserTarget)
+                    laserTarget.Activate();
                 //Debug.Log($"Target Hit, depth {depth}");
                 return;
             }
@@ -97,7 +99,8 @@ public class LaserStart : MonoBehaviour
         // 3) No Hit
         else
         {
-            laserTarget.DeActivate();
+            if (laserTarget)
+                laserTarget.DeActivate();
 
             //Debug.Log($"No Hit, depth {depth}");
             hitPoints.Add(origin + dir * farDistance);

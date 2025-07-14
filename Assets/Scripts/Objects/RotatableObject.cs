@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -32,8 +33,8 @@ public class RotatableObject : MonoBehaviourPun, IPunObservable
     float netFinalAngle;
     Vector3 netRotAxis;
 
-    [Header("OutLine")]
-    [SerializeField] Material outlineMT;
+    [Header("HighLight")]
+    [SerializeField] Material highLightMT;
     MeshRenderer rend;
     List<Material> materialList = new List<Material>();
 
@@ -72,7 +73,9 @@ public class RotatableObject : MonoBehaviourPun, IPunObservable
         grab.selectEntered.AddListener(OnGrab);
         grab.selectExited.AddListener(OnRelease);
 
-        rend = GetComponent<MeshRenderer>();
+        rend = GetComponentInChildren<MeshRenderer>();
+        //rend = GetComponent<MeshRenderer>();
+        highLightMT = Resources.Load<Material>("Materials/M_HighLight");
     }
 
     private void OnHoverEnter(HoverEnterEventArgs arg0)
@@ -87,13 +90,13 @@ public class RotatableObject : MonoBehaviourPun, IPunObservable
 
     void DrawOutLine()
     {
-        if (rend)
+        if (rend && highLightMT)
         {
             materialList.Clear();
             materialList.AddRange(rend.sharedMaterials);
-            if (!materialList.Contains(outlineMT))
+            if (!materialList.Contains(highLightMT))
             {
-                materialList.Add(outlineMT);
+                materialList.Add(highLightMT);
                 rend.sharedMaterials = materialList.ToArray();
             }
         }
@@ -101,13 +104,13 @@ public class RotatableObject : MonoBehaviourPun, IPunObservable
 
     void EraseOutLine()
     {
-        if (rend)
+        if (rend && highLightMT)
         {
             materialList.Clear();
             materialList.AddRange(rend.sharedMaterials);
-            if (materialList.Contains(outlineMT))
+            if (materialList.Contains(highLightMT))
             {
-                materialList.Remove(outlineMT);
+                materialList.Remove(highLightMT);
                 rend.sharedMaterials = materialList.ToArray();
             }
         }
@@ -193,8 +196,6 @@ public class RotatableObject : MonoBehaviourPun, IPunObservable
             _ => Vector3.up
         };
     }
-
-    /* �� ��Ʈ�ѷ����� ���� �࿡ ���硱 ���� �� ������ �� ���� ���� */
     Vector3 HandRefVector(Transform hand) => rotationAxis switch
     {
         Axis.Y => hand.right,
@@ -202,9 +203,7 @@ public class RotatableObject : MonoBehaviourPun, IPunObservable
         Axis.Z => hand.up,
         _ => hand.forward,
     };
-
     static Vector3 ProjectOnPlane(Vector3 v, Vector3 n) => v - Vector3.Dot(v, n) * n;
-
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
