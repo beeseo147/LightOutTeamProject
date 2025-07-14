@@ -15,7 +15,9 @@ public class LobbyView : MonoBehaviour
     [Header("Lobby UI")]
     public GameObject lobbyPanel;
     public Text waitingText;
-    
+    public GameObject HowToPanel; // HowToPlay 패널
+    public GameObject SettingsPanel; // Settings 패널
+
     // UI 이벤트
     public event System.Action OnStartGameClicked;
     public event System.Action OnHowToPlayClicked;

@@ -6,9 +6,9 @@ using UnityEngine.XR.Interaction.Toolkit.UI;
 
 public class LobbyController : MonoBehaviour
 {
-    private LobbyModel model;
-    private LobbyView view;
-    
+    [SerializeField] private LobbyModel model;
+    [SerializeField] private LobbyView view;
+
     public LobbyController(LobbyModel model, LobbyView view)
     {
         this.model = model;
@@ -16,7 +16,13 @@ public class LobbyController : MonoBehaviour
         
         InitializeEvents();
     }
-    
+    void Awake()
+    {
+        model = GetComponent<LobbyModel>();
+        view = GetComponent<LobbyView>();
+        InitializeEvents();
+    }
+
     private void InitializeEvents()
     {
         // View 이벤트 구독

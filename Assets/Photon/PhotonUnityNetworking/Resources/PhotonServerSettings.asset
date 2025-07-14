@@ -42,6 +42,7 @@ MonoBehaviour:
   - DrawLaser
   - RPC_StartDialogue
   - RPC_OnPopUpEventEnd
+  - PlaySound
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
