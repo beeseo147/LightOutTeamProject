@@ -19,11 +19,15 @@ public class RullerDial : MonoBehaviour
     private const float SNAP_STEP = 36f;
     public AudioSource rullerSound;
 
+    private float grabStartAngle;
+    private int startStep;
+    private int currentStep;
+
     void Start()
     {
         moveRuller = GetComponentInParent<MoveRuller>();
         interactable = GetComponent<XRBaseInteractable>();
-        rullerSound = moveRuller.GetComponent<AudioSource>();
+        rullerSound = GetComponent<AudioSource>();
         if(rullerSound == null)
         {
             print("RullerSound is null, please assign an AudioSource to the MoveRuller GameObject.");
@@ -32,8 +36,8 @@ public class RullerDial : MonoBehaviour
         interactable.selectEntered.AddListener(_ =>
         {
             isHeld = true;
-            // 잡기 시작할 때의 각도 저장 (SignedAngle 사용)
-            startAngle = Vector3.SignedAngle(transform.forward, Vector3.forward, Vector3.right);
+            grabStartAngle = GetCurrentAngle();
+            startStep = currentStep; // 현재 스텝을 기준으로 저장
             lastSnappedAngle = startAngle;
             // 현재 상태와 일치하도록 내부 상태 갱신
             
@@ -42,10 +46,9 @@ public class RullerDial : MonoBehaviour
         interactable.selectExited.AddListener(_ =>
         {
             isHeld = false;
-            //SnapToNearestStep(); // 손 뗐을 때 각도 보정
-            print($"[{rullerIndex}] 손 떼기 - 최종 각도: {Vector3.SignedAngle(transform.forward, Vector3.forward, Vector3.right):F2}");
             rullerSound.Play();
             SyncStateWithTransform();
+            moveRuller._numberArray[rullerIndex] = currentStep;
         });
 
         // 초기값 동기화
@@ -92,37 +95,19 @@ public class RullerDial : MonoBehaviour
             //UpdateRullerSelection();
         }
     }
-
-    void SnapToNearestStep()
-    {
-        // 손을 뗐을 때 가장 가까운 36도 단위로 보정
-        float currentAngle = Vector3.SignedAngle(transform.forward, Vector3.forward, Vector3.right);
-        float snappedAngle = Mathf.Round(currentAngle / SNAP_STEP) * SNAP_STEP;
-        
-        // 각도 정규화 (-180 ~ 180도 범위)
-        if (snappedAngle > 180f) snappedAngle -= 360f;
-        if (snappedAngle < -180f) snappedAngle += 360f;
-        
-        // 트랜스폼 적용 (SignedAngle 기준으로 변환)
-        transform.localEulerAngles = new Vector3(snappedAngle < 0 ? 360f + snappedAngle : snappedAngle, 0, 0);
-        lastSnappedAngle = snappedAngle;
-    }
-
     // 외부에서 호출 가능하게 public
     public void SyncStateWithTransform()
     {
-        float currentAngle = Vector3.SignedAngle(transform.forward, Vector3.forward, Vector3.left);
-
-        
-        float offsetAngle = currentAngle;
-
-        int steps = Mathf.RoundToInt(offsetAngle / 36f) % 10;
+        var localForward = transform.localRotation * Vector3.forward;
+        float angle = Vector3.SignedAngle(localForward, Vector3.forward, Vector3.right);
+        if (angle > 180f) angle -= 360f;
+        float angle360 = (angle + 360f) % 360f;
+        int steps = Mathf.FloorToInt(angle360 / 36f) % 10;
         if (steps < 0) steps += 10;
-        lastNumber = (steps+1)%10;
-
-        print($"[{rullerIndex}] SyncState - currentAngle: {currentAngle:F2}, offsetAngle: {offsetAngle:F2}, steps: {steps}, lastNumber: {lastNumber}");
+        lastNumber = (steps + 6) % 10; // 오프셋 6
+        print($"[{rullerIndex}] SyncState - angle: {angle:F2}, steps: {steps}, lastNumber: {lastNumber}");
         moveRuller._numberArray[rullerIndex] = lastNumber;
-        lastSnappedAngle = currentAngle;
+        lastSnappedAngle = angle;
     }
 
     //// 룰러 선택 상태 업데이트
@@ -142,4 +127,9 @@ public class RullerDial : MonoBehaviour
     //        }
     //    }
     //}
+
+    float GetCurrentAngle()
+    {
+        return Vector3.SignedAngle(transform.forward, Vector3.forward, Vector3.right);
+    }
 }

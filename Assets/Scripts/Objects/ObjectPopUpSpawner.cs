@@ -81,18 +81,19 @@ public class ObjectPopUpSpawner : MonoBehaviourPun
         }
 
         // 2. 해당 플레이어 카메라와 오브젝트의 중간 위치 계산
-        Vector3 midPoint = (playerCamera.position + transform.position) / 2f;
+        Vector3 midPoint = transform.position + (playerCamera.position - transform.position) * 0.5f;
         Vector3 spawnPos = midPoint + playerCamera.forward * 0.2f; // 0.2f만큼 카메라 앞쪽으로
         
         if (PhotonNetwork.InRoom)
         {
-            popUpObject = PhotonNetwork.Instantiate(popUpPrefab.name, spawnPos, Quaternion.identity);
+            popUpObject = PhotonNetwork.Instantiate(popUpPrefab.name, spawnPos, popUpPrefab.transform.rotation);
         }
         else
         {
-            popUpObject = Instantiate(popUpPrefab, spawnPos, Quaternion.identity);
+            popUpObject = Instantiate(popUpPrefab, spawnPos, popUpPrefab.transform.rotation);
         }
 
+        //popUpPrefab.transform.SetParent(popUpParent, false);
         popUpObject.transform.LookAt(playerCamera);
         popUpObject.transform.localScale = Vector3.one * popUpScale;
 
@@ -107,6 +108,12 @@ public class ObjectPopUpSpawner : MonoBehaviourPun
     }
     public void OnPopUpEventEnd()
     {
+        if(PhotonNetwork.InRoom && !isDestroying)
+        {
+            photonView.RPC("RPC_OnPopUpEventEnd", RpcTarget.All);
+            return;
+        }
+
         if (!isDestroying)
             StartCoroutine(WaitForOpenAndDestroy());
     }
@@ -149,29 +156,23 @@ public class ObjectPopUpSpawner : MonoBehaviourPun
         {
             if (PhotonNetwork.InRoom)
             {
-                Debug.Log("[Destroy] PhotonNetwork.Destroy 호출");
-                if(bFarObject)
+                var view = popUpObject.GetComponent<PhotonView>();
+                if (view != null && (view.IsMine || PhotonNetwork.IsMasterClient))
                 {
                     PhotonNetwork.Destroy(popUpObject);
+                    if (!bFarObject)
+                        PhotonNetwork.Destroy(gameObject);
                 }
                 else
                 {
-                    PhotonNetwork.Destroy(popUpObject);
-                    PhotonNetwork.Destroy(gameObject);
+                    Debug.LogWarning("Destroy 권한이 없습니다. (Owner 또는 MasterClient만 삭제 가능)");
                 }
             }
             else
             {
-                Debug.Log("[Destroy] 일반 Destroy 호출");
-                if(bFarObject)
-                {
-                    Destroy(popUpObject);
-                }
-                else
-                {
-                    Destroy(popUpObject);
+                Destroy(popUpObject);
+                if (!bFarObject)
                     Destroy(gameObject);
-                }
             }
             popUpObject = null;
         }
@@ -183,7 +184,7 @@ public class ObjectPopUpSpawner : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void RPC_OnPopUpEventEnd()
+    void RPC_OnPopUpEventEnd()
     {
         if (!isDestroying)
             StartCoroutine(WaitForOpenAndDestroy());
