@@ -19,7 +19,7 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
     GameObject myPlayer;
     Transform  spawnPoint;
 
-    void Start()
+    void Awake()
     {
         print("PhotonNetworkManager Start");
         //PhotonNetwork.NickName = "Player" + Random.Range(1000, 9999);
