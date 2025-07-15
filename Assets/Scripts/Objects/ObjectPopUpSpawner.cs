@@ -13,8 +13,8 @@ public class ObjectPopUpSpawner : MonoBehaviourPun
     public GameObject popUpObject;
     public Transform playerCamera;
     public float popUpDuration = 3.0f;
-    public float popupDistance = 4.0f; // 팝업이 카메라로부터 얼마나 떨어져 있을지
-    public float farDistance = 3.0f;
+    public float popupDistance = 5.0f; // 팝업이 카메라로부터 얼마나 떨어져 있을지
+    public float farDistance = 5.0f;
     public float popUpDelay = 0.5f;
     public float popUpScale = 1.0f;
     public float popUpRotation = 0.0f;
@@ -48,11 +48,7 @@ public class ObjectPopUpSpawner : MonoBehaviourPun
         // 기존 팝업이 남아있으면 먼저 파괴
         if (popUpObject != null)
         {
-            if (PhotonNetwork.InRoom)
-                PhotonNetwork.Destroy(popUpObject);
-            else
-                Destroy(popUpObject);
-
+            Destroy(popUpObject);
             popUpObject = null;
             isDestroying = false; // 플래그 초기화
         }
@@ -128,7 +124,7 @@ public class ObjectPopUpSpawner : MonoBehaviourPun
     }
     public bool IsbFar()
     {
-        if (popUpObject == null) return false;
+        if (popUpObject == null || playerCamera == null) return false;
         
         // 플레이어 카메라와 팝업 오브젝트 사이의 거리를 계산
         float distance = Vector3.Distance(playerCamera.position, popUpObject.transform.position);
@@ -156,25 +152,20 @@ public class ObjectPopUpSpawner : MonoBehaviourPun
         {
             if (PhotonNetwork.InRoom)
             {
-                var view = popUpObject.GetComponent<PhotonView>();
-                if (view != null && (view.IsMine || PhotonNetwork.IsMasterClient))
-                {
-                    PhotonNetwork.Destroy(popUpObject);
-                    if (!bFarObject)
-                        PhotonNetwork.Destroy(gameObject);
-                }
-                else
-                {
-                    Debug.LogWarning("Destroy 권한이 없습니다. (Owner 또는 MasterClient만 삭제 가능)");
-                }
+               Destroy(popUpObject);
+               popUpObject = null; // 파괴 후 즉시 null 처리
+               if (!bFarObject)
+               {
+                  Destroy(gameObject);
+               }
             }
             else
             {
                 Destroy(popUpObject);
+                popUpObject = null;
                 if (!bFarObject)
                     Destroy(gameObject);
             }
-            popUpObject = null;
         }
         else
         {

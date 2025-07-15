@@ -20,6 +20,7 @@ public class PadLockPassword : MonoBehaviourPun
 
     public void Password()
     {
+        print($"NonwNumber: {_moveRull._numberArray[0]} {_moveRull._numberArray[1]} {_moveRull._numberArray[2]} {_moveRull._numberArray[3]}");
         // 현재 패스워드 값이 _numberPassword와 일치하는지 확인
         if (_moveRull._numberArray.SequenceEqual(_numberPassword))
         {
@@ -35,6 +36,7 @@ public class PadLockPassword : MonoBehaviourPun
                 _moveRull._rullers[i].GetComponent<PadLockEmissionColor>().BlinkingMaterial();
             }
             GetComponent<AudioSource>().Play();
+            photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             OnPasswordSuccess?.Invoke();
         }
         
