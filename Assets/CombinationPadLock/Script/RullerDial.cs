@@ -48,7 +48,7 @@ public class RullerDial : MonoBehaviour
             isHeld = false;
             rullerSound.Play();
             SyncStateWithTransform();
-            moveRuller._numberArray[rullerIndex] = currentStep;
+            //moveRuller._numberArray[rullerIndex] = currentStep;
         });
 
         // 초기값 동기화
@@ -59,8 +59,9 @@ public class RullerDial : MonoBehaviour
     {
         if (!isHeld) return;
 
+        var localForward = transform.localRotation * Vector3.forward;
         // Vector3.SignedAngle을 사용해 정확한 회전 각도 계산
-        float currentAngle = Vector3.SignedAngle(transform.forward, Vector3.forward, Vector3.right);
+        float currentAngle = Vector3.SignedAngle(localForward, Vector3.forward, Vector3.right);
         
         // 각도 차이 계산
         float angleDelta = Mathf.DeltaAngle(lastSnappedAngle, currentAngle);

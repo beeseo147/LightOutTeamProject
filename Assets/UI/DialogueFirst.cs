@@ -15,17 +15,14 @@ public class DialogueSegment
     [TextArea(3, 5)]
     public string dialogue;
 }
-
 public class DialogueFirst : MonoBehaviourPun, ICheckPeopleEvent
 {
+    [Header("Dialogue Data")]
+    [SerializeField] private DialogueSegment[] dialogueSegments;
     [Header("References")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private Text dialogueText;
     [SerializeField] private Transform dialoguePanel;
-
-    [Header("Dialogue Data")]
-    [SerializeField] private DialogueSegment[] dialogueSegments;
-
     [Header("Settings")]
     [SerializeField] private bool autoStart = false;
     [SerializeField] private bool loopDialogue = false;
@@ -66,7 +63,7 @@ public class DialogueFirst : MonoBehaviourPun, ICheckPeopleEvent
                 UpdateDialogue();
             }
             // Dialogue UI가 항상 카메라 앞에 오도록(고정/추적)
-            
+
             if (myCamera != null)
             {
                 Vector3 uiPos = myCamera.transform.position + myCamera.transform.forward * 1.2f;

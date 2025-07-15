@@ -1374,7 +1374,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xrOrigin: {fileID: 5961620403107449390}
   avatarVisuals: {fileID: 4588173549632797711}
-  DialogueUI: {fileID: 0}
 --- !u!114 &121106662069370319
 MonoBehaviour:
   m_ObjectHideFlags: 0
