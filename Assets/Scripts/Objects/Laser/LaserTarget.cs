@@ -77,8 +77,8 @@ public class LaserTarget : MonoBehaviourPun
                 // First Start
                 rend.material.color = hitColor;
 
-                photonView.RPC("PlayHitSound", RpcTarget.All);
-                //PlaySound(hitSound);
+                //photonView.RPC("PlayHitSound", RpcTarget.All);
+                PlayHitSound();
                 isCharging = true;
             }
 
@@ -131,10 +131,10 @@ public class LaserTarget : MonoBehaviourPun
         }
     }
 
-    public void CallPlayClearSound()
-    {
-        photonView.RPC("PlayClearSound", RpcTarget.All);
-    }
+    //public void CallPlayClearSound()
+    //{
+        //photonView.RPC("PlayClearSound", RpcTarget.All);
+    //}
 
     [PunRPC]
     private void PlayClearSound()
