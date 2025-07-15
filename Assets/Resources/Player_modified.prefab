@@ -7965,6 +7965,11 @@ PrefabInstance:
       objectReference: {fileID: 5788400409164575397}
     - target: {fileID: 7462879561657043759, guid: ad818c36731146e994540a1896ad8f24,
         type: 3}
+      propertyPath: m_AllowAnchorControl
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7462879561657043759, guid: ad818c36731146e994540a1896ad8f24,
+        type: 3}
       propertyPath: m_AnchorRotationMode
       value: 1
       objectReference: {fileID: 0}

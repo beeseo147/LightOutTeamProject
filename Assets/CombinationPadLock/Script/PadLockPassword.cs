@@ -36,10 +36,6 @@ public class PadLockPassword : MonoBehaviourPun
             }
             GetComponent<AudioSource>().Play();
             OnPasswordSuccess?.Invoke();
-            if(PhotonNetwork.InRoom)
-            {
-                photonView.RPC("RPC_OnPopUpEventEnd", RpcTarget.All);
-            }
         }
         
     }
