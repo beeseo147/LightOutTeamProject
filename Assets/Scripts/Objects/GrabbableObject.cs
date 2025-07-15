@@ -84,7 +84,7 @@ public class GrabbableObject : MonoBehaviourPun
         //if (isClickable)
         //    handPose.poseState = HandState.Point;
 
-        rend = GetComponent<MeshRenderer>();
+        rend = GetComponentInChildren<MeshRenderer>();
         highLightMT = Resources.Load<Material>("Materials/M_HighLight");
     }
 
